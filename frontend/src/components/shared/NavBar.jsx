@@ -3,13 +3,15 @@ import Link from "next/link";
 import Image from "next/image";
 import React, { useState } from "react";
 import { assets } from "@/assets/assets";
-import { MenuIcon, SearchIcon, XIcon } from "lucide-react";
+import { MenuIcon, SearchIcon, TicketPlus, XIcon } from "lucide-react";
 import { useClerk, UserButton, useUser} from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useUser();
   const { openSignIn } = useClerk();
+  const router = useRouter();
   return (
     <div className="fixed top-0 left-0 z-50 w-full flex items-center justify-between px-6 md:px-16 lg:px-36 py-5">
       <Link href="/" className="max-md:flex-1">
@@ -79,7 +81,11 @@ const NavBar = () => {
             Login
           </button>
         ) : (
-          <UserButton />
+            <UserButton >
+              <UserButton.MenuItems>
+                <UserButton.Action label="My Bookings" labelIcon={<TicketPlus width={15}/>}onClick={()=> router.push("mybookings")}/>
+              </UserButton.MenuItems>
+          </UserButton>
         )}
       </div>
 
