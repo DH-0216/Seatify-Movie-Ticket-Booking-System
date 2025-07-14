@@ -35,7 +35,7 @@ const Hero = () => {
       </p>
       <button
         onClick={() => router.push("/movies")}
-        className="flex items-center gap-1 px-6 py-3 text-sm bg-primary hover:bg-primary-dull transition rounded-full font-medium cursor-pointer"
+        className="flex items-center gap-1 px-6 py-3 my-4 text-sm bg-primary hover:bg-primary-dull transition rounded-full font-medium cursor-pointer"
       >
         Explore Movies
         <ArrowRight className="w-5 h-5" />
