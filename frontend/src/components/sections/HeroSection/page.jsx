@@ -8,7 +8,7 @@ const Hero = () => {
     <div className="flex flex-col items-start justify-center gap-4 px-6 md:px-16 lg:px-36 bg-hero bg-cover bg-center h-screen">
       <Image
         src={assets.marvelLogo}
-        alt="marvelLogo"
+        alt=""
         className="max-h-11 lg:h-11 mt-20"
       />
 
