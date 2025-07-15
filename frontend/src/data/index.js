@@ -1,5 +1,4 @@
 import { assets } from "@/assets/assets";
-import { Subtitles } from "lucide-react";
 
 export const moviesData = [
   {
