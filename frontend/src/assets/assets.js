@@ -5,6 +5,10 @@ import appStore from "./appStore.svg";
 import screenImage from "./screenImage.svg";
 import profile from "./profile.png";
 
+import bg1 from "./backgroundImage.png";
+import bg5 from "./black-panther.jpg";
+
+
 export const assets = {
   logo,
   marvelLogo,
@@ -12,6 +16,8 @@ export const assets = {
   appStore,
   screenImage,
   profile,
+  bg1,
+  bg5,
 };
 
 export const dummyTrailers = [
