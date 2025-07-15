@@ -1,4 +1,5 @@
 import { assets } from "@/assets/assets";
+import { Subtitles } from "lucide-react";
 
 export const moviesData = [
   {
@@ -37,6 +38,7 @@ export const moviesData = [
   {
     id: 4,
     title: "Jurassic World",
+    subtitle: "Rebirth",
     genre: "Action | Adventure | Sci-Fi",
     year: "2015",
     duration: "2h 4m",
@@ -48,6 +50,7 @@ export const moviesData = [
   {
     id: 5,
     title: "Final Destination",
+    subtitle:"Bloodline",
     genre: "Horror | Thriller | Mystery",
     year: "2000",
     duration: "1h 38m",
@@ -69,7 +72,8 @@ export const moviesData = [
   },
   {
     id: 7,
-    title: "Predator: Badlands",
+    title: "Predator",
+    subtitle: "Badlands",
     genre: "Action | Sci-Fi | Thriller",
     year: "2025",
     duration: "1h 52m",
