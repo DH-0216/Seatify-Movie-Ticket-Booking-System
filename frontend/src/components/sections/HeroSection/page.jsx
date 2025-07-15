@@ -11,6 +11,7 @@ import {
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { moviesData } from "@/data/index";
+import { motion, AnimatePresence } from "motion/react";
 
 const Hero = () => {
   const router = useRouter();
@@ -56,7 +57,7 @@ const Hero = () => {
     setTimeout(() => {
       setCurrentMovieIndex((prev) => (prev + 1) % moviesData.length);
       setIsTransitioning(false);
-    }, 150);
+    }, 100);
   };
 
   const handlePrevMovie = () => {
@@ -67,7 +68,7 @@ const Hero = () => {
         (prev) => (prev - 1 + moviesData.length) % moviesData.length
       );
       setIsTransitioning(false);
-    }, 150);
+    }, 100);
   };
 
   const handleMovieSelect = (index) => {
@@ -76,7 +77,7 @@ const Hero = () => {
     setTimeout(() => {
       setCurrentMovieIndex(index);
       setIsTransitioning(false);
-    }, 150);
+    }, 100);
   };
 
   const handlePreviewNext = () => {
@@ -97,75 +98,163 @@ const Hero = () => {
     previewStartIndex + PREVIEWS_PER_VIEW
   );
 
+  // Animation variants
+  const backgroundVariants = {
+    initial: { opacity: 0, scale: 1.1 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.95 },
+  };
+
+  const contentVariants = {
+    initial: { opacity: 0, y: 30, x: -20 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      x: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+        staggerChildren: 0.1,
+      },
+    },
+    exit: {
+      opacity: 0,
+      y: -20,
+      x: 20,
+      transition: { duration: 0.3 },
+    },
+  };
+
+  const itemVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" },
+    },
+  };
+
+  const buttonVariants = {
+    initial: { opacity: 0, scale: 0.8 },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.4, ease: "easeOut", delay: 0.3 },
+    },
+    hover: {
+      scale: 1.05,
+      transition: { duration: 0.2 },
+    },
+    tap: { scale: 0.95 },
+  };
+
   return (
     <div className="relative h-screen overflow-hidden">
-      {/* Background image layer with brightness */}
-      <div
-        className="absolute inset-0 bg-cover bg-center z-0"
-        style={{
-          backgroundImage: `url(${currentMovie.image.src})`,
-          filter: "brightness(0.75)",
-        }}
-      ></div>
+      {/* Background image layer with smooth transitions */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentMovieIndex}
+          className="absolute inset-0 bg-cover bg-center z-0"
+          style={{
+            backgroundImage: `url(${currentMovie.image.src})`,
+          }}
+          variants={backgroundVariants}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          transition={{ duration: 0.8, ease: "easeInOut" }}
+        />
+      </AnimatePresence>
+
+      {/* Overlay for brightness control */}
+      <motion.div
+        className="absolute inset-0 bg-black z-5"
+        initial={{ opacity: 0.25 }}
+        animate={{ opacity: 0.25 }}
+        transition={{ duration: 0.8 }}
+      />
 
       {/* Main content layer */}
-      <div className="relative z-10 flex flex-col items-start justify-center gap-4 px-6 md:px-16 lg:px-36 h-full ">
-        {/* Navigation buttons */}
-        <button
+      <div className="relative z-10 flex flex-col items-start justify-center gap-4 px-6 md:px-16 lg:px-36 h-full">
+        {/* Navigation buttons with hover animations */}
+        <motion.button
           onClick={handlePrevMovie}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-black bg-opacity-50 hover:bg-opacity-70 rounded-full p-2 transition-all duration-200"
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-black bg-opacity-50 rounded-full p-2 transition-all duration-200"
           disabled={isTransitioning}
+          whileHover={{ scale: 1.1, backgroundColor: "rgba(0,0,0,0.7)" }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
           <ChevronLeft className="w-6 h-6 text-white" />
-        </button>
+        </motion.button>
 
-        <button
+        <motion.button
           onClick={handleNextMovie}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-black bg-opacity-50 hover:bg-opacity-70 rounded-full p-2 transition-all duration-200"
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-black bg-opacity-50 rounded-full p-2 transition-all duration-200"
           disabled={isTransitioning}
+          whileHover={{ scale: 1.1, backgroundColor: "rgba(0,0,0,0.7)" }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
           <ChevronRight className="w-6 h-6 text-white" />
-        </button>
+        </motion.button>
 
-        {/* Animated content */}
-        <div
-          className={`transition-all duration-300 mt-20 max-w-[75%] ${
-            isTransitioning
-              ? "opacity-0 translate-y-4"
-              : "opacity-100 translate-y-0"
-          }`}
-        >
-          <h1 className="text-5xl md:text-[70px] md:leading-[80px] font-semibold max-w-4xl text-white mt-5">
-            {currentMovie.title}
-          </h1>
-
-          <div className="flex items-center gap-4 text-gray-300 mt-5">
-            <span>{currentMovie.genre}</span>
-            <div className="flex items-center gap-1">
-              <Calendar1Icon className="w-4 h-4" /> {currentMovie.year}
-            </div>
-            <div className="flex items-center gap-1">
-              <ClockIcon className="w-4 h-4" /> {currentMovie.duration}
-            </div>
-          </div>
-
-          <p className="max-w-md text-gray-300 mt-5">
-            {currentMovie.description}
-          </p>
-
-          <button
-            onClick={() => router.push("/movies")}
-            className="flex items-center gap-2 px-6 py-3 my-6 mt-10 text-sm bg-[var(--color-primary)] hover:bg-[var(--color-primary-dull)] transition-colors rounded-full font-medium cursor-pointer text-white"
+        {/* Animated content with stagger effect */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentMovieIndex}
+            className="mt-20 max-w-[75%]"
+            variants={contentVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
           >
-            Explore Movies
-            <ArrowRight className="w-5 h-5" />
-          </button>
-        </div>
+            <motion.h1
+              className="text-5xl md:text-[70px] md:leading-[80px] font-semibold max-w-4xl text-white mt-5"
+              variants={itemVariants}
+            >
+              {currentMovie.title}
+            </motion.h1>
 
-        {/* Circle indicators */}
+            <motion.div
+              className="flex items-center gap-4 text-gray-300 mt-5"
+              variants={itemVariants}
+            >
+              <span>{currentMovie.genre}</span>
+              <div className="flex items-center gap-1">
+                <Calendar1Icon className="w-4 h-4" /> {currentMovie.year}
+              </div>
+              <div className="flex items-center gap-1">
+                <ClockIcon className="w-4 h-4" /> {currentMovie.duration}
+              </div>
+            </motion.div>
+
+            <motion.p
+              className="max-w-md text-gray-300 mt-5"
+              variants={itemVariants}
+            >
+              {currentMovie.description}
+            </motion.p>
+          </motion.div>
+        </AnimatePresence>
+
+        <motion.button
+          onClick={() => router.push("/movies")}
+          className="flex items-center gap-2 px-6 py-3 my-6 mt-10 text-sm bg-[var(--color-primary)] hover:bg-[var(--color-primary-dull)] transition-colors rounded-full font-medium cursor-pointer text-white"
+          variants={buttonVariants}
+          initial="initial"
+          animate="animate"
+          whileHover="hover"
+          whileTap="tap"
+        >
+          Explore Movies
+          <ArrowRight className="w-5 h-5" />
+        </motion.button>
+
+        {/* Circle indicators with smooth animations */}
         <div className="absolute bottom-[15px] left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
           {moviesData.map((_, index) => (
-            <button
+            <motion.button
               key={index}
               onClick={() => handleMovieSelect(index)}
               className={`w-[8px] h-[8px] rounded-full transition-all duration-200 ${
@@ -173,15 +262,27 @@ const Hero = () => {
                   ? "bg-[var(--color-primary)]"
                   : "bg-white bg-opacity-50 hover:bg-opacity-80"
               }`}
+              whileHover={{ scale: 1.3 }}
+              whileTap={{ scale: 0.8 }}
+              animate={{
+                scale: index === currentMovieIndex ? 1.2 : 1,
+                opacity: index === currentMovieIndex ? 1 : 0.7,
+              }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
             />
           ))}
         </div>
       </div>
 
-      {/* Previews section (unchanged) */}
-      <div className="absolute bottom-0 right-10 p-6 z-20">
+      {/* Previews section with enhanced animations */}
+      <motion.div
+        className="absolute bottom-0 right-10 p-6 z-20"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.5 }}
+      >
         <div className="flex items-center gap-3">
-          <button
+          <motion.button
             onClick={handlePreviewPrev}
             disabled={previewStartIndex === 0}
             className={`p-1 rounded-full transition-all duration-200 ${
@@ -189,22 +290,27 @@ const Hero = () => {
                 ? "opacity-30 cursor-not-allowed"
                 : "bg-black bg-opacity-50 hover:bg-opacity-70"
             }`}
+            whileHover={previewStartIndex !== 0 ? { scale: 1.1 } : {}}
+            whileTap={previewStartIndex !== 0 ? { scale: 0.9 } : {}}
           >
             <ChevronLeft className="w-4 h-4 text-white" />
-          </button>
+          </motion.button>
 
           <div className="flex gap-3">
             {visiblePreviews.map((movie, index) => {
               const actualIndex = previewStartIndex + index;
               return (
-                <button
+                <motion.button
                   key={actualIndex}
                   onClick={() => handleMovieSelect(actualIndex)}
-                  className={`flex-shrink-0 relative group transition-all duration-300 ${
-                    actualIndex === currentMovieIndex
-                      ? "scale-110"
-                      : "scale-100 hover:scale-105"
-                  }`}
+                  className="flex-shrink-0 relative group"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  animate={{
+                    scale: actualIndex === currentMovieIndex ? 1.15 : 1,
+                    y: actualIndex === currentMovieIndex ? -5 : 0,
+                  }}
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
                 >
                   <div className="w-20 h-28 md:w-24 md:h-32 rounded-lg overflow-hidden">
                     <Image
@@ -216,19 +322,33 @@ const Hero = () => {
                     />
                   </div>
 
-                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">
+                  <motion.div
+                    className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-80 text-white text-xs px-2 py-1 rounded whitespace-nowrap"
+                    initial={{ opacity: 0, y: 10 }}
+                    whileHover={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
                     {movie.title}
-                  </div>
+                  </motion.div>
 
                   {actualIndex === currentMovieIndex && (
-                    <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[var(--color-primary)] rounded-full"></div>
+                    <motion.div
+                      className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[var(--color-primary)] rounded-full"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 20,
+                      }}
+                    />
                   )}
-                </button>
+                </motion.button>
               );
             })}
           </div>
 
-          <button
+          <motion.button
             onClick={handlePreviewNext}
             disabled={
               previewStartIndex + PREVIEWS_PER_VIEW >= moviesData.length
@@ -238,11 +358,21 @@ const Hero = () => {
                 ? "opacity-30 cursor-not-allowed"
                 : "bg-black bg-opacity-50 hover:bg-opacity-70"
             }`}
+            whileHover={
+              previewStartIndex + PREVIEWS_PER_VIEW < moviesData.length
+                ? { scale: 1.1 }
+                : {}
+            }
+            whileTap={
+              previewStartIndex + PREVIEWS_PER_VIEW < moviesData.length
+                ? { scale: 0.9 }
+                : {}
+            }
           >
             <ChevronRight className="w-4 h-4 text-white" />
-          </button>
+          </motion.button>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
