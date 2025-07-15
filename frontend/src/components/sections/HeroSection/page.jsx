@@ -138,14 +138,14 @@ const Hero = () => {
 
       {/* Preview section moved to bottom right */}
       <div className="absolute bottom-0 right-10 p-6">
-        <div className="flex gap-5 overflow-x-auto scrollbar-hide">
+        <div className="flex gap-5">
           {moviesData.map((movie, index) => (
             <button
               key={index}
               onClick={() => handleMovieSelect(index)}
               className={`flex-shrink-0 relative group transition-all duration-300 ${
                 index === currentMovieIndex
-                  ? "scale-110 ring-2 ring-red-600"
+                  ? "scale-110"
                   : "scale-100 hover:scale-105"
               }`}
             >
