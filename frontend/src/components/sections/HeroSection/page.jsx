@@ -240,6 +240,15 @@ const Hero = () => {
               {currentMovie.title}
             </motion.h1>
 
+            {currentMovie.subtitle && (
+              <motion.h2
+                className="text-2xl md:text-4xl lg:text-5xl font-medium leading-snug max-w-3xl text-white/70 mt-3"
+                variants={itemVariants}
+              >
+                {currentMovie.subtitle}
+              </motion.h2>
+            )}
+
             <motion.div
               className="flex items-center gap-4 text-gray-300 mt-5"
               variants={itemVariants}
