@@ -1,6 +1,5 @@
 "use client";
 import Image from "next/image";
-import { assets } from "@/assets/assets";
 import {
   ArrowRight,
   Calendar1Icon,
