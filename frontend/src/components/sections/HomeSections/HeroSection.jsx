@@ -9,8 +9,15 @@ import {
 } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { moviesData } from "@/data/index";
+import { dummyShowsData } from "@/data/index";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  backgroundVariants,
+  contentVariants,
+  itemVariants,
+  buttonVariants,
+} from "@/lib/motion";
+import timeFormat from "@/lib/timeFormat";
 
 const HeroSection = () => {
   const router = useRouter();
@@ -44,7 +51,10 @@ const HeroSection = () => {
         setPreviewStartIndex(Math.max(0, currentMovieIndex - 2));
       } else {
         setPreviewStartIndex(
-          Math.min(moviesData.length - PREVIEWS_PER_VIEW, currentMovieIndex - 2)
+          Math.min(
+            dummyShowsData.length - PREVIEWS_PER_VIEW,
+            currentMovieIndex - 2
+          )
         );
       }
     }
@@ -54,7 +64,7 @@ const HeroSection = () => {
     if (isTransitioning) return;
     setIsTransitioning(true);
     setTimeout(() => {
-      setCurrentMovieIndex((prev) => (prev + 1) % moviesData.length);
+      setCurrentMovieIndex((prev) => (prev + 1) % dummyShowsData.length);
       setIsTransitioning(false);
     }, 100);
   };
@@ -64,7 +74,7 @@ const HeroSection = () => {
     setIsTransitioning(true);
     setTimeout(() => {
       setCurrentMovieIndex(
-        (prev) => (prev - 1 + moviesData.length) % moviesData.length
+        (prev) => (prev - 1 + dummyShowsData.length) % dummyShowsData.length
       );
       setIsTransitioning(false);
     }, 100);
@@ -80,7 +90,7 @@ const HeroSection = () => {
   };
 
   const handlePreviewNext = () => {
-    if (previewStartIndex + PREVIEWS_PER_VIEW < moviesData.length) {
+    if (previewStartIndex + PREVIEWS_PER_VIEW < dummyShowsData.length) {
       setPreviewStartIndex(previewStartIndex + 1);
     }
   };
@@ -91,86 +101,11 @@ const HeroSection = () => {
     }
   };
 
-  const currentMovie = moviesData[currentMovieIndex];
-  const visiblePreviews = moviesData.slice(
+  const currentMovie = dummyShowsData[currentMovieIndex];
+  const visiblePreviews = dummyShowsData.slice(
     previewStartIndex,
     previewStartIndex + PREVIEWS_PER_VIEW
   );
-
-  // Animation variants
-  const backgroundVariants = {
-    initial: {
-      opacity: 0,
-      scale: 0.3,
-      y: "60vh", // Start from bottom where preview is
-      x: "40vw", // Start from right where preview section is
-      borderRadius: "12px", // Start with rounded corners like preview
-    },
-    animate: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      x: 0,
-      borderRadius: "0px", // Expand to full screen
-      transition: {
-        duration: 0.8,
-        ease: [0.25, 0.46, 0.45, 0.94], // Custom easing
-        scale: { duration: 0.7 },
-        y: { duration: 0.7 },
-        x: { duration: 0.7 },
-      },
-    },
-    exit: {
-      opacity: 0,
-      scale: 0.8,
-      transition: { duration: 0.3 },
-    },
-  };
-
-  const contentVariants = {
-    initial: { opacity: 0, y: 50 }, // Start from below
-    animate: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.7,
-        ease: "easeOut",
-        staggerChildren: 0.15,
-        delayChildren: 0.4, // Wait for background to settle
-      },
-    },
-    exit: {
-      opacity: 0,
-      y: -30, // Exit upward
-      transition: { duration: 0.4 },
-    },
-  };
-
-  const itemVariants = {
-    initial: { opacity: 0, y: 30 }, // Start from below
-    animate: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-  };
-
-  const buttonVariants = {
-    initial: { opacity: 0, y: 30, scale: 0.9 },
-    animate: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { duration: 0.5, ease: "easeOut", delay: 0.8 },
-    },
-    hover: {
-      scale: 1.05,
-      y: -2,
-      transition: { duration: 0.2 },
-    },
-    tap: { scale: 0.95, y: 0 },
-  };
-
   return (
     <div className="relative h-screen overflow-hidden">
       {/* Background image layer with smooth transitions */}
@@ -179,7 +114,7 @@ const HeroSection = () => {
           key={currentMovieIndex}
           className="absolute inset-0 bg-cover bg-center z-0"
           style={{
-            backgroundImage: `url(${currentMovie.image.src})`,
+            backgroundImage: `url(${currentMovie.backdrop_path})`,
             transformOrigin: "bottom right", // Set transform origin to bottom right
           }}
           variants={backgroundVariants}
@@ -252,12 +187,19 @@ const HeroSection = () => {
               className="flex items-center gap-4 text-gray-300 mt-5"
               variants={itemVariants}
             >
-              <span>{currentMovie.genre}</span>
+              <span>
+                {currentMovie.genres
+                  .slice(0, 3)
+                  .map((genre) => genre.name)
+                  .join(" | ")}{" "}
+              </span>
               <div className="flex items-center gap-1">
-                <Calendar1Icon className="w-4 h-4" /> {currentMovie.year}
+                <Calendar1Icon className="w-4 h-4" />{" "}
+                {new Date(currentMovie.release_date).getFullYear()}
               </div>
               <div className="flex items-center gap-1">
-                <ClockIcon className="w-4 h-4" /> {currentMovie.duration}
+                <ClockIcon className="w-4 h-4" />
+                {timeFormat(currentMovie.runtime)}
               </div>
             </motion.div>
 
@@ -265,7 +207,7 @@ const HeroSection = () => {
               className="max-w-md text-gray-300 mt-5"
               variants={itemVariants}
             >
-              {currentMovie.description}
+              {currentMovie.overview}
             </motion.p>
           </motion.div>
         </AnimatePresence>
@@ -285,7 +227,7 @@ const HeroSection = () => {
 
         {/* Circle indicators with smooth animations */}
         <div className="absolute bottom-[15px] left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
-          {moviesData.map((_, index) => (
+          {dummyShowsData.map((_, index) => (
             <motion.button
               key={index}
               onClick={() => handleMovieSelect(index)}
@@ -329,7 +271,7 @@ const HeroSection = () => {
           </motion.button>
 
           <div className="flex gap-3">
-            {visiblePreviews.map((movie, index) => {
+            {visiblePreviews.map((dummyShowsData, index) => {
               const actualIndex = previewStartIndex + index;
               return (
                 <motion.button
@@ -345,11 +287,9 @@ const HeroSection = () => {
                   transition={{ type: "spring", stiffness: 300, damping: 25 }}
                 >
                   <div className="w-20 h-28 md:w-24 md:h-32 rounded-lg overflow-hidden">
-                    <Image
-                      src={movie.image}
-                      alt={movie.title}
-                      width={96}
-                      height={128}
+                    <img
+                      src={dummyShowsData.poster_path}
+                      alt={dummyShowsData.title}
                       className="w-full h-full object-cover transition-all duration-300"
                     />
                   </div>
@@ -360,7 +300,7 @@ const HeroSection = () => {
                     whileHover={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    {movie.title}
+                    {dummyShowsData.title}
                   </motion.div>
 
                   {actualIndex === currentMovieIndex && (
@@ -383,20 +323,20 @@ const HeroSection = () => {
           <motion.button
             onClick={handlePreviewNext}
             disabled={
-              previewStartIndex + PREVIEWS_PER_VIEW >= moviesData.length
+              previewStartIndex + PREVIEWS_PER_VIEW >= dummyShowsData.length
             }
             className={`p-1 rounded-full transition-all duration-200 ${
-              previewStartIndex + PREVIEWS_PER_VIEW >= moviesData.length
+              previewStartIndex + PREVIEWS_PER_VIEW >= dummyShowsData.length
                 ? "opacity-30 cursor-not-allowed"
                 : "bg-black bg-opacity-50 hover:bg-opacity-70"
             }`}
             whileHover={
-              previewStartIndex + PREVIEWS_PER_VIEW < moviesData.length
+              previewStartIndex + PREVIEWS_PER_VIEW < dummyShowsData.length
                 ? { scale: 1.1 }
                 : {}
             }
             whileTap={
-              previewStartIndex + PREVIEWS_PER_VIEW < moviesData.length
+              previewStartIndex + PREVIEWS_PER_VIEW < dummyShowsData.length
                 ? { scale: 0.9 }
                 : {}
             }
