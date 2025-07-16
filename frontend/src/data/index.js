@@ -1,44 +1,5 @@
 import { assets } from "@/assets/assets";
 
-export const moviesData = [
-  {
-    id: 4,
-    title: "Jurassic World",
-    subtitle: "Rebirth",
-    genre: "Action | Adventure | Sci-Fi",
-    year: "2015",
-    duration: "2h 4m",
-    description:
-      "A genetically-engineered dinosaur escapes in a fully operational theme park, causing chaos and destruction.",
-    image: assets.bg4,
-    rating: 7.0,
-  },
-  {
-    id: 5,
-    title: "Final Destination",
-    subtitle: "Bloodline",
-    genre: "Horror | Thriller | Mystery",
-    year: "2000",
-    duration: "1h 38m",
-    description:
-      "After a teen has a vision of a deadly plane crash, he cheats death — but death comes for him and his friends one by one.",
-    image: assets.bg5,
-    rating: 6.7,
-  },
-  {
-    id: 7,
-    title: "Predator",
-    subtitle: "Badlands",
-    genre: "Action | Sci-Fi | Thriller",
-    year: "2025",
-    duration: "1h 52m",
-    description:
-      "A special forces team is hunted by a ruthless alien in the harsh and deadly terrain of the Badlands.",
-    image: assets.bg7,
-    rating: 6.9,
-  },
-];
-
 export const dummyTrailers = [
   {
     image: "https://img.youtube.com/vi/WpW36ldAqnM/maxresdefault.jpg",
@@ -147,6 +108,73 @@ const dummyCastsData = [
 ];
 
 export const dummyShowsData = [
+  {
+    _id: "4",
+    id: 4,
+    title: "Jurassic World",
+    subtitle: "Rebirth",
+    overview:
+      "A genetically-engineered dinosaur escapes in a fully operational theme park, causing chaos and destruction.",
+    poster_path: assets.bg4,
+    backdrop_path: assets.bg4,
+    genres: [
+      { id: 28, name: "Action" },
+      { id: 12, name: "Adventure" },
+      { id: 878, name: "Sci-Fi" },
+    ],
+    casts: dummyCastsData,
+    release_date: "2015-06-12",
+    original_language: "en",
+    tagline: "The park is open.",
+    vote_average: 7.0,
+    vote_count: 10000,
+    runtime: 124,
+  },
+  {
+    _id: "5",
+    id: 5,
+    title: "Final Destination",
+    subtitle: "Bloodline",
+    overview:
+      "After a teen has a vision of a deadly plane crash, he cheats death — but death comes for him and his friends one by one.",
+    poster_path: assets.bg5,
+    backdrop_path: assets.bg5,
+    genres: [
+      { id: 27, name: "Horror" },
+      { id: 53, name: "Thriller" },
+      { id: 9648, name: "Mystery" },
+    ],
+    casts: dummyCastsData,
+    release_date: "2000-03-17",
+    original_language: "en",
+    tagline: "Death is only the beginning.",
+    vote_average: 6.7,
+    vote_count: 8000,
+    runtime: 98,
+  },
+  {
+    _id: "7",
+    id: 7,
+    title: "Predator",
+    subtitle: "Badlands",
+    rating: 6.9,
+    overview:
+      "A special forces team is hunted by a ruthless alien in the harsh and deadly terrain of the Badlands.",
+    poster_path: assets.bg7,
+    backdrop_path: assets.bg7,
+    genres: [
+      { id: 28, name: "Action" },
+      { id: 878, name: "Sci-Fi" },
+      { id: 53, name: "Thriller" },
+    ],
+    casts: dummyCastsData,
+    release_date: "2025-08-01",
+    original_language: "en",
+    tagline: "The hunt is on.",
+    vote_average: 6.9,
+    vote_count: 9000,
+    runtime: 112,
+  },
   {
     _id: "324544",
     id: 324544,

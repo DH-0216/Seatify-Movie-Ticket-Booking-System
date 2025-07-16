@@ -1,18 +1,19 @@
 import timeFormat from "@/lib/timeFormat";
 import { StarIcon } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 const MovieCard = ({ movie }) => {
   const router = useRouter();
   return (
     <div className="flex flex-col justify-between p-3 bg-gray-800 rounded-2xl hover:translate-y-1 transition duration-300 w-66 ">
-      <img
+      <Image
         onClick={() => {
           router.push(`/movies/${movie._id}`);
           scrollTo(0, 0);
         }}
         src={movie.backdrop_path}
-        width={4}
-        height={5}
+        width={400}
+        height={208}
         alt=""
         className="rounded-lg h-52 w-full object-cover object-right-bottom cursor-pointer"
       />
