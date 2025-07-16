@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { moviesData } from "@/data/index";
 import { motion, AnimatePresence } from "framer-motion";
 
-const Hero = () => {
+const HeroSection = () => {
   const router = useRouter();
   const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -410,4 +410,4 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+export default HeroSection;
