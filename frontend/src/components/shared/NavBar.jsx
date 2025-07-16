@@ -4,9 +4,8 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { assets } from "@/assets/assets";
 import { MenuIcon, SearchIcon, TicketPlus, XIcon } from "lucide-react";
-import { useClerk, UserButton, useUser} from "@clerk/nextjs";
+import { useClerk, UserButton, useUser } from "@clerk/nextjs";
 import { useRouter, usePathname } from "next/navigation";
-
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,7 +33,8 @@ const NavBar = () => {
         <Link
           href="/"
           onClick={() => {
-            scrollTo(0, 0), setIsOpen(false);
+            scrollTo(0, 0);
+            setIsOpen(false);
           }}
           className={`relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:transition-all after:duration-300
              ${
@@ -48,7 +48,8 @@ const NavBar = () => {
         <Link
           href="/movies"
           onClick={() => {
-            scrollTo(0, 0), setIsOpen(false);
+            scrollTo(0, 0);
+            setIsOpen(false);
           }}
           className={`relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:transition-all after:duration-300
              ${
@@ -62,7 +63,8 @@ const NavBar = () => {
         <Link
           href="/"
           onClick={() => {
-            scrollTo(0, 0), setIsOpen(false);
+            scrollTo(0, 0);
+            setIsOpen(false);
           }}
           className={`relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:transition-all after:duration-300
              ${
@@ -76,7 +78,8 @@ const NavBar = () => {
         <Link
           href="/"
           onClick={() => {
-            scrollTo(0, 0), setIsOpen(false);
+            scrollTo(0, 0);
+            setIsOpen(false);
           }}
           className={`relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:transition-all after:duration-300
              ${
@@ -90,7 +93,8 @@ const NavBar = () => {
         <Link
           href="/favorite"
           onClick={() => {
-            scrollTo(0, 0), setIsOpen(false);
+            scrollTo(0, 0);
+            setIsOpen(false);
           }}
           className={`relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:transition-all after:duration-300
              ${
