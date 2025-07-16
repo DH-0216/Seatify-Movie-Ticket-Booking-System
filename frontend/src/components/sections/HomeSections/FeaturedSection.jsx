@@ -2,7 +2,7 @@
 import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import BlurCircle from "../../shared/BlurCircle";
-import { dummyShowsData } from "@/assets/assets";
+import { dummyShowsData } from "@/data/index";
 import MovieCard from "@/components/MovieCard";
 
 const FeaturedSection = () => {
