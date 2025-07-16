@@ -292,13 +292,10 @@ const HeroSection = () => {
                 >
                   <div className="w-20 h-28 md:w-24 md:h-32 rounded-lg overflow-hidden">
                     <Image
-                      src={
-                        dummyShowsData.poster_path ||
-                        dummyShowsData.backdrop_path
-                      }
+                      src={dummyShowsData.poster_path}
                       alt={dummyShowsData.title || "Show Image"}
-                      width={96}
-                      height={128}
+                      width={80}
+                      height={112}
                       className="w-full h-full object-cover transition-all duration-300"
                     />
                   </div>
