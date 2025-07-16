@@ -114,8 +114,12 @@ const HeroSection = () => {
           key={currentMovieIndex}
           className="absolute inset-0 bg-cover bg-center z-0"
           style={{
-            backgroundImage: `url(${currentMovie.backdrop_path})`,
-            transformOrigin: "bottom right", // Set transform origin to bottom right
+            backgroundImage: `url(${
+              typeof currentMovie.backdrop_path === "string"
+                ? currentMovie.backdrop_path
+                : currentMovie.backdrop_path?.src
+            })`,
+            transformOrigin: "bottom right",
           }}
           variants={backgroundVariants}
           initial="initial"
@@ -287,9 +291,14 @@ const HeroSection = () => {
                   transition={{ type: "spring", stiffness: 300, damping: 25 }}
                 >
                   <div className="w-20 h-28 md:w-24 md:h-32 rounded-lg overflow-hidden">
-                    <img
-                      src={dummyShowsData.poster_path}
-                      alt={dummyShowsData.title}
+                    <Image
+                      src={
+                        dummyShowsData.poster_path ||
+                        dummyShowsData.backdrop_path
+                      }
+                      alt={dummyShowsData.title || "Show Image"}
+                      width={96}
+                      height={128}
                       className="w-full h-full object-cover transition-all duration-300"
                     />
                   </div>
