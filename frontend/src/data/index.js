@@ -1,4 +1,3 @@
-import { assets } from "@/assets/assets";
 
 export const dummyTrailers = [
   {
@@ -114,9 +113,11 @@ export const dummyShowsData = [
     title: "Jurassic World",
     subtitle: "Rebirth",
     overview:
-      "A genetically-engineered dinosaur escapes in a fully operational theme park, causing chaos and destruction.",
-    poster_path: assets.bg4,
-    backdrop_path: assets.bg4,
+      "Five years after the events of Jurassic World Dominion, covert operations expert Zora Bennett is contracted to lead a skilled team on a top-secret mission to secure genetic material from the world's three most massive dinosaurs. When Zora's operation intersects with a civilian family whose boating expedition was capsized, they all find themselves stranded on an island where they come face-to-face with a sinister, shocking discovery that's been hidden from the world for decades.",
+    poster_path:
+      "https://image.tmdb.org/t/p/w1280/q0fGCmjLu42MPlSO9OYWpI5w86I.jpg",
+    backdrop_path:
+      "https://image.tmdb.org/t/p/original/fQOV47FHTJdaSuSUNlzP3zXUZWE.jpg",
     genres: [
       { id: 28, name: "Action" },
       { id: 12, name: "Adventure" },
@@ -136,21 +137,23 @@ export const dummyShowsData = [
     title: "Final Destination",
     subtitle: "Bloodline",
     overview:
-      "After a teen has a vision of a deadly plane crash, he cheats death — but death comes for him and his friends one by one.",
-    poster_path: assets.bg5,
-    backdrop_path: assets.bg5,
+      "Plagued by a violent recurring nightmare, college student Stefanie heads home to track down the one person who might be able to break the cycle and save her family from the grisly demise that inevitably awaits them all.",
+    poster_path:
+      "https://image.tmdb.org/t/p/w1280/7vygX4ObgOmZn7E2P95mCeqCmqV.jpg",
+    backdrop_path:
+      "https://image.tmdb.org/t/p/original/2vaKcK720llzII21N08flrf4JfW.jpg",
     genres: [
       { id: 27, name: "Horror" },
       { id: 53, name: "Thriller" },
       { id: 9648, name: "Mystery" },
     ],
     casts: dummyCastsData,
-    release_date: "2000-03-17",
+    release_date: "2025-05-15",
     original_language: "en",
     tagline: "Death is only the beginning.",
     vote_average: 6.7,
     vote_count: 8000,
-    runtime: 98,
+    runtime: 110,
   },
   {
     _id: "7",
@@ -159,9 +162,11 @@ export const dummyShowsData = [
     subtitle: "Badlands",
     rating: 6.9,
     overview:
-      "A special forces team is hunted by a ruthless alien in the harsh and deadly terrain of the Badlands.",
-    poster_path: assets.bg7,
-    backdrop_path: assets.bg7,
+      "Cast out from its clan, an alien hunter and an unlikely ally embark on a treacherous journey in search of the ultimate adversary.",
+    poster_path:
+      "https://image.tmdb.org/t/p/w1280/zHnT476sqktPIx2EcZqPpPwSl9G.jpg",
+    backdrop_path:
+      "https://image.tmdb.org/t/p/original/ebyxeBh56QNXxSJgTnmz7fXAlwk.jpg",
     genres: [
       { id: 28, name: "Action" },
       { id: 878, name: "Sci-Fi" },
