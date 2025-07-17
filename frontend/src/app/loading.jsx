@@ -10,7 +10,6 @@ const loading = () => {
           <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center animate-spin">
             <Film className="w-8 h-8 text-white" />
           </div>
-          <div className="absolute inset-0 bg-red-600 rounded-full animate-ping opacity-20"></div>
         </div>
         {/* Loading text */}
         <div className="space-y-2">
