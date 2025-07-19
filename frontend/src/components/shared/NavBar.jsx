@@ -4,14 +4,16 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { assets } from "@/assets/assets";
 import { MenuIcon, SearchIcon, TicketPlus, XIcon } from "lucide-react";
-import { useClerk, UserButton, useUser} from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
+import { useClerk, UserButton, useUser } from "@clerk/nextjs";
+import { useRouter, usePathname } from "next/navigation";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useUser();
   const { openSignIn } = useClerk();
   const router = useRouter();
+  const pathname = usePathname();
+
   return (
     <div className="fixed top-0 left-0 z-50 w-full flex items-center justify-between px-6 md:px-16 lg:px-36 py-5">
       <Link href="/" className="max-md:flex-1">
@@ -31,40 +33,75 @@ const NavBar = () => {
         <Link
           href="/"
           onClick={() => {
-            scrollTo(0, 0), setIsOpen(false);
+            scrollTo(0, 0);
+            setIsOpen(false);
           }}
+          className={`relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:transition-all after:duration-300
+             ${
+               pathname === "/"
+                 ? "after:w-full text-[var(--color-primary)] after:bg-[var(--color-primary)]"
+                 : "after:w-0 hover:after:w-full after:bg-white"
+             }`}
         >
           Home
         </Link>
         <Link
           href="/movies"
           onClick={() => {
-            scrollTo(0, 0), setIsOpen(false);
+            scrollTo(0, 0);
+            setIsOpen(false);
           }}
+          className={`relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:transition-all after:duration-300
+             ${
+               pathname === "/movies"
+                 ? "after:w-full text-[var(--color-primary)] after:bg-[var(--color-primary)]"
+                 : "after:w-0 hover:after:w-full after:bg-white"
+             }`}
         >
           Movies
         </Link>
         <Link
           href="/"
           onClick={() => {
-            scrollTo(0, 0), setIsOpen(false);
+            scrollTo(0, 0);
+            setIsOpen(false);
           }}
+          className={`relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:transition-all after:duration-300
+             ${
+               pathname === ""
+                 ? "after:w-full text-[var(--color-primary)] after:bg-[var(--color-primary)]"
+                 : "after:w-0 hover:after:w-full after:bg-white"
+             }`}
         >
           Theaters
         </Link>
         <Link
           href="/"
           onClick={() => {
-            scrollTo(0, 0), setIsOpen(false);
+            scrollTo(0, 0);
+            setIsOpen(false);
           }}
+          className={`relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:transition-all after:duration-300
+             ${
+               pathname === ""
+                 ? "after:w-full text-[var(--color-primary)] after:bg-[var(--color-primary)]"
+                 : "after:w-0 hover:after:w-full after:bg-white"
+             }`}
         >
           Releases
         </Link>
         <Link
           href="/favorite"
           onClick={() => {
-            scrollTo(0, 0), setIsOpen(false);
+            scrollTo(0, 0);
+            setIsOpen(false);
           }}
+          className={`relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:transition-all after:duration-300
+             ${
+               pathname === "/favorite"
+                 ? "after:w-full text-[var(--color-primary)] after:bg-[var(--color-primary)]"
+                 : "after:w-0 hover:after:w-full after:bg-white"
+             }`}
         >
           Favorites
         </Link>
@@ -81,10 +118,14 @@ const NavBar = () => {
             Login
           </button>
         ) : (
-            <UserButton >
-              <UserButton.MenuItems>
-                <UserButton.Action label="My Bookings" labelIcon={<TicketPlus width={15}/>}onClick={()=> router.push("mybookings")}/>
-              </UserButton.MenuItems>
+          <UserButton>
+            <UserButton.MenuItems>
+              <UserButton.Action
+                label="My Bookings"
+                labelIcon={<TicketPlus width={15} />}
+                onClick={() => router.push("mybookings")}
+              />
+            </UserButton.MenuItems>
           </UserButton>
         )}
       </div>
