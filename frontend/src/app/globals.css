@@ -10,7 +10,7 @@
 * {
   font-family: "Outfit", sans-serif;
   scrollbar-width: thin;
-  scrollbar-color: #e50914 #b20710;
+  scrollbar-color: var(--color-primary) var(--color-primary-dull);
 }
 body {
   color: white;
