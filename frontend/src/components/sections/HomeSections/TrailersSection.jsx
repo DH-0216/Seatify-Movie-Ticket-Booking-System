@@ -5,7 +5,9 @@ import { dummyTrailers } from "@/data";
 import { PlayCircleIcon } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
-import ReactPlayer from "react-player";
+import dynamic from "next/dynamic";
+
+const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 const TrailersSection = () => {
   const [currentTrailer, setCurrentTrailer] = useState(dummyTrailers[0]);
