@@ -2,7 +2,7 @@
 
 import Adminnavbar from "@/components/Adminnavbar";
 import Adminsidebar from "@/components/Adminsidebar";
-import Content from "@/components/Content"; 
+import Content from "@/components/Content";
 import React, { useState } from "react";
 
 export default function Home() {
@@ -17,10 +17,12 @@ export default function Home() {
           setSelectedSection={setSelectedSection}
         />
       </div>
-      <Content
-        selectedSection={selectedSection}
-        setSelectedSection={setSelectedSection}
-      />
+      <div className="flex-1 overflow-y-auto">
+        <Content
+          selectedSection={selectedSection}
+          setSelectedSection={setSelectedSection}
+        />
+      </div>
     </>
   );
 }
