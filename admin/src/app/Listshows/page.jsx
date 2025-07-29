@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Listshows = () => {
-  return (
-    <div>Listshows</div>
-  )
-}
+  return <h1 className="text-white">Listshows page</h1>;
+};
 
-export default Listshows
+export default Listshows;

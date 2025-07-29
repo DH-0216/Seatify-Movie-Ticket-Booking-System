@@ -21,7 +21,7 @@ const Adminsidebar = ({ selectedSection, setSelectedSection }) => {
         alt="sidebar"
         className="h-9  md:h-14 w-9 md:w-14 rounded-full mx-auto"
       />
-      <p className="mt-2 text-base max-md:hidden">
+      <p className="mt-2 text-base max-md:hiddenn text-white">
         {user.FirstName} {user.LastName}
       </p>
 
