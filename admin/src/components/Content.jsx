@@ -7,12 +7,10 @@ import Listshows from "@/app/Listshows/page";
 const Content = ({ selectedSection, setSelectedSection }) => {
   return (
     <div className="p-5">
-      <h1 className="text-white">hi</h1>
       {selectedSection === "dashboard" && <Dashboard />}
       {selectedSection === "addshows" && <Addshows />}
       {selectedSection === "bookinglists" && <Bookinglists />}
       {selectedSection === "listshows" && <Listshows />}
-
       {!["dashboard", "addshows", "bookinglists", "listshows"].includes(
         selectedSection
       ) && <div className="p-5">Select a section</div>}

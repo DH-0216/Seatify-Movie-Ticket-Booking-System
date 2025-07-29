@@ -10,18 +10,20 @@ export default function Home() {
 
   return (
     <>
-      <Adminnavbar />
-      <div className="flex">
+      <div className="flex h-screen  overflow-hidden">
         <Adminsidebar
           selectedSection={selectedSection}
           setSelectedSection={setSelectedSection}
         />
-      </div>
-      <div className="flex-1 overflow-y-auto">
-        <Content
-          selectedSection={selectedSection}
-          setSelectedSection={setSelectedSection}
-        />
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <Adminnavbar />
+          <div className="flex-1 overflow-y-auto">
+            <Content
+              selectedSection={selectedSection}
+              setSelectedSection={setSelectedSection}
+            />
+          </div>
+        </div>
       </div>
     </>
   );
