@@ -13,7 +13,7 @@ const Content = ({ selectedSection, setSelectedSection }) => {
       {selectedSection === "listshows" && <Listshows />}
       {!["dashboard", "addshows", "bookinglists", "listshows"].includes(
         selectedSection
-      ) && <div className="p-5">Select a section</div>}
+      ) && <div className="p-5 text-white">Select a section</div>}
     </div>
   );
 };
