@@ -44,6 +44,7 @@ export const sidebarItems = [
 ];
 
 
+
 export const dummyTrailers = [
   {
     image: "https://img.youtube.com/vi/WpW36ldAqnM/maxresdefault.jpg",
@@ -522,3 +523,5 @@ export const dummyBookingData = [
     isPaid: true,
   },
 ];
+
+
