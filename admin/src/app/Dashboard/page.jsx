@@ -65,7 +65,7 @@ const Dashboard = () => {
     <>
       <Title text1="Admin" text2="Dashboard" />
       <div className="relative flex flex-wrap gap-4 mt-6">
-        <BlurCircle top="-100px" right="0" />
+        <BlurCircle top="-100px" right="100px" />
         <div className="flex justify-between gap-4 w-full px-6">
           {dashboardCard.map((card, index) => (
             <div
@@ -93,24 +93,27 @@ const Dashboard = () => {
         {dashboardData.activeShows.map((show) => (
           <div
             key={show._id}
-            className="rounded-lg overflow-hidden bg-[rgba(255,255,255,0.05)]/10 border border-[color:var(--color-primary)]/20 hover:translate-y-1 transition duration-300 flex flex-col w-full max-w-[220px]"
+            className="p-4 bg-white/30 backdrop-blur-sm rounded-lg shadow max-w-80"
           >
-            <div className="relative w-full aspect-[3/4]">
+            <div className="rounded-md max-h-40 overflow-hidden">
               <Image
                 src={show.movie.poster_path}
-                fill
-                alt=""
-                className="object-cover object-center w-full h-full cursor-pointer"
+                width={400}
+                height={200}
+                alt={show.movie.title || "Movie Poster"}
+                className="rounded-md max-h-40 w-full object-cover"
               />
             </div>
-            <p className="font-medium p-2 truncate">{show.movie.title}</p>
-            <div className="flex items-center justify-between px-2">
+            <p className="text-gray-900 text-xl font-semibold ml-2 mt-2 truncate">
+              {show.movie.title}
+            </p>
+            <div className="flex items-center justify-between px-2 mt-auto">
               <p className="text-lg font-medium">
                 {currency}
                 {show.showprice}
               </p>
-              <p className="flex items-center gap-1 text-sm text-gray-400 mt-1 pr-1">
-                <StarIcon className="w-4 h-4 text---color-primary fill---color-primary" />
+              <p className="flex items-center gap-1 text-sm text-gray-400">
+                <StarIcon className="w-4 h-4 text-yellow-500 fill-yellow-500" />
                 {show.movie.vote_average.toFixed(1)}
               </p>
             </div>
