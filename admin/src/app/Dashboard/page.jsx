@@ -93,7 +93,7 @@ const Dashboard = () => {
         {dashboardData.activeShows.map((show) => (
           <div
             key={show._id}
-            className="p-4 bg-white/30 backdrop-blur-sm rounded-lg shadow max-w-80"
+            className="p-4 bg-white/25 rounded-lg shadow max-w-80"
           >
             <div className="rounded-md max-h-40 overflow-hidden">
               <Image
@@ -108,16 +108,16 @@ const Dashboard = () => {
               {show.movie.title}
             </p>
             <div className="flex items-center justify-between px-2 mt-auto">
-              <p className="text-lg font-medium">
+              <p className="text-lg font-medium text-white-500">
                 {currency}
-                {show.showprice}
+                {show.showPrice}
               </p>
               <p className="flex items-center gap-1 text-sm text-gray-400">
                 <StarIcon className="w-4 h-4 text-yellow-500 fill-yellow-500" />
                 {show.movie.vote_average.toFixed(1)}
               </p>
             </div>
-            <p className="px-2 pt-2 text-sm text-gray-500">
+            <p className="px-2 pt-2 text-sm text-white">
               {dateFormat(show.showDateTime)}
             </p>
           </div>
