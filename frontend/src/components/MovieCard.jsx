@@ -8,7 +8,7 @@ const MovieCard = ({ movie }) => {
     <div className="flex flex-col justify-between p-3 bg-gradient-to-br from-gray-900/80 to-gray-800/90 backdrop-blur-sm border border-gray-700/50 rounded-2xl hover:translate-y-1 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300 w-66 group">
       <Image
         onClick={() => {
-          router.push(`/Movies/${movie._id}`);
+          router.push(`/movies/${movie._id}`);
           scrollTo(0, 0);
         }}
         src={movie.backdrop_path}

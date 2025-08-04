@@ -13,7 +13,7 @@ const FeaturedSection = () => {
         <BlurCircle top="0" right="-80px" />
         <p className="text-gray-300 font-medium text-lg">Now Showing</p>
         <button
-          onClick={() => router.push("/Movies")}
+          onClick={() => router.push("/movies")}
           className="group flex items-center gap-2 text-sm text-gray-300 cursor-pointer"
         >
           View All
@@ -28,7 +28,7 @@ const FeaturedSection = () => {
       <div className="flex justify-center mt-20">
         <button
           onClick={() => {
-            router.push("/Movies");
+            router.push("/movies");
             scrollTo(0, 0);
           }}
           className="px-10 py-2 text-sm bg-primary hover:bg-primary-dull transition rounded-md font-medium cursor-pointer"
