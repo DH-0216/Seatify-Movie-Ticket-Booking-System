@@ -1,6 +1,6 @@
 import React from 'react'
 
-const MovieID = () => {
+const MovieDetails = () => {
   return (
     <div className='relative px-6 md:px-16 lg:px-24 xl:px-44 py-20'>
       Movie Details Page
@@ -9,4 +9,4 @@ const MovieID = () => {
   )
 }
 
-export default MovieID
+export default MovieDetails
