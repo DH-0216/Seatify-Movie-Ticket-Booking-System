@@ -6,8 +6,9 @@ import Image from "next/image";
 
 import { usePathname } from "next/navigation";
 import { user, sidebarItems } from "@/utils";
+import Dashboard from "@/app/Dashboard/page";
 
-const Adminsidebar = ({ selectedSection, setSelectedSection }) => {
+const Adminsidebar = ({ selectedSection, setSelectedSection }) => {{Dashboard}
   const [isClient, setIsClient] = useState(false);
   const pathname = usePathname();
   useEffect(() => {
