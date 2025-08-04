@@ -46,14 +46,14 @@ const NavBar = () => {
           Home
         </Link>
         <Link
-          href="/movies"
+          href="/Movies"
           onClick={() => {
             scrollTo(0, 0);
             setIsOpen(false);
           }}
           className={`relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:transition-all after:duration-300
              ${
-               pathname === "/movies"
+               pathname === "/Movies"
                  ? "after:w-full text-[var(--color-primary)] after:bg-[var(--color-primary)]"
                  : "after:w-0 hover:after:w-full after:bg-white"
              }`}

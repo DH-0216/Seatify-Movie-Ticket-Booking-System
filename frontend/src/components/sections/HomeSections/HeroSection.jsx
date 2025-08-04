@@ -217,7 +217,7 @@ const HeroSection = () => {
         </AnimatePresence>
 
         <motion.button
-          onClick={() => router.push("/movies")}
+          onClick={() => router.push("/Movies")}
           className="flex items-center gap-2 px-6 py-3 my-6 mt-10 text-sm bg-[var(--color-primary)] hover:bg-[var(--color-primary-dull)] transition-colors rounded-full font-medium cursor-pointer text-white"
           variants={buttonVariants}
           initial="initial"
