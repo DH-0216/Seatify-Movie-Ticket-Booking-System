@@ -6,7 +6,7 @@ import Image from "next/image";
 
 import { usePathname } from "next/navigation";
 import { user, sidebarItems } from "@/utils";
-import Dashboard from "@/app/Dashboard/page";
+import Dashboard from "./sections/DashboardSections/Dashboard";
 
 const Adminsidebar = ({ selectedSection, setSelectedSection }) => {
   {

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { dummyDashboardData } from "@/utils";
 import Title from "@/components/Title";
-import Loading from "../loading";
+
 import BlurCircle from "@/components/Shared/BlurCircle";
 import {
   ChartLineIcon,
@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { format } from "date-fns";
+import Loading from "@/app/loading";
 
 const dateFormat = (date) => format(new Date(date), "dd MMMM yyyy");
 
