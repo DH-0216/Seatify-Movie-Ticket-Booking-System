@@ -93,33 +93,35 @@ const Dashboard = () => {
         {dashboardData.activeShows.map((show) => (
           <div
             key={show._id}
-            className="p-4 bg-white/25 rounded-lg shadow max-w-80"
+            className="bg-gradient-to-br from-gray-900/80 to-gray-800/90 backdrop-blur-sm border border-gray-700/50 rounded-2xl hover:translate-y-1 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300 group"
           >
-            <div className="rounded-md max-h-40 overflow-hidden">
+            <div className="rounded-t-2xl max-h-40 overflow-hidden">
               <Image
                 src={show.movie.poster_path}
                 width={400}
                 height={200}
                 alt={show.movie.title || "Movie Poster"}
-                className="rounded-md max-h-40 w-full object-cover"
+                className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
               />
             </div>
-            <p className="text-gray-900 text-xl font-semibold ml-2 mt-2 truncate">
-              {show.movie.title}
-            </p>
-            <div className="flex items-center justify-between px-2 mt-auto">
-              <p className="text-lg font-medium text-white-500">
-                {currency}
-                {show.showPrice}
+            <div className="p-4">
+              <p className="text-white text-lg font-semibold truncate group-hover:text-primary transition-colors duration-300">
+                {show.movie.title}
               </p>
-              <p className="flex items-center gap-1 text-sm text-gray-400">
-                <StarIcon className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                {show.movie.vote_average.toFixed(1)}
+              <div className="flex items-center justify-between mt-3">
+                <p className="text-lg font-medium text-gray-300 group-hover:text-gray-200 transition-colors duration-300">
+                  {currency}
+                  {show.showPrice}
+                </p>
+                <p className="flex items-center gap-1 text-sm text-gray-300 group-hover:text-gray-200 transition-colors duration-300">
+                  <StarIcon className="w-4 h-4 text-primary fill-primary drop-shadow-sm" />
+                  {show.movie.vote_average.toFixed(1)}
+                </p>
+              </div>
+              <p className="pt-2 text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                {dateFormat(show.showDateTime)}
               </p>
             </div>
-            <p className="px-2 pt-2 text-sm text-white">
-              {dateFormat(show.showDateTime)}
-            </p>
           </div>
         ))}
       </div>

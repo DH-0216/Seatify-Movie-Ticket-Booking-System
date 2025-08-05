@@ -6,7 +6,7 @@ import Content from "@/components/Content";
 import React, { useState } from "react";
 
 export default function Home() {
-  const [selectedSection, setSelectedSection] = useState();
+  const [selectedSection, setSelectedSection] = useState("dashboard");
 
   return (
     <>
