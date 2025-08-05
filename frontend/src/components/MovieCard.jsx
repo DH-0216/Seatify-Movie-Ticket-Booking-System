@@ -1,3 +1,4 @@
+"use client"
 import timeFormat from "@/lib/timeFormat";
 import { StarIcon } from "lucide-react";
 import Image from "next/image";
