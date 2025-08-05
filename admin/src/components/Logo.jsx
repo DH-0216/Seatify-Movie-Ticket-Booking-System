@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-
+3
 const Logo = () => {
   return (
     <Link href="/" className="flex items-center text-3xl font-bold">
