@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
 
 const Bookinglists = () => {
   return (
-  <h1 className='text-white'>Bookinlists page</h1>
-  )
-}
+    <div>
+      <h1 className="text-2xl font-bold mb-4">Booking Lists</h1>
+    </div>
+  );
+};
 
-export default Bookinglists
+export default Bookinglists;
