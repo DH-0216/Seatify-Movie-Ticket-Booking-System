@@ -2,7 +2,7 @@
 import { dummyShowsData } from "@/utils";
 import React, { useEffect, useState } from "react";
 
-import Title from "@/components/Title";
+import Title from "@/components/Shared/Title";
 import { format } from "date-fns";
 import Loading from "@/app/loading";
 

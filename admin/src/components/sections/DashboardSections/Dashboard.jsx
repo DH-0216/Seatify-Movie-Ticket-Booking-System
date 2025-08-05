@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { dummyDashboardData } from "@/utils";
-import Title from "@/components/Title";
+import Title from "@/components/Shared/Title";
 
 import BlurCircle from "@/components/Shared/BlurCircle";
 import {
