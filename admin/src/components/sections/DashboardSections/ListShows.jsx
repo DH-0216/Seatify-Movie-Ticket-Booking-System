@@ -1,11 +1,12 @@
 "use client";
 import { dummyShowsData } from "@/utils";
 import React, { useEffect, useState } from "react";
-import Loading from "../loading";
-import Title from "@/components/Title";
-import { format } from "date-fns";
 
-const Listshows = () => {
+import Title from "@/components/Shared/Title";
+import { format } from "date-fns";
+import Loading from "@/app/loading";
+
+const ListShows = () => {
   const currency = process.env.NEXT_PUBLIC_CURRENCY;
   const dateFormat = (date) => format(new Date(date), "dd MMMM yyyy");
   const [shows, setshows] = useState([]);
@@ -74,4 +75,4 @@ const Listshows = () => {
   );
 };
 
-export default Listshows;
+export default ListShows;

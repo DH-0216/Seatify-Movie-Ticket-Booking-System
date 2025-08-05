@@ -6,12 +6,11 @@ import Image from "next/image";
 
 import { usePathname } from "next/navigation";
 import { user, sidebarItems } from "@/utils";
-import Dashboard from "@/app/Dashboard/page";
 
-const Adminsidebar = ({ selectedSection, setSelectedSection }) => {
-  {
-    Dashboard;
-  }
+
+const AdminSideBar = ({ selectedSection, setSelectedSection }) => {
+
+
   const [isClient, setIsClient] = useState(false);
   const pathname = usePathname();
   useEffect(() => {
@@ -38,10 +37,9 @@ const Adminsidebar = ({ selectedSection, setSelectedSection }) => {
               key={index}
               onClick={() => setSelectedSection(item.id)}
               className={`relative flex items-center max-md:justify-center gap-2 w-full py-2.5 min-md:pl-10 first:mt-6 pr-4
-                ${
-                  isActive
-                    ? "text-red-500 bg-red-500/10 border-r-4 border-red-500"
-                    : "text-gray-400 hover:text-red-500 hover:bg-red-500/10 hover:border-r-4 hover:border-red-500 transition-colors duration-200"
+                ${isActive
+                  ? "text-red-500 bg-red-500/10 border-r-4 border-red-500"
+                  : "text-gray-400 hover:text-red-500 hover:bg-red-500/10 hover:border-r-4 hover:border-red-500 transition-colors duration-200"
                 } group`}
             >
               <IconComponent size={20} className="mr-3" />
@@ -54,4 +52,4 @@ const Adminsidebar = ({ selectedSection, setSelectedSection }) => {
   );
 };
 
-export default Adminsidebar;
+export default AdminSideBar;

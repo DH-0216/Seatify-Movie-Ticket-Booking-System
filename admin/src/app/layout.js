@@ -12,9 +12,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Seatify | Your Digital Gateway to the Big Screen",
+  title: "Seatify | Admin | Your Digital Gateway to the Big Screen",
   description:
     "Seatify is a modern movie ticket booking platform that lets you browse movies, select seats, and reserve tickets seamlessly—all in one place.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({ children }) {
