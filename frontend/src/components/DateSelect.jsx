@@ -14,7 +14,8 @@ const DateSelect = ({ dateTime = {}, id }) => {
 
   const onBookHandler = () => {
     if (!selected) {
-      return toast("Please select a date");
+      toast("Please select a date");
+      return;
     }
     router.push(`/movies/${id}/${selected}`);
     scrollTo(0, 0);

@@ -203,7 +203,7 @@ const HeroSection = () => {
               </div>
               <div className="flex items-center gap-1">
                 <ClockIcon className="w-4 h-4" />
-                {format(currentMovie.runtime)}
+                {`${Math.floor(currentMovie.runtime / 60)}h ${currentMovie.runtime % 60}m`}
               </div>
             </motion.div>
 
