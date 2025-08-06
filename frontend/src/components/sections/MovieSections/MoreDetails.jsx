@@ -4,12 +4,12 @@ import { useParams } from "next/navigation";
 import React, { useState, useEffect, use } from "react";
 import BlurCircle from "@/components/shared/BlurCircle";
 import { Heart, PlayCircleIcon, StarIcon } from "lucide-react";
-import timeFormat from "@/lib/timeFormat";
+import { format } from "date-fns";
 import Image from "next/image";
 
 const MoreDetails = () => {
   const { id } = useParams();
-  
+
   const movie = dummyShowsData.find((movie) => movie._id === id);
 
   return (
@@ -49,7 +49,7 @@ const MoreDetails = () => {
           </p>
 
           <p>
-            {timeFormat(movie.runtime)} .{" "}
+            {`${movie.runtime} min`} .{" "}
             {movie.genres.map((genre) => genre.name).join(", ")} .{" "}
             {movie.release_date.split("-")[0]}
           </p>
@@ -72,7 +72,6 @@ const MoreDetails = () => {
         </div>
       </div>
     </div>
-    
   );
 };
 

@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import React, { useState, useEffect, use } from "react";
 import BlurCircle from "@/components/shared/BlurCircle";
 import { Heart, PlayCircleIcon, StarIcon } from "lucide-react";
-import timeFormat from "@/lib/timeFormat";
+import { format } from "date-fns";
 import Image from "next/image";
 
 const MovieDetails = () => {
