@@ -1,8 +1,9 @@
 "use client";
 
-import Adminnavbar from "@/components/Adminnavbar";
-import Adminsidebar from "@/components/Adminsidebar";
 import Content from "@/components/Content";
+import AdminNavBar from "@/components/Shared/Adminnavbar";
+import AdminSideBar from "@/components/Shared/Adminsidebar";
+
 import React, { useState } from "react";
 
 export default function Home() {
@@ -11,12 +12,12 @@ export default function Home() {
   return (
     <>
       <div className="flex h-screen  overflow-hidden">
-        <Adminsidebar
+        <AdminSideBar
           selectedSection={selectedSection}
           setSelectedSection={setSelectedSection}
         />
         <div className="flex-1 flex flex-col overflow-hidden">
-          <Adminnavbar />
+          <AdminNavBar />
           <div className="flex-1 overflow-y-auto">
             <Content
               selectedSection={selectedSection}
