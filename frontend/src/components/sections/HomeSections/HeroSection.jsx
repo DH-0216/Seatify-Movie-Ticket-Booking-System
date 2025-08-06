@@ -17,7 +17,7 @@ import {
   itemVariants,
   buttonVariants,
 } from "@/lib/motion";
-import timeFormat from "@/lib/timeFormat";
+import { format } from "date-fns";
 
 const HeroSection = () => {
   const router = useRouter();
@@ -203,7 +203,7 @@ const HeroSection = () => {
               </div>
               <div className="flex items-center gap-1">
                 <ClockIcon className="w-4 h-4" />
-                {timeFormat(currentMovie.runtime)}
+                {`${Math.floor(currentMovie.runtime / 60)}h ${currentMovie.runtime % 60}m`}
               </div>
             </motion.div>
 

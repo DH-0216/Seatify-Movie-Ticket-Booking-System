@@ -1,9 +1,13 @@
 "use client"
-import timeFormat from "@/lib/timeFormat";
 import { StarIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { format } from "date-fns";
+
 const MovieCard = ({ movie }) => {
+
+  const dateFormat = (date) => format(new Date(date), "dd MMMM yyyy");
+
   const router = useRouter();
   return (
     <div className="flex flex-col justify-between p-3 bg-gradient-to-br from-gray-900/80 to-gray-800/90 backdrop-blur-sm border border-gray-700/50 rounded-2xl hover:translate-y-1 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300 w-66 group">
@@ -26,7 +30,7 @@ const MovieCard = ({ movie }) => {
           .slice(0, 2)
           .map((genre) => genre.name)
           .join(" | ")}{" "}
-        • {timeFormat(movie.runtime)}
+        • {`${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m`}
       </p>
 
       <div className="flex items-center justify-between mt-4 pb-3">
