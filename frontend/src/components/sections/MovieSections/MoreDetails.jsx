@@ -6,11 +6,16 @@ import BlurCircle from "@/components/shared/BlurCircle";
 import { Heart, PlayCircleIcon, StarIcon } from "lucide-react";
 import { format } from "date-fns";
 import Image from "next/image";
+import loading from "@/app/loading";
 
 const MoreDetails = () => {
   const { id } = useParams();
 
   const movie = dummyShowsData.find((movie) => movie._id === id);
+
+  if (!movie) {
+    return <loading />;
+  }
 
   return (
     <div className="px-6 md:px-16 lg:px-40 pt-30 md:pt-50">
