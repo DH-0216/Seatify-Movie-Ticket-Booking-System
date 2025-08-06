@@ -30,7 +30,7 @@ const MovieCard = ({ movie }) => {
           .slice(0, 2)
           .map((genre) => genre.name)
           .join(" | ")}{" "}
-        • {timeFormat(movie.runtime)}
+        • {`${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m`}
       </p>
 
       <div className="flex items-center justify-between mt-4 pb-3">

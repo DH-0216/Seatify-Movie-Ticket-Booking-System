@@ -6,6 +6,7 @@ import React from "react";
 import { dummyDateTimeData, dummyShowsData } from "@/data/index";
 import { useParams } from "next/navigation";
 import { format } from "date-fns";
+import YouMayLike from "@/components/sections/MovieSections/YouMayLike";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -21,6 +22,7 @@ const MovieDetails = () => {
           id={movie._id}
         />
       )}
+      <YouMayLike />
     </div>
   );
 };
