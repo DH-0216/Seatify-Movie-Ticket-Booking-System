@@ -123,6 +123,7 @@ export const dummyShowsData = [
       { id: 12, name: "Adventure" },
       { id: 878, name: "Sci-Fi" },
     ],
+    trailer: "https://youtu.be/jan5CFWs9ic?si=eqmFa8nCWnMSm654",
     casts: dummyCastsData,
     release_date: "2015-06-12",
     original_language: "en",

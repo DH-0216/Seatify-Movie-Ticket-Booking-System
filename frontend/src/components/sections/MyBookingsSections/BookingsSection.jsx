@@ -7,7 +7,7 @@ import { format } from 'date-fns'
 import isoTimeFormat from '@/lib/isoTimeFormat'
 
 const MyBookingsSection = () => {
-    const currency = process.env.NEXT_PUBLIC_CURRENCY // Next.js env format
+    const currency = process.env.NEXT_PUBLIC_CURRENCY 
     const dateFormat = (date) => format(new Date(date), "dd MMMM yyyy");
     const [bookings, setBookings] = useState([])
     const [isLoading, setIsLoading] = useState(true)
