@@ -1,5 +1,6 @@
 import React from "react";
 import { ArrowRightIcon } from "lucide-react";
+import Image from "next/image";
 
 export default function SeatSection({
     assets,
@@ -13,7 +14,7 @@ export default function SeatSection({
             <BlurCircle top="100px" left="100px" />
             <BlurCircle bottom="0" right="0" />
             <h1 className="text-2xl font-semibold mb-4">Select your seat</h1>
-            <img src={assets.screenImage} alt="screen" />
+            <Image src={assets.screenImage} alt="screen" width={360} height={48}/>
             <p className="text-gray-400 text-sm mb-6">SCREEN SIDE</p>
 
             <div className="flex flex-col items-center mt-10 text-xs text-gray-300">

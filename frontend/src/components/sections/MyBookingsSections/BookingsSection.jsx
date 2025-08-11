@@ -1,13 +1,14 @@
+"use client"
 import { dummyBookingData } from '@/data'
 import React, { useEffect, useState } from 'react'
-import Loading from '@/components/Loading'
+import Loading from '@/app/loading'
 import BlurCircle from '@/components/shared/BlurCircle'
-import { dateFormat } from '@/lib/dateformat'
+import { format } from 'date-fns'
 import isoTimeFormat from '@/lib/isoTimeFormat'
 
 const MyBookingsSection = () => {
     const currency = process.env.NEXT_PUBLIC_CURRENCY // Next.js env format
-
+    const dateFormat = (date) => format(new Date(date), "dd MMMM yyyy");
     const [bookings, setBookings] = useState([])
     const [isLoading, setIsLoading] = useState(true)
 
@@ -46,7 +47,7 @@ const MyBookingsSection = () => {
                                 {isoTimeFormat(item.show.movie.runtime)}
                             </p>
                             <p className='text-gray-400 text-sm mt-auto'>
-                                {dateFormat(item.show.movie.showDateTime)}
+                                {dateFormat(item.show.showDateTime)}
                             </p>
                         </div>
                     </div>
