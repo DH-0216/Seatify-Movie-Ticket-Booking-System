@@ -17,7 +17,7 @@ const DateSelect = ({ dateTime = {}, id }) => {
       toast("Please select a date");
       return;
     }
-    router.push(`/movies/${id}/${selected}`);
+    router.push(`/seatlayout/${id}/${selected}`);
     scrollTo(0, 0);
   };
 

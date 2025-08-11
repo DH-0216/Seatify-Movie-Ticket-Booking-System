@@ -1,12 +1,10 @@
 "use client";
-import { dummyDateTimeData, dummyShowsData } from "@/data/index";
+import {  dummyShowsData } from "@/data/index";
 import { useParams } from "next/navigation";
-import React, { useState, useEffect, use } from "react";
 import BlurCircle from "@/components/shared/BlurCircle";
 import { Heart, PlayCircleIcon, StarIcon } from "lucide-react";
-import { format } from "date-fns";
 import Image from "next/image";
-import loading from "@/app/loading";
+import Loading from "@/app/loading";
 
 const MoreDetails = () => {
   const { id } = useParams();
@@ -14,7 +12,7 @@ const MoreDetails = () => {
   const movie = dummyShowsData.find((movie) => movie._id === id);
 
   if (!movie) {
-    return <loading />;
+    return <Loading />;
   }
 
   return (
