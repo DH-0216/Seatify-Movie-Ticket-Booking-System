@@ -98,7 +98,7 @@ const MoreDetails = () => {
             <div className="relative w-full max-w-4xl px-4">
               <button
                 onClick={() => setWatchTrailer(false)}
-                className="absolute -top-15 -right-15 text-white hover:text-gray-300"
+                className="absolute -top-15 -right-15 text-white hover:text-gray-300 hover:cursor-pointer"
               >
                 <X className="w-7 h-7" />
               </button>
