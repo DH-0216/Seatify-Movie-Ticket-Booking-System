@@ -13,7 +13,7 @@ const MovieDetails = () => {
   const movie = dummyShowsData.find((movie) => movie._id === id);
 
   return (
-    <div className="px-6 md:px-16 lg:px-40 pt-10 md:pt-50">
+    <div className="px-6 md:px-16 lg:px-40 pt-10 md:pt-32">
 
       <p className="text-lg font-medium mt-5">Your Favorite Cast</p>
       <div className="overflow-x-auto no-scrollbar mt-8 pb-4">
