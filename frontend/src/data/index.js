@@ -117,7 +117,7 @@ export const dummyShowsData = [
     poster_path:
       "https://image.tmdb.org/t/p/w1280/q0fGCmjLu42MPlSO9OYWpI5w86I.jpg",
     backdrop_path:
-      "https://image.tmdb.org/t/p/original/fQOV47FHTJdaSuSUNlzP3zXUZWE.jpg",
+      "https://image.tmdb.org/t/p/original/rGBhuCTaonCoo2JRmU3pjCqC4p1.jpg",
     genres: [
       { id: 28, name: "Action" },
       { id: 12, name: "Adventure" },

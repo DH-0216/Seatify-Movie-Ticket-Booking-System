@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import React, { useState, useEffect, use } from "react";
 import BlurCircle from "@/components/shared/BlurCircle";
 import { Heart, PlayCircleIcon, StarIcon } from "lucide-react";
-import timeFormat from "@/lib/timeFormat";
+import { format } from "date-fns";
 import Image from "next/image";
 
 const MovieDetails = () => {
@@ -13,9 +13,9 @@ const MovieDetails = () => {
   const movie = dummyShowsData.find((movie) => movie._id === id);
 
   return (
-    <div className="px-6 md:px-16 lg:px-40 pt-30 md:pt-50">
+    <div className="px-6 md:px-16 lg:px-40 pt-10 md:pt-50">
 
-      <p className="text-lg font-medium mt-20">Your Favorite Cast</p>
+      <p className="text-lg font-medium mt-5">Your Favorite Cast</p>
       <div className="overflow-x-auto no-scrollbar mt-8 pb-4">
         <div className="flex items-center gap-4 w-max px-4">
           {movie.casts.slice(0, 12).map((cast,index) => (

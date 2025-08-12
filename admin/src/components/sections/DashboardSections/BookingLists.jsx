@@ -1,12 +1,64 @@
-import Title from '@/components/Shared/Title'
-import React from 'react'
+import Loading from "@/app/loading";
+import Title from "@/components/Shared/Title";
+import { dummyBookingData } from "@/utils";
+import { format } from "date-fns";
+import React, { useEffect, useState } from "react";
 
 const BookingLists = () => {
-  return (
-    <div>
-      <Title text1="Booking" text2="Lists" />
-    </div>
-  )
-}
+  const currency = process.env.NEXT_PUBLIC_CURRENCY;
+  const [bookings, setBookings] = useState([]);
+  const [isloading, setisLoading] = useState(true);
+  const dateFormat = (date) => format(new Date(date), "dd MMMM yyyy");
 
-export default BookingLists
+  const getAllBookings = async () => {
+    setBookings(dummyBookingData);
+    setisLoading(false);
+  };
+  useEffect(() => {
+    getAllBookings();
+  }, []);
+  return !isloading ? (
+    <>
+      <Title text1="List" text2="Bookings" />
+      <div className="max-w-4xl mt-6 overflow-x-auto">
+        <table className="w-full boarder-collapse rounded-md overflow-hidden text-nowrap">
+          <thead>
+            <tr className="bg-primary/20 text-left text-white">
+              <th className="p-2 font-medium pl-5">User Name</th>
+              <th className="p-2 font-medium">Movie Name</th>
+              <th className="p-2 font-medium">Show Time</th>
+              <th className="p-2 font-medium">Seats</th>
+              <th className="p-2 font-medium">Amount</th>
+            </tr>
+          </thead>
+          <tbody className="text-sm font-light">
+            {bookings.map((item, index) => (
+              <tr
+                key={index}
+                className="border-b border-primary/20 bg-primary/5 even:bg-primary/10"
+              >
+                <td className="p-2 min-w-45 pl-5">{item.user.Name}</td>
+                <td className="p-2">{item.show.movie.title}</td>
+                <td className="p-2">{dateFormat(item.show.showDateTime)}</td>
+                <td className="p-2">
+                  {item.bookedseats
+                    ? Object.keys(item.bookedseats)
+                        .map((seat) => item.bookedseats[seat])
+                        .join(", ")
+                    : "N/A"}
+                </td>
+                <td className="p-2">
+                  {currency} {item.amount}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  ) : (
+    <Loading />
+  );
+};
+
+export default BookingLists;
