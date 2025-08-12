@@ -2,8 +2,8 @@
 export const dummyTrailers = [
   {
     _id: "1",
-    image: "https://img.youtube.com/vi/WpW36ldAqnM/maxresdefault.jpg",
-    videoUrl: "https://youtu.be/jan5CFWs9ic?si=eqmFa8nCWnMSm654",
+    image: "https://img.youtube.com/vi/jan5CFWs9ic/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/watch?v=jan5CFWs9ic",
   },
   { _id: "2",
     image: "https://img.youtube.com/vi/UWMzKXsY9A4/maxresdefault.jpg",
