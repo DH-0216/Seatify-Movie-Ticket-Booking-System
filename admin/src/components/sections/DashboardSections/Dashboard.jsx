@@ -96,7 +96,7 @@ const Dashboard = () => {
           {dashboardData.activeShows.map((show) => (
             <div
               key={show._id}
-              className="group relative w-[270px] h-[300px] overflow-hidden rounded-lg shadow-md cursor-pointer gap-x-6"
+              className="group relative w-[240px] h-[300px] overflow-hidden rounded-lg shadow-md cursor-pointer gap-x-6"
             >
               {/* Movie Poster */}
               <div className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 gap-x-6">
