@@ -5,7 +5,7 @@ import BlurCircle from "@/components/shared/BlurCircle";
 import { Heart, PlayCircleIcon, StarIcon, X } from "lucide-react";
 import Image from "next/image";
 import Loading from "@/app/loading";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import React from "react";
 import dynamic from "next/dynamic";
 
@@ -15,7 +15,19 @@ const MoreDetails = () => {
   const { id } = useParams();
   const [watchTrailer, setWatchTrailer] = useState(false);
 
-  const movie = dummyShowsData.find((movie) => movie._id === id);
+  const [movie, setMovie] = useState(null);
+  const [trailer, setTrailer] = useState(null);
+
+  useEffect(() => {
+    const foundMovie = dummyShowsData.find((m) => m._id === id);
+    setMovie(foundMovie);
+  }, [id]);
+
+  useEffect(() => {
+    const foundTrailer = dummyTrailers.find((t) => t._id === id);
+    setTrailer(foundTrailer);
+  }, [id]);
+
 
   if (!movie) {
     return <Loading />;
@@ -23,7 +35,6 @@ const MoreDetails = () => {
   return (
     <>
       <div className="relative py-50">
-
         <div className="px-6 md:px-16 lg:px-40 pt-8 md:pt-10">
           <div className="absolute inset-0 -z-10">
             <Image
@@ -93,7 +104,7 @@ const MoreDetails = () => {
               </button>
               <div className="relative w-full pb-[56.25%] rounded-lg overflow-hidden bg-black">
                 <ReactPlayer
-                  src={movie.trailer}
+                  src={trailer?.videoUrl}
                   controls
                   className="absolute top-0 left-0 rounded-lg"
                   width="100%"
