@@ -421,6 +421,8 @@ export const dummyDashboardData = {
       _id: "68352363e96d99513e4221a4",
       movie: dummyShowsData[0],
       showDateTime: "2025-06-30T02:30:00.000Z",
+      overview:
+        "Zora Bennett leads a team of skilled operatives to the most dangerous place on Earth, an island research facility for the original Jurassic Park. Their mission is to secure genetic material from dinosaurs whose DNA can provide life-saving benefits to mankind. As the top-secret expedition becomes more and more risky, they soon make a sinister, shocking discovery that's been hidden from the world for decades.",
       showPrice: 59,
       occupiedSeats: {
         A1: "user_2xO4XPCgWWwWq9EHuQxc5UWqIok",
@@ -432,6 +434,8 @@ export const dummyDashboardData = {
       _id: "6835238fe96d99513e4221a8",
       movie: dummyShowsData[1],
       showDateTime: "2025-06-30T15:30:00.000Z",
+      overview:
+        " a group of teenagers who escape a deadly plane crash find themselves hunted by Death, who claims them one by one in elaborate, accident-like scenario",
       showPrice: 81,
       occupiedSeats: {},
     },
@@ -439,6 +443,7 @@ export const dummyDashboardData = {
       _id: "6835238fe96d99513e4221a9",
       movie: dummyShowsData[2],
       showDateTime: "2025-06-30T03:30:00.000Z",
+      overview:"an elite special forces team, led by Arnold Schwarzenegger, gets hunted by an alien creature in the jungles of Central America",
       showPrice: 81,
       occupiedSeats: {},
     },
@@ -446,6 +451,7 @@ export const dummyDashboardData = {
       _id: "6835238fe96d99513e4221aa",
       movie: dummyShowsData[3],
       showDateTime: "2025-07-15T16:30:00.000Z",
+      overview:"a dark fantasy film where a witch named Gray Alys, forced to grant requests, is tasked by a queen to find a shapeshifter in the dangerous Lost Lands to fulfill a wish",
       showPrice: 81,
       occupiedSeats: {
         A1: "user_2xO4XPCgWWwWq9EHuQxc5UWqIok",
@@ -458,6 +464,7 @@ export const dummyDashboardData = {
       _id: "683682072b5989c29fc6dc0d",
       movie: dummyShowsData[4],
       showDateTime: "2025-06-05T15:30:00.000Z",
+      overview:"a horror film about a group of friends who relive a nightmarish evening over and over again after one of their sisters disappears in a remote valley",
       showPrice: 49,
       occupiedSeats: {
         A1: "user_2xO4XPCgWWwWq9EHuQxc5UWqIok",
@@ -473,6 +480,7 @@ export const dummyDashboardData = {
       _id: "68380044686d454f2116b39a",
       movie: dummyShowsData[5],
       showDateTime: "2025-06-20T16:00:00.000Z",
+      overview:"a story about a lonely Hawaiian girl named Lilo who adopts a mischievous alien creature, Stitch, who is engineered to be destructive",
       showPrice: 79,
       occupiedSeats: {
         A1: "user_2xl7eCSUHddibk5lRxfOtw9RMwX",
