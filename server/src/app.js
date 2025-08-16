@@ -13,9 +13,9 @@ app.use(express.json());
 app.use(clerkMiddleware());
 
 // Routes
-
-app.use("/api/users", userRoutes);
-app.use("/api/movies", movieRoutes);
+app.get("/", (req, res) => {
+  res.send("Welcome to the Seatify Movie Ticket Booking System API!");
+});
 app.use("/api/inngest", serve({ client: inngest, functions }));
 
 
