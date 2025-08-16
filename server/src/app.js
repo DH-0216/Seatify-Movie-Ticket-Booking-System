@@ -3,8 +3,6 @@ import cors from "cors";
 import { clerkMiddleware } from "@clerk/express";
 import { serve } from "inngest/express";
 import { inngest, functions } from "./inngest/index.js";
-import userRoutes from "./routes/userRoutes.js";
-import movieRoutes from "./routes/movieRoutes.js";
 
 
 const app = express();
