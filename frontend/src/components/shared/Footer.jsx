@@ -16,9 +16,9 @@ const Footer = () => {
             height={36}
           />
           <p className="mt-6 text-sm">
-            Lorem Ipsum has been the industry's standard dummy text ever since
-            the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book.
+            Seatify is a modern movie ticket booking platform that lets you
+            browse movies, select seats, and reserve tickets seamlessly—all in
+            one place.
           </p>
           <div className="flex items-center gap-2 mt-4">
             <Image
@@ -65,8 +65,8 @@ const Footer = () => {
         </div>
       </div>
       <p className="pt-4 text-center text-sm pb-5">
-        Copyright {new Date().getFullYear()} ©{" "}
-        <Link href="/">Seatify</Link>. All Right Reserved.
+        Copyright {new Date().getFullYear()} © <Link href="/">Seatify</Link>.
+        All Right Reserved.
       </p>
     </footer>
   );
