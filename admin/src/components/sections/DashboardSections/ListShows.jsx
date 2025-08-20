@@ -7,7 +7,7 @@ import { format } from "date-fns";
 import Loading from "@/app/loading";
 
 const ListShows = () => {
-  const currency = process.env.NEXT_PUBLIC_CURRENCY;
+  const currency = process.env.NEXT_PUBLIC_CURRENCY || "USD"; // fallback to USD
   const dateFormat = (date) => format(new Date(date), "dd MMMM yyyy");
   const [shows, setshows] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -55,7 +55,7 @@ const ListShows = () => {
                 key={index}
                 className="border-b border-primary/10 bg-primary/5 even:bg-primary/10"
               >
-                <td className="p-2 min-w-45 pl-5">{show.movie.title}</td>
+                <td className="p-2 min-w-[180px] pl-5">{show.movie.title}</td>
                 <td className="p-2">{dateFormat(show.showDataTime)}</td>
                 <td className="p-2">
                   {Object.keys(show.occupiedSeats).length}
