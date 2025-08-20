@@ -6,7 +6,7 @@ import React from "react";
 
 const AdminNavBar = () => {
   return (
-    <div className="flex items-center justify-between px-6 md:px-10 h-16 border-b border-gray-300/30">
+    <div className="flex items-center justify-between  py-12 mx-12 h-16 border-b-2  border-gray-300/30">
       <Image src={assets.logo} alt="" className="w-36 h-auto" />
     </div>
   );
