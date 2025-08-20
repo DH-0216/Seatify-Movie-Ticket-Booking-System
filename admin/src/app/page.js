@@ -1,8 +1,9 @@
 "use client";
 
 import Content from "@/components/Content";
-import AdminNavBar from "@/components/Shared/Adminnavbar";
-import AdminSideBar from "@/components/Shared/Adminsidebar";
+import AdminNavBar from "@/components/Shared/AdminNavBar";
+import AdminSideBar from "@/components/Shared/AdminSideBar";
+
 
 import React, { useState } from "react";
 
