@@ -21,23 +21,34 @@ import { format } from "date-fns";
 
 const HeroSection = () => {
   const router = useRouter();
+  const [shuffledMovies, setShuffledMovies] = useState([]);
   const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [previewStartIndex, setPreviewStartIndex] = useState(0);
 
   const PREVIEWS_PER_VIEW = 5;
 
+  // Shuffle and pick 5 movies on mount
   useEffect(() => {
+    const shuffled = [...dummyShowsData]
+      .sort(() => Math.random() - 0.5)
+      .slice(0, PREVIEWS_PER_VIEW);
+    setShuffledMovies(shuffled);
+  }, []);
+
+  useEffect(() => {
+    if (shuffledMovies.length === 0) return;
     const interval = setInterval(() => {
       handleNextMovie();
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [currentMovieIndex]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentMovieIndex, shuffledMovies]);
 
-  // Update preview window when current movie changes
   useEffect(() => {
     updatePreviewWindow();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentMovieIndex]);
 
   const updatePreviewWindow = () => {
@@ -46,13 +57,12 @@ const HeroSection = () => {
       currentMovieIndex < previewStartIndex + PREVIEWS_PER_VIEW;
 
     if (!currentInView) {
-      // Calculate the best starting index to show the current movie
       if (currentMovieIndex < previewStartIndex) {
         setPreviewStartIndex(Math.max(0, currentMovieIndex - 2));
       } else {
         setPreviewStartIndex(
           Math.min(
-            dummyShowsData.length - PREVIEWS_PER_VIEW,
+            shuffledMovies.length - PREVIEWS_PER_VIEW,
             currentMovieIndex - 2
           )
         );
@@ -61,20 +71,20 @@ const HeroSection = () => {
   };
 
   const handleNextMovie = () => {
-    if (isTransitioning) return;
+    if (isTransitioning || shuffledMovies.length === 0) return;
     setIsTransitioning(true);
     setTimeout(() => {
-      setCurrentMovieIndex((prev) => (prev + 1) % dummyShowsData.length);
+      setCurrentMovieIndex((prev) => (prev + 1) % shuffledMovies.length);
       setIsTransitioning(false);
     }, 100);
   };
 
   const handlePrevMovie = () => {
-    if (isTransitioning) return;
+    if (isTransitioning || shuffledMovies.length === 0) return;
     setIsTransitioning(true);
     setTimeout(() => {
       setCurrentMovieIndex(
-        (prev) => (prev - 1 + dummyShowsData.length) % dummyShowsData.length
+        (prev) => (prev - 1 + shuffledMovies.length) % shuffledMovies.length
       );
       setIsTransitioning(false);
     }, 100);
@@ -90,7 +100,7 @@ const HeroSection = () => {
   };
 
   const handlePreviewNext = () => {
-    if (previewStartIndex + PREVIEWS_PER_VIEW < dummyShowsData.length) {
+    if (previewStartIndex + PREVIEWS_PER_VIEW < shuffledMovies.length) {
       setPreviewStartIndex(previewStartIndex + 1);
     }
   };
@@ -101,8 +111,10 @@ const HeroSection = () => {
     }
   };
 
-  const currentMovie = dummyShowsData[currentMovieIndex];
-  const visiblePreviews = dummyShowsData.slice(
+  if (shuffledMovies.length === 0) return null;
+
+  const currentMovie = shuffledMovies[currentMovieIndex];
+  const visiblePreviews = shuffledMovies.slice(
     previewStartIndex,
     previewStartIndex + PREVIEWS_PER_VIEW
   );
@@ -203,7 +215,9 @@ const HeroSection = () => {
               </div>
               <div className="flex items-center gap-1">
                 <ClockIcon className="w-4 h-4" />
-                {`${Math.floor(currentMovie.runtime / 60)}h ${currentMovie.runtime % 60}m`}
+                {`${Math.floor(currentMovie.runtime / 60)}h ${
+                  currentMovie.runtime % 60
+                }m`}
               </div>
             </motion.div>
 
@@ -231,7 +245,7 @@ const HeroSection = () => {
 
         {/* Circle indicators with smooth animations */}
         <div className="absolute bottom-[15px] left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
-          {dummyShowsData.map((_, index) => (
+          {shuffledMovies.map((_, index) => (
             <motion.button
               key={index}
               onClick={() => handleMovieSelect(index)}
@@ -260,22 +274,9 @@ const HeroSection = () => {
         transition={{ duration: 0.6, delay: 0.5 }}
       >
         <div className="flex items-center gap-3">
-          <motion.button
-            onClick={handlePreviewPrev}
-            disabled={previewStartIndex === 0}
-            className={`p-1 rounded-full transition-all duration-200 ${
-              previewStartIndex === 0
-                ? "opacity-30 cursor-not-allowed"
-                : "bg-black bg-opacity-50 hover:bg-opacity-70"
-            }`}
-            whileHover={previewStartIndex !== 0 ? { scale: 1.1 } : {}}
-            whileTap={previewStartIndex !== 0 ? { scale: 0.9 } : {}}
-          >
-            <ChevronLeft className="w-4 h-4 text-white" />
-          </motion.button>
 
           <div className="flex gap-3">
-            {visiblePreviews.map((dummyShowsData, index) => {
+            {visiblePreviews.map((movie, index) => {
               const actualIndex = previewStartIndex + index;
               return (
                 <motion.button
@@ -292,8 +293,8 @@ const HeroSection = () => {
                 >
                   <div className="w-20 h-28 md:w-24 md:h-32 rounded-lg overflow-hidden">
                     <Image
-                      src={dummyShowsData.poster_path}
-                      alt={dummyShowsData.title || "Show Image"}
+                      src={movie.poster_path}
+                      alt={movie.title || "Show Image"}
                       width={80}
                       height={112}
                       className="w-full h-full object-cover transition-all duration-300"
@@ -306,7 +307,7 @@ const HeroSection = () => {
                     whileHover={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    {dummyShowsData.title}
+                    {movie.title}
                   </motion.div>
 
                   {actualIndex === currentMovieIndex && (
@@ -325,30 +326,6 @@ const HeroSection = () => {
               );
             })}
           </div>
-
-          <motion.button
-            onClick={handlePreviewNext}
-            disabled={
-              previewStartIndex + PREVIEWS_PER_VIEW >= dummyShowsData.length
-            }
-            className={`p-1 rounded-full transition-all duration-200 ${
-              previewStartIndex + PREVIEWS_PER_VIEW >= dummyShowsData.length
-                ? "opacity-30 cursor-not-allowed"
-                : "bg-black bg-opacity-50 hover:bg-opacity-70"
-            }`}
-            whileHover={
-              previewStartIndex + PREVIEWS_PER_VIEW < dummyShowsData.length
-                ? { scale: 1.1 }
-                : {}
-            }
-            whileTap={
-              previewStartIndex + PREVIEWS_PER_VIEW < dummyShowsData.length
-                ? { scale: 0.9 }
-                : {}
-            }
-          >
-            <ChevronRight className="w-4 h-4 text-white" />
-          </motion.button>
         </div>
       </motion.div>
     </div>
