@@ -2,14 +2,13 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import {  assets } from "@/assets/assets";
-
+import { assets } from "@/assets/assets";
+import { dummyDateTimeData, dummyShowsData } from "@/data";
 import Loading from "@/app/loading";
 import BlurCircle from "@/components/shared/BlurCircle";
-import toast from "react-hot-toast";
 import TimeSection from "@/components/sections/SeatLayoutSections/TimeSection";
 import SeatSection from "@/components/sections/SeatLayoutSections/SeatSection";
-import { dummyDateTimeData, dummyShowsData } from "@/data";
+import toast from "react-hot-toast";
 
 export default function SeatLayoutPage() {
   const groupRows = [["A", "B"], ["C", "D"], ["E", "F"], ["G", "H"], ["I", "J"]];
