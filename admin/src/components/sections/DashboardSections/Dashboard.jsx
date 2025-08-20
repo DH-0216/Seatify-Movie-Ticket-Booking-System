@@ -63,11 +63,11 @@ const Dashboard = () => {
   if (loading) return <Loading />;
 
   return (
-    <>
+    <div className="py-6 px-6 bg-[#0a0a0a] min-h-screen">
       <Title text1="Admin" text2="Dashboard" />
-      <div className="relative flex flex-wrap gap-4 mt-6">
+      <div className="relative flex flex-wrap gap-4 z-10">
         <BlurCircle top="-100px" right="100px" />
-        <div className="flex justify-between gap-4 w-full px-6 lg:px-22 py-5">
+        <div className="flex justify-between gap-4 w-full px-6 lg:px-12 py-12">
           {dashboardCard.map((card, index) => (
             <div
               key={index}
@@ -90,7 +90,7 @@ const Dashboard = () => {
 
       <div className="mt-10">
         <p className="text-2xl font-bold text-white mb-6">Active Shows</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 lg:gap-x-12 gap-y-10 lg:gap-y-14 px-6 md:px-12 lg:px-22 py-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 lg:gap-x-12 gap-y-10 lg:gap-y-14 px-6 md:px-12 py-8">
           {dashboardData.activeShows.map((show) => (
             <div
               key={show._id}
@@ -127,7 +127,7 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
