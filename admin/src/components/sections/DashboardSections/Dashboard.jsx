@@ -67,11 +67,11 @@ const Dashboard = () => {
       <Title text1="Admin" text2="Dashboard" />
       <div className="relative flex flex-wrap gap-4 mt-6">
         <BlurCircle top="-100px" right="100px" />
-        <div className="flex justify-between gap-4 w-full px-6">
+        <div className="flex justify-between gap-4 w-full px-6 lg:px-22 py-5">
           {dashboardCard.map((card, index) => (
             <div
               key={index}
-              className="flex items-center justify-between px-4 py-3 bg-[rgba(255,255,255,0.05)] border border-[color:var(--color-primary)]/20 shadow rounded-md max-w-60 w-full transition-transform duration-200 hover:scale-105 active:scale-95"
+              className="flex items-center justify-between px-4 py-3 bg-[#0a0a0a] border border-[color:var(--color-primary)]/20 shadow rounded-md max-w-60 w-full transition-transform duration-200 hover:scale-105 active:scale-95"
             >
               <div className="flex flex-col w-full">
                 <div className="flex flex-row justify-between items-center w-full">
@@ -89,10 +89,8 @@ const Dashboard = () => {
       </div>
 
       <div className="mt-10">
-        <p className="text-2xl font-bold text-[rgb(57,255,20)] mb-6">
-          Active Shows
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10 gap-10 ml-15">
+        <p className="text-2xl font-bold text-white mb-6">Active Shows</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 lg:gap-x-12 gap-y-10 lg:gap-y-14 px-6 md:px-12 lg:px-22 py-8">
           {dashboardData.activeShows.map((show) => (
             <div
               key={show._id}

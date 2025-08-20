@@ -3,7 +3,7 @@ import { Film, Ticket } from "lucide-react";
 
 const Loading = () => {
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
+    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
       <div className="text-center">
         {/* Animated film reel - centered */}
         <div className="relative mb-8 flex justify-center">
