@@ -21,7 +21,7 @@ const AdminSideBar = ({ selectedSection, setSelectedSection }) => {
       onMouseLeave={() => setIsSidebarOpen(false)}
       className={`
         h-[calc(100vh-64px)] flex flex-col items-center pt-8
-        ${isSidebarOpen ? "w-60" : "w-16"}
+        ${isSidebarOpen ? "w-54" : "w-16"}
         border-r border-gray-300/20 text-sm
         bg-[#0a0a0a]
         transition-[width] duration-300 ease-in-out
@@ -49,7 +49,7 @@ const AdminSideBar = ({ selectedSection, setSelectedSection }) => {
         </div>
       </div>
 
-      <div className="space-y-2 mt-4 w-full">
+      <div className="space-y-4 mt-4 w-full">
         {sidebarItems.map((item, index) => {
           const IconComponent = item.icon;
           const isActive = selectedSection === item.id;
@@ -57,7 +57,7 @@ const AdminSideBar = ({ selectedSection, setSelectedSection }) => {
             <button
               key={index}
               onClick={() => setSelectedSection(item.id)}
-              className={`relative flex items-center w-full py-4 first:mt-6
+              className={`relative flex items-center w-full py-2 first:mt-6 rounded-md
                 ${
                   isSidebarOpen
                     ? "justify-start pl-6 pr-4 gap-2"
