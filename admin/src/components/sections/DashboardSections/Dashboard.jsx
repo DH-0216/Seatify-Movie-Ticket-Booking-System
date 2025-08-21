@@ -90,41 +90,43 @@ const Dashboard = () => {
 
       <div className="mt-10">
         <p className="text-2xl font-bold text-white mb-6">Active Shows</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 lg:gap-x-12 gap-y-10 lg:gap-y-14 px-6 md:px-12 py-8">
-          {dashboardData.activeShows.map((show) => (
-            <div
-              key={show._id}
-              className="group relative w-[240px] h-[300px] overflow-hidden rounded-lg shadow-md cursor-pointer gap-x-6"
-            >
-              {/* Movie Poster */}
-              <div className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 gap-x-6">
-                <Image
-                  src={show.movie.poster_path}
-                  alt={show.movie.title || "Movie Poster"}
-                  fill
-                />
-              </div>
-              {/* Card Details */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gray-950 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                <p className="text-white text-lg font-semibold truncate group-hover:text-primary transition-colors duration-300">
-                  {show.movie.title}
-                </p>
-                <div className="flex items-center justify-between mt-3">
-                  <p className="text-lg font-medium text-gray-300 group-hover:text-gray-200 transition-colors duration-300">
-                    {currency}
-                    {show.showPrice}
+        <div className="flex justify-center">
+          <div className="flex flex-wrap max-sm:justify-center gap-12 px-8 py-8">
+            {dashboardData.activeShows.map((show) => (
+              <div
+                key={show._id}
+                className="group relative w-[220px] h-[300px] overflow-hidden rounded-lg shadow-md cursor-pointer gap-x-6"
+              >
+                {/* Movie Poster */}
+                <div className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 gap-x-6">
+                  <Image
+                    src={show.movie.poster_path}
+                    alt={show.movie.title || "Movie Poster"}
+                    fill
+                  />
+                </div>
+                {/* Card Details */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gray-950 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                  <p className="text-white text-lg font-semibold truncate group-hover:text-primary transition-colors duration-300">
+                    {show.movie.title}
                   </p>
-                  <p className="flex items-center gap-1 text-sm text-gray-300 group-hover:text-gray-200 transition-colors duration-300">
-                    <StarIcon className="w-4 h-4 text-primary fill-primary drop-shadow-sm" />
-                    {show.movie.vote_average.toFixed(1)}
+                  <div className="flex items-center justify-between mt-3">
+                    <p className="text-lg font-medium text-gray-300 group-hover:text-gray-200 transition-colors duration-300">
+                      {currency}
+                      {show.showPrice}
+                    </p>
+                    <p className="flex items-center gap-1 text-sm text-gray-300 group-hover:text-gray-200 transition-colors duration-300">
+                      <StarIcon className="w-4 h-4 text-primary fill-primary drop-shadow-sm" />
+                      {show.movie.vote_average.toFixed(1)}
+                    </p>
+                  </div>
+                  <p className="pt-2 text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                    {dateFormat(show.showDateTime)}
                   </p>
                 </div>
-                <p className="pt-2 text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                  {dateFormat(show.showDateTime)}
-                </p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
