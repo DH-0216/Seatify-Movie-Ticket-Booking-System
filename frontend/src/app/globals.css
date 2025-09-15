@@ -6,12 +6,12 @@
   --color-primary-dull: #b20710;
 }
 
-
 * {
   font-family: "Outfit", sans-serif;
   scrollbar-width: thin;
-  scrollbar-color: var(--color-primary) var(--color-primary-dull);
+  scrollbar-color: var(--color-primary) transparent;
 }
+
 body {
   color: white;
   background-color: black;

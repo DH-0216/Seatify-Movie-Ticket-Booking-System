@@ -63,15 +63,15 @@ const Dashboard = () => {
   if (loading) return <Loading />;
 
   return (
-    <>
+    <div className="py-6 px-6 bg-[#0a0a0a] min-h-screen">
       <Title text1="Admin" text2="Dashboard" />
-      <div className="relative flex flex-wrap gap-4 mt-6">
+      <div className="relative flex flex-wrap gap-4 z-10">
         <BlurCircle top="-100px" right="100px" />
-        <div className="flex justify-between gap-4 w-full px-6">
+        <div className="flex justify-between gap-4 w-full px-6 lg:px-12 py-12">
           {dashboardCard.map((card, index) => (
             <div
               key={index}
-              className="flex items-center justify-between px-4 py-3 bg-[rgba(255,255,255,0.05)] border border-[color:var(--color-primary)]/20 shadow rounded-md max-w-60 w-full transition-transform duration-200 hover:scale-105 active:scale-95"
+              className="flex items-center justify-between px-4 py-3 bg-[#0a0a0a] border border-[color:var(--color-primary)]/20 shadow rounded-md max-w-60 w-full transition-transform duration-200 hover:scale-105 active:scale-95"
             >
               <div className="flex flex-col w-full">
                 <div className="flex flex-row justify-between items-center w-full">
@@ -89,47 +89,47 @@ const Dashboard = () => {
       </div>
 
       <div className="mt-10">
-        <p className="text-2xl font-bold text-[rgb(57,255,20)] mb-6">
-          Active Shows
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10 gap-10 ml-15">
-          {dashboardData.activeShows.map((show) => (
-            <div
-              key={show._id}
-              className="group relative w-[240px] h-[300px] overflow-hidden rounded-lg shadow-md cursor-pointer gap-x-6"
-            >
-              {/* Movie Poster */}
-              <div className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 gap-x-6">
-                <Image
-                  src={show.movie.poster_path}
-                  alt={show.movie.title || "Movie Poster"}
-                  fill
-                />
-              </div>
-              {/* Card Details */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gray-950 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                <p className="text-white text-lg font-semibold truncate group-hover:text-primary transition-colors duration-300">
-                  {show.movie.title}
-                </p>
-                <div className="flex items-center justify-between mt-3">
-                  <p className="text-lg font-medium text-gray-300 group-hover:text-gray-200 transition-colors duration-300">
-                    {currency}
-                    {show.showPrice}
+        <p className="text-2xl font-bold text-white mb-6">Active Shows</p>
+        <div className="flex justify-center">
+          <div className="flex flex-wrap max-sm:justify-center gap-12 px-8 py-8">
+            {dashboardData.activeShows.map((show) => (
+              <div
+                key={show._id}
+                className="group relative w-[220px] h-[300px] overflow-hidden rounded-lg shadow-md cursor-pointer gap-x-6"
+              >
+                {/* Movie Poster */}
+                <div className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 gap-x-6">
+                  <Image
+                    src={show.movie.poster_path}
+                    alt={show.movie.title || "Movie Poster"}
+                    fill
+                  />
+                </div>
+                {/* Card Details */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gray-950 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                  <p className="text-white text-lg font-semibold truncate group-hover:text-primary transition-colors duration-300">
+                    {show.movie.title}
                   </p>
-                  <p className="flex items-center gap-1 text-sm text-gray-300 group-hover:text-gray-200 transition-colors duration-300">
-                    <StarIcon className="w-4 h-4 text-primary fill-primary drop-shadow-sm" />
-                    {show.movie.vote_average.toFixed(1)}
+                  <div className="flex items-center justify-between mt-3">
+                    <p className="text-lg font-medium text-gray-300 group-hover:text-gray-200 transition-colors duration-300">
+                      {currency}
+                      {show.showPrice}
+                    </p>
+                    <p className="flex items-center gap-1 text-sm text-gray-300 group-hover:text-gray-200 transition-colors duration-300">
+                      <StarIcon className="w-4 h-4 text-primary fill-primary drop-shadow-sm" />
+                      {show.movie.vote_average.toFixed(1)}
+                    </p>
+                  </div>
+                  <p className="pt-2 text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                    {dateFormat(show.showDateTime)}
                   </p>
                 </div>
-                <p className="pt-2 text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
-                  {dateFormat(show.showDateTime)}
-                </p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

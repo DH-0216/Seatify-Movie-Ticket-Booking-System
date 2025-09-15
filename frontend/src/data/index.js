@@ -1,20 +1,45 @@
 
 export const dummyTrailers = [
   {
-    image: "https://img.youtube.com/vi/WpW36ldAqnM/maxresdefault.jpg",
-    videoUrl: "https://www.youtube.com/watch?v=WpW36ldAqnM",
+    _id: "1",
+    image: "https://img.youtube.com/vi/jan5CFWs9ic/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/watch?v=jan5CFWs9ic",
   },
-  {
+  { _id: "2",
+    image: "https://img.youtube.com/vi/UWMzKXsY9A4/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/watch?v=UWMzKXsY9A4",
+  },
+  { _id: "3",
+    image: "https://img.youtube.com/vi/43R9l7EkJwE/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/watch?v=43R9l7EkJwE",
+  },
+  { _id: "4",
+    image: "https://img.youtube.com/vi/CMyrp5Vk3mU/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/watch?v=CMyrp5Vk3mU",
+  },
+  { _id: "5",
+    image: "https://img.youtube.com/vi/2b3vBaINZ7w/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/watch?v=2b3vBaINZ7w",
+  },
+  { _id: "6",
+    image: "https://img.youtube.com/vi/VWqJifMMgZE/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/watch?v=VWqJifMMgZE",
+  },
+  { _id: "7",
+    image: "https://img.youtube.com/vi/6txjTWLoSc8/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/watch?v=6txjTWLoSc8",
+  },
+  { _id: "8",
+    image: "https://img.youtube.com/vi/wJO_vIDZn-I/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/watch?v=wJO_vIDZn-I",
+  },
+  { _id: "9",
+    image: "https://img.youtube.com/vi/fsQgc9pCyDU/maxresdefault.jpg",
+    videoUrl: "https://www.youtube.com/watch?v=fsQgc9pCyDU",
+  },
+  { _id: "10",
     image: "https://img.youtube.com/vi/-sAOWhvheK8/maxresdefault.jpg",
     videoUrl: "https://www.youtube.com/watch?v=-sAOWhvheK8",
-  },
-  {
-    image: "https://img.youtube.com/vi/1pHDWnXmK7Y/maxresdefault.jpg",
-    videoUrl: "https://www.youtube.com/watch?v=1pHDWnXmK7Y",
-  },
-  {
-    image: "https://img.youtube.com/vi/umiKiW4En9g/maxresdefault.jpg",
-    videoUrl: "https://www.youtube.com/watch?v=umiKiW4En9g",
   },
 ];
 
@@ -108,8 +133,8 @@ const dummyCastsData = [
 
 export const dummyShowsData = [
   {
-    _id: "4",
-    id: 4,
+    _id: "1",
+    id: 1,
     title: "Jurassic World",
     subtitle: "Rebirth",
     overview:
@@ -132,8 +157,8 @@ export const dummyShowsData = [
     runtime: 124,
   },
   {
-    _id: "5",
-    id: 5,
+    _id: "2",
+    id: 2,
     title: "Final Destination",
     subtitle: "Bloodline",
     overview:
@@ -156,8 +181,8 @@ export const dummyShowsData = [
     runtime: 110,
   },
   {
-    _id: "7",
-    id: 7,
+    _id: "3",
+    id: 3,
     title: "Predator",
     subtitle: "Badlands",
     rating: 6.9,
@@ -181,8 +206,8 @@ export const dummyShowsData = [
     runtime: 112,
   },
   {
-    _id: "324544",
-    id: 324544,
+    _id: "4",
+    id: 4,
     title: "In the Lost Lands",
     overview:
       "A queen sends the powerful and feared sorceress Gray Alys to the ghostly wilderness of the Lost Lands in search of a magical power, where she and her guide, the drifter Boyce, must outwit and outfight both man and demon.",
@@ -204,8 +229,8 @@ export const dummyShowsData = [
     runtime: 102,
   },
   {
-    _id: "1232546",
-    id: 1232546,
+    _id: "5",
+    id: 5,
     title: "Until Dawn",
     overview:
       "One year after her sister Melanie mysteriously disappeared, Clover and her friends head into the remote valley where she vanished in search of answers. Exploring an abandoned visitor center, they find themselves stalked by a masked killer and horrifically murdered one by one...only to wake up and find themselves back at the beginning of the same evening.",
@@ -226,8 +251,8 @@ export const dummyShowsData = [
     runtime: 103,
   },
   {
-    _id: "552524",
-    id: 552524,
+    _id: "6",
+    id: 6,
     title: "Lilo & Stitch",
     overview:
       "The wildly funny and touching story of a lonely Hawaiian girl and the fugitive alien who helps to mend her broken family.",
@@ -249,8 +274,8 @@ export const dummyShowsData = [
     runtime: 108,
   },
   {
-    _id: "668489",
-    id: 668489,
+    _id: "7",
+    id: 7,
     title: "Havoc",
     overview:
       "When a drug heist swerves lethally out of control, a jaded cop fights his way through a corrupt city's criminal underworld to save a politician's son.",
@@ -272,8 +297,8 @@ export const dummyShowsData = [
     runtime: 107,
   },
   {
-    _id: "950387",
-    id: 950387,
+    _id: "8",
+    id: 8,
     title: "A Minecraft Movie",
     overview:
       "Four misfits find themselves struggling with ordinary problems when they are suddenly pulled through a mysterious portal into the Overworld: a bizarre, cubic wonderland that thrives on imagination. To get back home, they'll have to master this world while embarking on a magical quest with an unexpected, expert crafter, Steve.",
@@ -296,8 +321,8 @@ export const dummyShowsData = [
     runtime: 101,
   },
   {
-    _id: "575265",
-    id: 575265,
+    _id: "9",
+    id: 9,
     title: "Mission: Impossible - The Final Reckoning",
     overview:
       "Ethan Hunt and team continue their search for the terrifying AI known as the Entity — which has infiltrated intelligence networks all over the globe — with the world's governments and a mysterious ghost from Hunt's past on their trail. Joined by new allies and armed with the means to shut the Entity down for good, Hunt is in a race against time to prevent the world as we know it from changing forever.",
@@ -319,8 +344,8 @@ export const dummyShowsData = [
     runtime: 170,
   },
   {
-    _id: "986056",
-    id: 986056,
+    _id: "10",
+    id: 10,
     title: "Thunderbolts*",
     overview:
       "After finding themselves ensnared in a death trap, seven disillusioned castoffs must embark on a dangerous mission that will force them to confront the darkest corners of their pasts.",
