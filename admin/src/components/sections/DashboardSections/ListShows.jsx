@@ -8,24 +8,19 @@ import Loading from "@/app/loading";
 
 const ListShows = () => {
   const currency = process.env.NEXT_PUBLIC_CURRENCY || "USD"; // fallback to USD
+  const {axios,getToken, user} = userAppContext()
   const dateFormat = (date) => format(new Date(date), "dd MMMM yyyy");
   const [shows, setshows] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const getAllShows = async () => {
     try {
-      setshows(
-        dummyShowsData.map((movie, idx) => ({
-          movie,
-          showDataTime: "2025-06-30T02:30:00.000Z", // You can customize this per movie if needed
-          showPrice: 59,
-          occupiedSeats: {
-            A1: `user_${idx + 1}`,
-            B1: `user_${idx + 2}`,
-            C1: `user_${idx + 3}`,
-          },
-        }))
-      );
+      const { data } = await axios.get("/api/admin/all-shows", {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`
+        }
+      });
+      setshows(data.shows)
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -33,8 +28,11 @@ const ListShows = () => {
   };
 
   useEffect(() => {
-    getAllShows();
-  }, []);
+    if (user) {
+      getAllShows();
+    }
+    
+  }, [user]);
 
   return !loading ? (
     <>

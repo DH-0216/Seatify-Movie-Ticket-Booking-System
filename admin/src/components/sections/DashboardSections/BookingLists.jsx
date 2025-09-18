@@ -6,17 +6,31 @@ import React, { useEffect, useState } from "react";
 
 const BookingLists = () => {
   const currency = process.env.NEXT_PUBLIC_CURRENCY;
+
+  const { axios, getToken, user } = userAppContext()
+  
   const [bookings, setBookings] = useState([]);
   const [isloading, setisLoading] = useState(true);
   const dateFormat = (date) => format(new Date(date), "dd MMMM yyyy");
 
   const getAllBookings = async () => {
-    setBookings(dummyBookingData);
+    try {
+      const { data } = await axios.get("/api/admin/all-bookings", {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`}
+      });
+      setBookings(data.bookings)
+    } catch (error) {
+      console.error(error);
+    }
     setisLoading(false);
   };
   useEffect(() => {
-    getAllBookings();
-  }, []);
+    if (user) {
+      getAllBookings();
+    }
+    
+  }, [user]);
   return !isloading ? (
     <>
       <Title text1="List" text2="Bookings" />
