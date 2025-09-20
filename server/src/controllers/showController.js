@@ -1,5 +1,6 @@
 import axios from "axios";
 import Movie from "../models/Movie.js";
+import Show from "../models/Show.js";
 
 //API to get now playing movies from TMDB API
 export const getNowPlayingMovies = async (req, res) => {
@@ -27,18 +28,22 @@ export const addShow = async (req, res) => {
 
         if(!movie) {
             // Fetch movie details from TMDB API
-            const [movieDetailsResponse, movieCreditsResponse] = await Promise.all([
-                axios.get(`https://api.themoviedb.org/3/movie/${movie_id}`, {
+            const [movieDetailsResponse, movieCreditsResponse] =
+              await Promise.all([
+                axios.get(`https://api.themoviedb.org/3/movie/${movieId}`, {
+                  headers: {
+                    Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+                  },
+                }),
+                axios.get(
+                  `https://api.themoviedb.org/3/movie/${movieId}/credits`,
+                  {
                     headers: {
-                        Authorization: `Bearer ${process.env.TMDB_API_KEY}`
-                    }
-                }), 
-                axios.get('https://api.themoviedb.org/3/movie/${movie_id}/credits', {
-                    headers: {
-                        Authorization: `Bearer ${process.env.TMDB_API_KEY}`
-                    }
-                })
-            ]);
+                      Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+                    },
+                  }
+                ),
+              ]);
 
             const movieApiData = movieDetailsResponse.data;
             const movieCreditsData = movieCreditsResponse.data;
@@ -64,9 +69,9 @@ export const addShow = async (req, res) => {
 
         const showToCreate = [];
         showsInput.forEach(show => { 
-            const showDateTime = show.date;
+            const showDate = show.date;
             show.time.forEach(time => {
-                const dateTimeString = `${show.date}T${time}`;
+                const dateTimeString = `${showDate}T${time}`;
 
                 showToCreate.push({
                     movie: movie._id,

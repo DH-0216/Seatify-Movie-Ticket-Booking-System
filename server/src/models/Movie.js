@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const movieSchema = new mongoose.Schema(
   {
     _id: { type: String, required: true }, // matches your dummy data _id
-    id: { type: Number, required: true }, // numeric ID from dummy data
     title: { type: String, required: true },
     subtitle: { type: String }, // optional
     overview: { type: String, required: true },
