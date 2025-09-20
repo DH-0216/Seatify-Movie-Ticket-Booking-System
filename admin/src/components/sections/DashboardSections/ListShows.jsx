@@ -9,8 +9,8 @@ import { useAppContext } from "@/context/AppContext";
 
 
 const ListShows = () => {
-  const currency = process.env.NEXT_PUBLIC_CURRENCY || "USD"; // fallback to USD
-  const {axios,getToken, user} = useAppContext()
+  const currency = process.env.NEXT_PUBLIC_CURRENCY || "LKR";
+  const { axios, getToken, user } = useAppContext()
   const dateFormat = (date) => {
     if (!date) return "Unknown"; // or return an empty string
     const parsedDate = new Date(date);
@@ -38,7 +38,7 @@ const ListShows = () => {
     if (user) {
       getAllShows();
     }
-    
+
   }, [user]);
 
   return !loading ? (
@@ -61,7 +61,7 @@ const ListShows = () => {
                 className="border-b border-primary/10 bg-primary/5 even:bg-primary/10"
               >
                 <td className="p-2 min-w-[180px] pl-5">{show.movie.title}</td>
-                <td className="p-2">{dateFormat(show.showDataTime)}</td>
+                <td className="p-2">{dateFormat(show.showDateTime)}</td>
                 <td className="p-2">
                   {Object.keys(show.occupiedSeats).length}
                 </td>

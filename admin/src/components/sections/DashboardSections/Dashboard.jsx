@@ -14,10 +14,13 @@ import {
 import Image from "next/image";
 import { format } from "date-fns";
 import Loading from "@/app/loading";
+import { useAppContext } from "@/context/AppContext";
+import toast from "react-hot-toast";
 
 const dateFormat = (date) => format(new Date(date), "dd MMMM yyyy");
 
 const Dashboard = () => {
+  const { axios, getToken, user, image_base_url } = useAppContext();
   const currency = process.env.NEXT_PUBLIC_CURRENCY;
   const [dashboardData, setDashboardData] = useState({
     totalBooking: 0,
@@ -52,13 +55,30 @@ const Dashboard = () => {
   ];
 
   const fetchDashboardData = async () => {
-    setDashboardData(dummyDashboardData);
-    setLoading(false);
+    try {
+      const { data } = await axios.get("/api/admin/dashboard", {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`
+        }
+      });
+      if (data.success) {
+        setDashboardData(data.dashboardData);
+      } else {
+        toast.error(data.message || "Failed to fetch dashboard data");
+      }
+      setLoading(false);
+    } catch (error) {
+      toast.error("Error fetching dashboard data");
+      console.error("Error fetching dashboard data:", error);
+      setLoading(false); // Make sure to stop loading on error
+    }
   };
 
   useEffect(() => {
-    fetchDashboardData();
-  }, []);
+    if (user) {
+      fetchDashboardData();
+    }
+  }, [user]);
 
   if (loading) return <Loading />;
 
@@ -100,7 +120,7 @@ const Dashboard = () => {
                 {/* Movie Poster */}
                 <div className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 gap-x-6">
                   <Image
-                    src={show.movie.poster_path}
+                    src={image_base_url + show.movie.poster_path}
                     alt={show.movie.title || "Movie Poster"}
                     fill
                   />

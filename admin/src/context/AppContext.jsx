@@ -15,6 +15,8 @@ export const AppProvider = ({ children }) => {
     const [shows, setShows] = useState([])
     const [favoriteMovies, setFavoriteMovies] = useState([])
 
+    const image_base_url = process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_URL;
+
     const { user } = useUser()
     const { getToken } = useAuth()
     const router = useRouter()
@@ -50,7 +52,7 @@ export const AppProvider = ({ children }) => {
 
     const fetchFavoriteMovies = async () => {
         try {
-            const { data } = await axios.get("/api/user/favorites", { headers: { Authorization: `Bearer ${await getToken()} ` } })
+            const { data } = await axios.get("/api/user/favorite", { headers: { Authorization: `Bearer ${await getToken()} ` } })
             if (data.success) {
                 setFavoriteMovies(data.movies)
             } else {
@@ -81,7 +83,8 @@ export const AppProvider = ({ children }) => {
         router,
         shows,
         favoriteMovies,
-        fetchFavoriteMovies
+        fetchFavoriteMovies,
+        image_base_url,
     }
     return (
         <AppContext.Provider value={value}>
