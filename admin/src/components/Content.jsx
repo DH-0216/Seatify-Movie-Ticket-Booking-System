@@ -9,8 +9,8 @@ const Content = ({ selectedSection}) => {
     <div className="p-5">
       {selectedSection === "dashboard" && <Dashboard />}
       {selectedSection === "addshows" && <AddShows />}
-      {selectedSection === "bookinglists" && <BookingLists />}
       {selectedSection === "listshows" && <ListShows />}
+      {selectedSection === "bookinglists" && <BookingLists />}
       {!["dashboard", "addshows", "bookinglists", "listshows"].includes(
         selectedSection
       ) && <div className="p-5 text-white">Select a section</div>}
