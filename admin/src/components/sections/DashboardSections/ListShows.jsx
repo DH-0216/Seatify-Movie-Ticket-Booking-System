@@ -10,7 +10,7 @@ const ListShows = () => {
   const currency = process.env.NEXT_PUBLIC_CURRENCY || "LKR";
   const { axios, getToken, user } = useAppContext()
   const dateFormat = (date) => {
-    if (!date) return "Unknown"; 
+    if (!date) return "Unknown";
     const parsedDate = new Date(date);
     if (isNaN(parsedDate)) return "Invalid date";
     return format(parsedDate, "dd MMMM yyyy, h:mm a");
