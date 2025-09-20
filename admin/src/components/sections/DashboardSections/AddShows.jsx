@@ -1,7 +1,6 @@
 "use client";
 
 import Title from "@/components/Shared/Title";
-import { dummyShowsData } from "@/utils";
 import React, { useEffect, useState } from "react";
 import Loading from "@/app/loading";
 import Image from "next/image";

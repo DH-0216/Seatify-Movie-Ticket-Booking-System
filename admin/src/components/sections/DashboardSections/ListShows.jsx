@@ -1,7 +1,5 @@
 "use client";
-import { dummyShowsData } from "@/utils";
 import React, { useEffect, useState } from "react";
-
 import Title from "@/components/Shared/Title";
 import { format } from "date-fns";
 import Loading from "@/app/loading";
@@ -12,10 +10,10 @@ const ListShows = () => {
   const currency = process.env.NEXT_PUBLIC_CURRENCY || "LKR";
   const { axios, getToken, user } = useAppContext()
   const dateFormat = (date) => {
-    if (!date) return "Unknown"; // or return an empty string
+    if (!date) return "Unknown"; 
     const parsedDate = new Date(date);
     if (isNaN(parsedDate)) return "Invalid date";
-    return format(parsedDate, "dd MMMM yyyy");
+    return format(parsedDate, "dd MMMM yyyy, h:mm a");
   };
   const [shows, setshows] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -67,7 +65,7 @@ const ListShows = () => {
                 </td>
                 <td className="p-2">
                   {currency}{" "}
-                  {Object.keys(show.occupiedSeats).length * show.showPrice}
+                  {Object.keys(show.occupiedSeats).length * show.showprice}
                 </td>
               </tr>
             ))}
