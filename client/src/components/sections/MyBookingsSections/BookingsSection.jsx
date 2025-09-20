@@ -5,6 +5,7 @@ import Loading from '@/app/loading'
 import BlurCircle from '@/components/shared/BlurCircle'
 import { format } from 'date-fns'
 import isoTimeFormat from '@/lib/isoTimeFormat'
+import Link from 'next/link'
 
 const MyBookingsSection = () => {
     const currency = process.env.NEXT_PUBLIC_CURRENCY 
@@ -58,9 +59,9 @@ const MyBookingsSection = () => {
                                 {currency}{item.amount}
                             </p>
                             {!item.isPaid && (
-                                <button className='bg-primary px-4 py-1.5 mb-3 text-sm rounded-full font-medium cursor-pointer'>
+                                <Link to={item.paymentLink} className='bg-primary px-4 py-1.5 mb-3 text-sm rounded-full font-medium cursor-pointer'>
                                     Pay Now
-                                </button>
+                                </Link>
                             )}
                         </div>
                         <div className='text-sm'>
