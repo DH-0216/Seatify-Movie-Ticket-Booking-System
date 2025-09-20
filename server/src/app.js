@@ -36,7 +36,6 @@ app.get("/", (req, res) => {
 app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use('/api/show', showRouter);
 app.use('/api/booking', bookingRouter)
-
 app.use("/api/admin", adminRouter);
 app.use("/api/user", userRouter);
 

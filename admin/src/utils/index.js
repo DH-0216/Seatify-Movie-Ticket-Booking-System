@@ -4,17 +4,6 @@ import {
   ListIcon,
   PlusSquareIcon,
 } from "lucide-react";
-import { assets } from "@/assets/assets";
-
-
-
-
-export const user = {
-  FirstName: "Admin",
-  LastName: "User",
-  Imageurl: assets.profile,
-};
-
 
 export const sidebarItems = [
   {
