@@ -5,11 +5,18 @@ import React, { useEffect, useState } from "react";
 import Title from "@/components/Shared/Title";
 import { format } from "date-fns";
 import Loading from "@/app/loading";
+import { useAppContext } from "@/context/AppContext";
+
 
 const ListShows = () => {
   const currency = process.env.NEXT_PUBLIC_CURRENCY || "USD"; // fallback to USD
-  const {axios,getToken, user} = userAppContext()
-  const dateFormat = (date) => format(new Date(date), "dd MMMM yyyy");
+  const {axios,getToken, user} = useAppContext()
+  const dateFormat = (date) => {
+    if (!date) return "Unknown"; // or return an empty string
+    const parsedDate = new Date(date);
+    if (isNaN(parsedDate)) return "Invalid date";
+    return format(parsedDate, "dd MMMM yyyy");
+  };
   const [shows, setshows] = useState([]);
   const [loading, setLoading] = useState(true);
 
