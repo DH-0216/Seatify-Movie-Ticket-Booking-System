@@ -19,11 +19,6 @@ input::-webkit-inner-spin-button {
  
 }
 
-
-
-
-/* Invert date picker icon */
-input[type="date"]::-webkit-calendar-picker-indicator,
-input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-  filter: invert(1) !important;
+::-webkit-calendar-picker-indicator {
+  filter: invert(1);
 }
