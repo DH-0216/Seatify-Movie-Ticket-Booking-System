@@ -1,19 +1,21 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-
+import { useUser } from "@clerk/nextjs";
 import Image from "next/image";
-
 import { usePathname } from "next/navigation";
-import { user, sidebarItems } from "@/utils";
+import {sidebarItems } from "@/utils";
+import { assets } from "@/assets/assets";
 
 const AdminSideBar = ({ selectedSection, setSelectedSection }) => {
   const [isClient, setIsClient] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { user, isLoaded } = useUser();
   const pathname = usePathname();
   useEffect(() => {
     setIsClient(true);
   }, []);
+
 
   return (
     <div
@@ -30,8 +32,10 @@ const AdminSideBar = ({ selectedSection, setSelectedSection }) => {
     >
       <div className="flex flex-col items-center transition-all duration-300">
         <Image
-          src={user.Imageurl}
+          src={user?.imageUrl || assets.profile}
           alt="sidebar"
+          width={50}
+          height={50}
           className={`rounded-full mx-auto transition-all duration-300 ${
             isSidebarOpen ? "h-14 w-14" : "h-9 w-9"
           }`}
@@ -44,7 +48,9 @@ const AdminSideBar = ({ selectedSection, setSelectedSection }) => {
           }`}
         >
           <p className="text-base text-white whitespace-nowrap">
-            {user.FirstName} {user.LastName}
+            {user?.firstName && user?.lastName 
+              ? `${user.firstName} ${user.lastName}` 
+              : user?.firstName || "Admin User"}
           </p>
         </div>
       </div>
