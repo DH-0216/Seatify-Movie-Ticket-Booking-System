@@ -5,9 +5,10 @@ import { assets } from "@/assets/assets";
 import Loading from "@/app/loading";
 import BlurCircle from "@/components/shared/BlurCircle";
 import toast from "react-hot-toast";
-import { set } from "date-fns";
 import { ClockIcon, ArrowRightIcon } from "lucide-react";
+import isoTimeFormat from "@/lib/isoTimeFormat";
 import { useAppContext } from "@/context/AppContext";
+import Image from "next/image";
 
 export default function SeatLayoutPage() {
   const groupRows = [
@@ -18,7 +19,6 @@ export default function SeatLayoutPage() {
     ["I", "J"],
   ];
   const { id, date } = useParams();
-  const router = useRouter();
 
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [selectedTime, setSelectedTime] = useState(null);
@@ -159,7 +159,7 @@ export default function SeatLayoutPage() {
         <BlurCircle top="100px" left="100px" />
         <BlurCircle bottom="0" right="0" />
         <h1 className="text-2xl font-semibold mb-4">Select Your Seat</h1>
-        <img src={assets.screenImage} alt="screen" />
+        <Image src={assets.screenImage} alt="screen" width={540} height={48} />
         <p className="text-gray-400 text-sm mb-6">SCREEN SIDE</p>
 
         <div className="flex flex-col items-center mt-10 text-xs text-gray-300">
@@ -176,10 +176,7 @@ export default function SeatLayoutPage() {
 
         <button
           onClick={bookTickets}
-          className="flex
-    items-center gap-1 mt-20 px-10 py-3 text-sm bg-primary
-    hover :bg-primary-dull transition rounded-full font-medium cursor-pointer
-    active:scale-95"
+          className="flex items-center gap-1 mt-20 px-10 py-3 text-sm bg-primary hover:bg-primary-dull transition rounded-full font-medium cursor-pointeractive:scale-95"
         >
           Proceed to Checkout
           <ArrowRightIcon strokeWidth={3} className="w-4 h-4" />
