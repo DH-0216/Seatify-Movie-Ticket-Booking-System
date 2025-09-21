@@ -1,11 +1,12 @@
 "use client";
-import {dummyShowsData } from "@/data/index";
 import { useRouter } from "next/navigation";
-import React, { useState, useEffect, use } from "react";
+import React from "react";
 import MovieCard from "@/components/MovieCard";
+import { useAppContext } from "@/context/AppContext";
 
 const YouMayLike = () => {
   const router = useRouter();
+  const { shows } = useAppContext();
 
   return (
     <div className="px-6 md:px-16 lg:px-40 pt-5 md:pt-10">

@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { useNavigate } from "react-router-dom";
 import Image from "next/image";
 import React, { useState } from "react";
 import { assets } from "@/assets/assets";
@@ -15,8 +14,6 @@ const NavBar = () => {
   const { openSignIn } = useClerk();
   const router = useRouter();
   const pathname = usePathname();
-
-  const navigate = useNavigate()
 
   const {favoriteMovies} = useAppContext()
 
