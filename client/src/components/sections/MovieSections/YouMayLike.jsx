@@ -12,7 +12,7 @@ const YouMayLike = () => {
       <p className="text-lg font-medium mb-8 mt-10">You May Also Like</p>
 
       <div className="flex flex-wrap max-sm:justify-center gap-8">
-        {dummyShowsData.slice(0, 6).map((movie, index) => (
+        {shows.slice(0, 6).map((movie, index) => (
           <MovieCard key={index} movie={movie} />
         ))}
       </div>
