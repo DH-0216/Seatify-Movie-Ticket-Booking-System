@@ -5,20 +5,41 @@
   --color-primary-dull: #b20710;
 }
 
-
 body {
   background-color: #0a0a0a;
   color: #ffffff;
-  
 }
 
 /* Remove number input arrows */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none ;
- 
+  -webkit-appearance: none;
 }
 
 ::-webkit-calendar-picker-indicator {
   filter: invert(1);
+}
+
+/* Custom horizontal scrollbar styling */
+.custom-horizontal-scrollbar::-webkit-scrollbar {
+  height: 6px;
+}
+
+.custom-horizontal-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-horizontal-scrollbar::-webkit-scrollbar-thumb {
+  background: #e50914;
+  border-radius: 3px;
+}
+
+.custom-horizontal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #b20710;
+}
+
+/* For Firefox */
+.custom-horizontal-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #e50914 transparent;
 }

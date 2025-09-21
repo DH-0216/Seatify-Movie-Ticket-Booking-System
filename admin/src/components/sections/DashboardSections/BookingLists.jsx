@@ -1,7 +1,6 @@
 import Loading from "@/app/loading";
 import Title from "@/components/Shared/Title";
 import { useAppContext } from "@/context/AppContext";
-import { dummyBookingData } from "@/utils";
 import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
 
