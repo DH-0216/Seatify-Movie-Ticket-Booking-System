@@ -1,13 +1,13 @@
 import Loading from "@/app/loading";
 import Title from "@/components/Shared/Title";
-import { dummyBookingData } from "@/utils";
+import { useAppContext } from "@/context/AppContext";
 import { format } from "date-fns";
 import React, { useEffect, useState } from "react";
 
 const BookingLists = () => {
   const currency = process.env.NEXT_PUBLIC_CURRENCY;
 
-  const { axios, getToken, user } = userAppContext()
+  const { axios, getToken, user } = useAppContext()
   
   const [bookings, setBookings] = useState([]);
   const [isloading, setisLoading] = useState(true);

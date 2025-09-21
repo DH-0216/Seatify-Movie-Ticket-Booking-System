@@ -1,7 +1,5 @@
 "use client";
-
 import { useEffect, useState } from "react";
-import { dummyDashboardData } from "@/utils";
 import Title from "@/components/Shared/Title";
 import BlurCircle from "@/components/Shared/BlurCircle";
 import {
@@ -14,13 +12,21 @@ import {
 import Image from "next/image";
 import { format } from "date-fns";
 import Loading from "@/app/loading";
+import { useAppContext } from "@/context/AppContext";
+import toast from "react-hot-toast";
 
-const dateFormat = (date) => format(new Date(date), "dd MMMM yyyy");
+const dateFormat = (date) => {
+  if (!date) return "Unknown";
+  const parsedDate = new Date(date);
+  if (isNaN(parsedDate)) return "Invalid date";
+  return format(parsedDate, "dd MMMM yyyy, h:mm a");
+};
 
 const Dashboard = () => {
+  const { axios, getToken, user, image_base_url } = useAppContext();
   const currency = process.env.NEXT_PUBLIC_CURRENCY;
   const [dashboardData, setDashboardData] = useState({
-    totalBooking: 0,
+    totalBookings: 0,
     totalRevenue: 0,
     activeShows: [],
     totalUser: 0,
@@ -31,7 +37,7 @@ const Dashboard = () => {
   const dashboardCard = [
     {
       title: "totalBooking",
-      value: dashboardData.totalBooking || 0,
+      value: dashboardData.totalBookings || 0,
       icon: ChartLineIcon,
     },
     {
@@ -52,13 +58,30 @@ const Dashboard = () => {
   ];
 
   const fetchDashboardData = async () => {
-    setDashboardData(dummyDashboardData);
-    setLoading(false);
+    try {
+      const { data } = await axios.get("/api/admin/dashboard", {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`
+        }
+      });
+      if (data.success) {
+        setDashboardData(data.dashboardData);
+      } else {
+        toast.error(data.message || "Failed to fetch dashboard data");
+      }
+      setLoading(false);
+    } catch (error) {
+      toast.error("Error fetching dashboard data");
+      console.error("Error fetching dashboard data:", error);
+      setLoading(false); // Make sure to stop loading on error
+    }
   };
 
   useEffect(() => {
-    fetchDashboardData();
-  }, []);
+    if (user) {
+      fetchDashboardData();
+    }
+  }, [user]);
 
   if (loading) return <Loading />;
 
@@ -100,7 +123,7 @@ const Dashboard = () => {
                 {/* Movie Poster */}
                 <div className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 gap-x-6">
                   <Image
-                    src={show.movie.poster_path}
+                    src={image_base_url + show.movie.poster_path}
                     alt={show.movie.title || "Movie Poster"}
                     fill
                   />
@@ -112,8 +135,8 @@ const Dashboard = () => {
                   </p>
                   <div className="flex items-center justify-between mt-3">
                     <p className="text-lg font-medium text-gray-300 group-hover:text-gray-200 transition-colors duration-300">
-                      {currency}
-                      {show.showPrice}
+                      {currency}{" "}
+                      {show.showprice}
                     </p>
                     <p className="flex items-center gap-1 text-sm text-gray-300 group-hover:text-gray-200 transition-colors duration-300">
                       <StarIcon className="w-4 h-4 text-primary fill-primary drop-shadow-sm" />

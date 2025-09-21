@@ -1,15 +1,20 @@
 "use client";
-import { dummyShowsData } from "@/utils";
 import React, { useEffect, useState } from "react";
-
 import Title from "@/components/Shared/Title";
 import { format } from "date-fns";
 import Loading from "@/app/loading";
+import { useAppContext } from "@/context/AppContext";
+
 
 const ListShows = () => {
-  const currency = process.env.NEXT_PUBLIC_CURRENCY || "USD"; // fallback to USD
-  const {axios,getToken, user} = userAppContext()
-  const dateFormat = (date) => format(new Date(date), "dd MMMM yyyy");
+  const currency = process.env.NEXT_PUBLIC_CURRENCY || "LKR";
+  const { axios, getToken, user } = useAppContext()
+  const dateFormat = (date) => {
+    if (!date) return "Unknown";
+    const parsedDate = new Date(date);
+    if (isNaN(parsedDate)) return "Invalid date";
+    return format(parsedDate, "dd MMMM yyyy, h:mm a");
+  };
   const [shows, setshows] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -31,7 +36,7 @@ const ListShows = () => {
     if (user) {
       getAllShows();
     }
-    
+
   }, [user]);
 
   return !loading ? (
@@ -54,13 +59,13 @@ const ListShows = () => {
                 className="border-b border-primary/10 bg-primary/5 even:bg-primary/10"
               >
                 <td className="p-2 min-w-[180px] pl-5">{show.movie.title}</td>
-                <td className="p-2">{dateFormat(show.showDataTime)}</td>
+                <td className="p-2">{dateFormat(show.showDateTime)}</td>
                 <td className="p-2">
                   {Object.keys(show.occupiedSeats).length}
                 </td>
                 <td className="p-2">
                   {currency}{" "}
-                  {Object.keys(show.occupiedSeats).length * show.showPrice}
+                  {Object.keys(show.occupiedSeats).length * show.showprice}
                 </td>
               </tr>
             ))}
