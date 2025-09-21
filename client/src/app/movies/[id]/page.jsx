@@ -48,7 +48,7 @@ const MovieDetails = () => {
       <FavoriteCast />
       {movie && (
         <DateSelect
-          dummyDateTimeData={movie.dummyDateTimeData}
+          show={show}
           id={movie._id}
         />
       )}

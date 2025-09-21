@@ -5,21 +5,21 @@ import { inngest } from "../inngest/index.js";
 
 
 //function to check availability of selected seats for a movie
-const checkAvailability = async (showId, selectedSeats)=> {
-    try {
-       const showData = await showId.findById(showId)
-       if(!showData) return false;
+const checkSeatsAvailability = async (showId, selectedSeats) => {
+  try {
+    const showData = await showId.findById(showId);
+    if (!showData) return false;
 
-       const occupiedSeats = showData.occupiedSeats;
+    const occupiedSeats = showData.occupiedSeats;
 
-       const isAnySeatsTaken = selectedSeats.some(seat => occupiedSeats[seat]);
+    const isAnySeatsTaken = selectedSeats.some((seat) => occupiedSeats[seat]);
 
-       return !isAnySeatsTaken;
-    } catch (error) {
-        console.log(error.message);
-        return false;
-    }
-}
+    return !isAnySeatsTaken;
+  } catch (error) {
+    console.log(error.message);
+    return false;
+  }
+};
 
 export const createBooking = async (req, res) => {
     try {
@@ -104,7 +104,7 @@ export const getOccupiedSeats = async (req, res)=>{
 
         const occupiedSeats = Object.keys(showData.occupiedSeats)
 
-        res.json({success: false, occupiedSeats})
+        res.json({success: true, occupiedSeats})
         
     } catch (error) {
         console.log(error.message);
