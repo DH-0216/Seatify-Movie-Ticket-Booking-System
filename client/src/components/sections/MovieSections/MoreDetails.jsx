@@ -1,25 +1,69 @@
 "use client";
-import { dummyShowsData, dummyTrailers } from "@/data/index";
+import { dummyTrailers } from "@/data/index";
 import { useParams } from "next/navigation";
 import BlurCircle from "@/components/shared/BlurCircle";
 import { Heart, PlayCircleIcon, StarIcon, X } from "lucide-react";
 import Image from "next/image";
 import Loading from "@/app/loading";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import dynamic from "next/dynamic";
+import { useAppContext } from "@/context/AppContext";
+import { toast } from "react-hot-toast";
 
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 const MoreDetails = () => {
   const { id } = useParams();
   const [watchTrailer, setWatchTrailer] = useState(false);
-
   const [movie, setMovie] = useState(null);
   const [trailer, setTrailer] = useState(null);
+  const [show, setShow] = useState(null);
+  const {
+    shows,
+    axios,
+    getToken,
+    user,
+    fetchFavoriteMovies,
+    favoriteMovies,
+    image_base_url,
+  } = useAppContext();
+
+  const getShow = async () => {
+    try {
+      const { data } = await axios.get(`/api/show/${id}`);
+      if (data.success) {
+        setShow(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleFavourite = async (movieId) => {
+    try {
+      if (!user) return TransformStream.error("please login to proceed");
+      const { data } = await axios.post(
+        "/api/user/update-favorite",
+        { movieId: id },
+        { headers: { Authorization: `Bearer ${await getToken()}` } }
+      );
+
+      if (data.success) {
+        await fetchFavoriteMovies();
+        toast.success(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    const foundMovie = dummyShowsData.find((m) => m._id === id);
+    getShow();
+  }, [id]);
+
+  useEffect(() => {
+    const foundMovie = shows?.find((show) => show._id === id);
     setMovie(foundMovie);
   }, [id]);
 
@@ -27,7 +71,6 @@ const MoreDetails = () => {
     const foundTrailer = dummyTrailers.find((t) => t._id === id);
     setTrailer(foundTrailer);
   }, [id]);
-
 
   if (!movie) {
     return <Loading />;
@@ -38,7 +81,7 @@ const MoreDetails = () => {
         <div className="px-6 md:px-16 lg:px-40 pt-8 md:pt-10">
           <div className="absolute inset-0 -z-10">
             <Image
-              src={movie.backdrop_path}
+              src={image_base_url + movie.backdrop_path}
               alt={movie.title}
               fill
               className="object-cover rounded-2xl opacity-30"
@@ -47,13 +90,17 @@ const MoreDetails = () => {
           </div>
 
           <div className="flex flex-col md:flex-row gap-15 maxw-6xl mx-auto">
-            <Image
-              src={movie.poster_path}
-              alt={"Show Image"}
-              width={250}
-              height={112}
-              className="max-md:mx-auto rounded-xl"
-            />
+            {show && show.movie ? (
+              <Image
+                src={image_base_url + show.movie.poster_path}
+                alt={"Show Image"}
+                width={250}
+                height={112}
+                className="max-md:mx-auto rounded-xl"
+              />
+            ) : (
+              <div className="w-[250px] h-[112px] bg-gray-800 rounded-xl max-md:mx-auto" />
+            )}
             <div className="relative flex flex-col gap-3">
               <BlurCircle top="-100px" left="-100px" />
               <p className="text-primary">ENGLISH</p>
@@ -86,8 +133,17 @@ const MoreDetails = () => {
                 >
                   Buy Tickets
                 </a>
-                <button className="bg-gray-700 p-2.5 rounded-full transition cursor-pointer active:scale-95">
-                  <Heart className={"w-5 h-5"} />
+                <button
+                  onClick={() => handleFavourite(id)}
+                  className="bg-gray-700 p-2.5 rounded-full transition cursor-pointer active:scale-95"
+                >
+                  <Heart
+                    className={`w-5 h-5 ${
+                      favoriteMovies.find((movie) => movie._id === id)
+                        ? "fill-primary text-primary"
+                        : ""
+                    }`}
+                  />
                 </button>
               </div>
             </div>

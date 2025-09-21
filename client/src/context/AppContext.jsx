@@ -4,19 +4,21 @@ import axios from "axios";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { toast } from "react-hot-toast";
 
-axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL;
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [favoriteMovies, setFavoriteMovies] = useState([]);
-
+  const [shows, setShows] = useState([]);
   const { user } = useUser();
   const { getToken } = useAuth();
 
+  const image_base_url = process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_URL;
+
   const fetchFavoriteMovies = async () => {
     try {
-      const { data } = await axios.get("/api/user/favorites", {
+      const { data } = await axios.get("/api/user/favorite", {
         headers: { Authorization: `Bearer ${await getToken()} ` },
       });
       if (data.success) {
@@ -28,7 +30,24 @@ export const AppProvider = ({ children }) => {
       console.log(error);
     }
   };
-  
+
+  const fetchShows = async () => {
+    try {
+      const { data } = await axios.get("/api/show/all");
+      if (data.success) {
+        setShows(data.shows);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchShows();
+  }, []);
+
   useEffect(() => {
     if (user) {
       fetchFavoriteMovies();
@@ -38,9 +57,11 @@ export const AppProvider = ({ children }) => {
   const value = {
     axios,
     user,
+    shows,
     getToken,
     favoriteMovies,
     fetchFavoriteMovies,
+    image_base_url,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

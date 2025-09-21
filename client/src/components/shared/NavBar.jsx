@@ -6,6 +6,7 @@ import { assets } from "@/assets/assets";
 import { MenuIcon, SearchIcon, TicketPlus, XIcon } from "lucide-react";
 import { useClerk, UserButton, useUser } from "@clerk/nextjs";
 import { useRouter, usePathname } from "next/navigation";
+import { useAppContext } from "@/context/AppContext";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +14,8 @@ const NavBar = () => {
   const { openSignIn } = useClerk();
   const router = useRouter();
   const pathname = usePathname();
+
+  const {favoriteMovies} = useAppContext()
 
   return (
     <div className="fixed top-0 left-0 z-50 w-full flex items-center justify-between px-6 md:px-16 lg:px-36 py-5">
@@ -29,7 +32,6 @@ const NavBar = () => {
           className="md:hidden absolute top-6 right-6 w-6 h-6 cursor-pointer"
           onClick={() => setIsOpen(!isOpen)}
         />
-
         <Link
           href="/"
           onClick={() => {
@@ -90,21 +92,21 @@ const NavBar = () => {
         >
           Releases
         </Link>
-        <Link
-          href="/favorite"
-          onClick={() => {
-            scrollTo(0, 0);
-            setIsOpen(false);
-          }}
-          className={`relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:transition-all after:duration-300
-             ${
-               pathname === "/favorite"
-                 ? "after:w-full text-[var(--color-primary)] after:bg-[var(--color-primary)]"
-                 : "after:w-0 hover:after:w-full after:bg-white"
-             }`}
-        >
-          Favorites
-        </Link>
+        {user && favoriteMovies.length > 0 && (
+          <Link
+            href="/favorite"
+            onClick={() => {
+              scrollTo(0, 0);
+              setIsOpen(false);
+            }}
+            className={`relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:transition-all after:duration-300
+             ${pathname === "/favorite"
+                ? "after:w-full text-[var(--color-primary)] after:bg-[var(--color-primary)]"
+                : "after:w-0 hover:after:w-full after:bg-white"
+              }`}
+          >
+            Favorites
+          </Link> )}
       </div>
 
       <div className="flex items-center gap-8">

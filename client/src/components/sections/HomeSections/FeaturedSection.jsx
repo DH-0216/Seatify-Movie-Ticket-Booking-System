@@ -1,12 +1,19 @@
 "use client";
 import { ArrowRight } from "lucide-react";
-import { useRouter } from "next/navigation";
+import React from "react";
 import BlurCircle from "../../shared/BlurCircle";
-import { dummyShowsData } from "@/data/index";
+// import { Shows } from "@/data/shows";
+import { useRouter } from "next/navigation";
 import MovieCard from "@/components/MovieCard";
+import { useAppContext } from "@/context/AppContext";
+
+
 
 const FeaturedSection = () => {
   const router = useRouter();
+  const { shows } = useAppContext();
+  
+
   return (
     <div className="px-6 md:px-16 lg:px-24 xl:px-44 overflow-hidden">
       <div className="relative flex items-center justify-between pt-20 pb-10">
@@ -22,7 +29,7 @@ const FeaturedSection = () => {
       </div>
 
       <div className="flex flex-wrap justify-center max-sm:justify-center gap-8 mt-8">
-        {dummyShowsData.slice(0, 4).map((show) => (<MovieCard key={ show._id} movie={show} />))}
+        {shows.slice(0, 4).map((show) => (<MovieCard key={ show._id} movie={show} />))}
       </div>
 
       <div className="flex justify-center mt-20">
