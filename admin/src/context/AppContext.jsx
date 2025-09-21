@@ -12,27 +12,49 @@ export const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [shows, setShows] = useState([]);
+  const [isCheckingAdmin, setIsCheckingAdmin] = useState(false);
 
   const image_base_url = process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_URL;
 
   const { user } = useUser();
   const { getToken } = useAuth();
   const router = useRouter();
-  const pathname = usePathname;
+  const pathname = usePathname();
 
   const fetchIsAdmin = async () => {
-    try {
-      const { data } = await axios.get("/api/admin/is-admin", {
-        headers: { Authorization: `Bearer ${await getToken()} ` },
-      });
-      setIsAdmin(data.isAdmin);
+    if (!user?.id || isCheckingAdmin) return;
 
-      if (!data.isAdmin && pathname === "/admin") {
-        router.push("/");
-        toast.error("You are not authorized to access this page");
+    setIsCheckingAdmin(true);
+
+    try {
+      const token = await getToken();
+      if (!token) {
+        setIsAdmin(false);
+        return;
+      }
+
+      const { data } = await axios.get("/api/admin/is-admin", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const adminStatus = data?.success === true && data?.isAdmin === true;
+      setIsAdmin(adminStatus);
+
+      // Only redirect if not admin and on protected routes
+      if (!adminStatus && (pathname === "/" || pathname === "/admin") && pathname !== "/landing" && pathname !== "/admin-signin") {
+        router.push("/admin-signin");
+        toast.error("You are not authorized to access the admin dashboard");
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error checking admin status:", error);
+      setIsAdmin(false);
+
+      if ((pathname === "/" || pathname === "/admin") && pathname !== "/landing" && pathname !== "/admin-signin") {
+        router.push("/admin-signin");
+        toast.error("Error verifying admin access");
+      }
+    } finally {
+      setIsCheckingAdmin(false);
     }
   };
 
@@ -56,8 +78,11 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     if (user) {
       fetchIsAdmin();
+    } else {
+      setIsAdmin(false);
+      setIsCheckingAdmin(false);
     }
-  }, [user]);
+  }, [user?.id]); // Only depend on user ID
 
   const value = {
     axios,
@@ -67,6 +92,9 @@ export const AppProvider = ({ children }) => {
     router,
     shows,
     image_base_url,
+    isAdmin,
+    setIsAdmin,
+    isCheckingAdmin,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

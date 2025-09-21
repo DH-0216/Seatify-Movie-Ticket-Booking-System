@@ -6,9 +6,7 @@ import React, { useEffect, useState } from "react";
 
 const BookingLists = () => {
   const currency = process.env.NEXT_PUBLIC_CURRENCY;
-
-  const { axios, getToken, user } = useAppContext()
-  
+  const { axios, getToken, user } = useAppContext();
   const [bookings, setBookings] = useState([]);
   const [isloading, setisLoading] = useState(true);
   const dateFormat = (date) => format(new Date(date), "dd MMMM yyyy");
@@ -17,9 +15,10 @@ const BookingLists = () => {
     try {
       const { data } = await axios.get("/api/admin/all-bookings", {
         headers: {
-          Authorization: `Bearer ${await getToken()}`}
+          Authorization: `Bearer ${await getToken()}`,
+        },
       });
-      setBookings(data.bookings)
+      setBookings(data.bookings);
     } catch (error) {
       console.error(error);
     }
@@ -29,7 +28,6 @@ const BookingLists = () => {
     if (user) {
       getAllBookings();
     }
-    
   }, [user]);
   return !isloading ? (
     <>
