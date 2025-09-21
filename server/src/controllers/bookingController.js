@@ -104,7 +104,7 @@ export const getOccupiedSeats = async (req, res)=>{
 
         const occupiedSeats = Object.keys(showData.occupiedSeats)
 
-        res.json({success: false, occupiedSeats})
+        res.json({success: true, occupiedSeats})
         
     } catch (error) {
         console.log(error.message);
