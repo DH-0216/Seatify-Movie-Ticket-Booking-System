@@ -4,31 +4,19 @@ import { clerkMiddleware } from "@clerk/express";
 import { serve } from "inngest/express";
 import { inngest, functions } from "./inngest/index.js";
 import showRouter from "./routes/showRoutes.js";
-
-
 import bookingRouter from "./routes/bookingRoutes.js";
-
 import adminRouter from "./routes/adminRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import { stripeWebhooks } from "./controllers/stripeWebhooks.js";
 
-import bookingRouter from "./routes/bookingRoutes.js";
-import adminRouter from "./routes/adminRoutes.js";
-import userRouter from "./routes/userRoutes.js";
-
-
-
-
+// Only one app instance
 const app = express();
 
-
-app.use('/api/stripe', express.raw({type: 'application/json'}), stripeWebhooks)
-
-
-//middleware
-app.use(cors());
-
-const app = express();
+app.use(
+  "/api/stripe",
+  express.raw({ type: "application/json" }),
+  stripeWebhooks
+);
 
 // CORS configuration
 const corsOptions = {
@@ -43,7 +31,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
 app.use(express.json());
 app.use(clerkMiddleware());
 
