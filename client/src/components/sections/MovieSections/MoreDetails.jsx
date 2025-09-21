@@ -48,7 +48,7 @@ const MoreDetails = () => {
 
           <div className="flex flex-col md:flex-row gap-15 maxw-6xl mx-auto">
             <Image
-              src={movie.poster_path}
+              src={image_base_url + show.movie.poster_path}
               alt={"Show Image"}
               width={250}
               height={112}
@@ -86,8 +86,8 @@ const MoreDetails = () => {
                 >
                   Buy Tickets
                 </a>
-                <button className="bg-gray-700 p-2.5 rounded-full transition cursor-pointer active:scale-95">
-                  <Heart className={"w-5 h-5"} />
+                <button onClick={handleFavourite} className="bg-gray-700 p-2.5 rounded-full transition cursor-pointer active:scale-95">
+                  <Heart className={"w-5 h-5 ${favoriteMovies.find(movie => movie._id === id) ? 'fill-primary text-primary' : ''} "} />
                 </button>
               </div>
             </div>

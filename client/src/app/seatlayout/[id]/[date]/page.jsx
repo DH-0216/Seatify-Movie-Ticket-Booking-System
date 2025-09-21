@@ -18,16 +18,23 @@ export default function SeatLayoutPage() {
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [selectedTime, setSelectedTime] = useState(null);
   const [show, setShow] = useState(null);
+  const [occupiedSeats, setOccupiedSeats] = useState([]);
+
+  const navigate = useNavigate()
+
+  const { axios, getToken, user } = useAppContext();
 
   const getShow = async () => {
-    const foundShow = dummyShowsData.find((s) => s._id === id);
-    if (foundShow) {
-      setShow({
-        movie: foundShow,
-        dateTime: dummyDateTimeData,
-      });
+    try {
+      const { data } = await axios.get(`/api/shows/${id}`);
+      if (data.success) {
+        setShow(data)
+      }
+      }catch (error) {
+        console.log(error)
+      }
     }
-  };
+    
 
   const handleSeatClick = (seatId) => {
     if (!selectedTime) {
@@ -35,6 +42,9 @@ export default function SeatLayoutPage() {
     }
     if (!selectedSeats.includes(seatId) && selectedSeats.length > 4) {
       return toast("You can only select 5 seats");
+    }
+    if (occupiedSeats.includes(seatId)) {
+      return toast("Seat already booked");
     }
     setSelectedSeats((prev) =>
       prev.includes(seatId)
@@ -53,7 +63,7 @@ export default function SeatLayoutPage() {
               key={seatId}
               onClick={() => handleSeatClick(seatId)}
               className={`h-8 w-8 rounded border border-primary/60 cursor-pointer ${selectedSeats.includes(seatId) && "bg-primary text-white"
-                }`}
+                } ${occupiedSeats.includes(seatId) && "opacity-50"}`}
             >
               {seatId}
             </button>
@@ -61,11 +71,32 @@ export default function SeatLayoutPage() {
         })}
       </div>
     </div>
-  );
+  )
+
+  const getOccupiedSeats = async () => { 
+    try { 
+      const { data } = await axios.get(`/api/booking/seats/${selectedTime.showId}`);
+      if (data.success) { 
+        setOccupiedSeats(data.occupiedSeats)
+      } else {
+        toast.error(data.message)
+      }
+    } catch (error) { 
+      console.log(error)
+
+    }
+
+  }
 
   useEffect(() => {
     getShow();
   }, []);
+
+  useEffect(() => {
+    if (selectedTime) {
+      getOccupiedSeats()
+    }
+   }, [selectedTime])
 
   if (!show) return <Loading />;
 
