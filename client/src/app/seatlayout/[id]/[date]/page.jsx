@@ -1,9 +1,7 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { assets } from "@/assets/assets";
-import { dummyDateTimeData, dummyShowsData } from "@/data";
 import Loading from "@/app/loading";
 import BlurCircle from "@/components/shared/BlurCircle";
 import TimeSection from "@/components/sections/SeatLayoutSections/TimeSection";
@@ -21,7 +19,7 @@ export default function SeatLayoutPage() {
   const [show, setShow] = useState(null);
   const [occupiedSeats, setOccupiedSeats] = useState([]);
 
-  const navigate = useNavigate()
+  
 
   const { axios, getToken, user } = useAppContext();
 
