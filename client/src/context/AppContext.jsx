@@ -28,11 +28,7 @@ export const AppProvider = ({ children }) => {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    fetchShows();
-  }, []);
-
+  
   useEffect(() => {
     if (user) {
       fetchFavoriteMovies();

@@ -2,14 +2,16 @@
 
 import { assets } from "@/assets/assets";
 import Image from "next/image";
-import { MenuIcon,  TicketPlus,  } from "lucide-react";
+import { MenuIcon, TicketPlus, } from "lucide-react";
 import { useClerk, UserButton, useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const AdminNavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useUser();
   const { openSignIn } = useClerk();
+  const router = useRouter();
   return (
     <>
       <div className="flex items-center justify-between  py-12 mx-12 h-16 border-b-2  border-gray-300/30">
@@ -17,7 +19,7 @@ const AdminNavBar = () => {
 
         {!user ? (
           <button
-            onClick={() => openSignIn()}
+            onClick={() => router.push("/admin-signin")}
             className="px-4 py-1 sm:px-7 sm:py-2 bg-primary hover:bg-primary-dull transition rounded-full font-medium cursor-pointer"
           >
             Login
