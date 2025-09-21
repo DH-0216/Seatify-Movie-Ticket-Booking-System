@@ -131,10 +131,10 @@ export default function SeatLayoutPage() {
     {/*Seats Layout */}
     <div className='relative flex-1 flex flex-col items-center max-md:mt-16'>
       <BlurCircle top="100px" left="100px"/>
-      <BlurCircle bottom="0px" right="0px"/>
+      <BlurCircle bottom="0" right="0"/>
       <h1 className='text-2xl font-semibold mb-4'>Select Your Seat</h1>
       <img src={assets.screenImage} alt="screen" />
-      <p className='text-gray-400 text-sm mb-6'></p>
+      <p className='text-gray-400 text-sm mb-6'>SCREEN SIDE</p>
 
       <div className='flex flex-col items-center mt-10 text-xs text-gray-300'>
         <div className='grid grid-cols-2 md:grid-cols-1 gap-8 md:gap-2 mb-6'>
@@ -149,7 +149,7 @@ export default function SeatLayoutPage() {
           ))}
         </div>
       </div>
-    </div>
+   
 
     <button onClick={bookTickets} className='flex
     items-center gap-1 mt-20 px-10 py-3 text-sm bg-primary
@@ -157,17 +157,14 @@ export default function SeatLayoutPage() {
     active:scale-95'>
       Proceed to Checkout 
       <ArrowRightIcon strokeWidth={3} className="w-4 h-4"/>
-    </button>
+      </button>
   
-
-  </div>
-  </div>
+    </div>
+</div>
 ) : (
     <Loading />
 )
 }
-
- 
 
   if (!show) return <Loading />;
 
@@ -189,4 +186,4 @@ export default function SeatLayoutPage() {
       />
     </div>
   );
-}
+
