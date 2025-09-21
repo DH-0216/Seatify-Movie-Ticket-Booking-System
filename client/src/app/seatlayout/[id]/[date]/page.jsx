@@ -40,14 +40,14 @@ export default function SeatLayoutPage() {
 
   const handleSeatClick = (seatId) => {
     if (!selectedTime) {
-      return toast("Please select time first");
+      return toast.error("Please select time first");
     }
     if (!selectedSeats.includes(seatId) && selectedSeats.length > 4) {
-      return toast("You can only select 5 seats");
+      return toast.error("You can only select 5 seats");
     }
 
     if (occupiedSeats.includes(seatId)) {
-      return toast("This seat is already book");
+      return toast.error("This seat is already book");
     }
     setSelectedSeats((prev) =>
       prev.includes(seatId)

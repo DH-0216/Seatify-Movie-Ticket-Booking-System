@@ -13,7 +13,7 @@ const DateSelect = ({ dateTime = {}, id, show }) => {
 
   const onBookHandler = () => {
     if (!selected) {
-      toast("Please select a date");
+      toast.error("Please select a date");
       return;
     }
     router.push(`/seatlayout/${id}/${selected}`);
