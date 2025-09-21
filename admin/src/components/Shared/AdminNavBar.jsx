@@ -19,21 +19,13 @@ const AdminNavBar = () => {
 
         {!user ? (
           <button
-            onClick={() => router.push("/admin-signin")}
+            onClick={() => router.push("/landing")}
             className="px-4 py-1 sm:px-7 sm:py-2 bg-primary hover:bg-primary-dull transition rounded-full font-medium cursor-pointer"
           >
             Login
           </button>
         ) : (
-          <UserButton>
-            <UserButton.MenuItems>
-              <UserButton.Action
-                label="My Bookings"
-                labelIcon={<TicketPlus width={15} />}
-                onClick={() => router.push("mybookings")}
-              />
-            </UserButton.MenuItems>
-          </UserButton>
+          <UserButton />
         )}
       </div>
 
