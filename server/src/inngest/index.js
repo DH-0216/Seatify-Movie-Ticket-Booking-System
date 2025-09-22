@@ -4,7 +4,6 @@ import sendEmail from "../config/nodeMailer.js";
 import Booking from "../models/Booking.js";
 import Show from "../models/Show.js";
 
-
 // Create a client to send and receive events
 export const inngest = new Inngest({
   id: "seatify-movie-ticket-booking",
@@ -89,29 +88,36 @@ const sendBookingConfirmationEmail = inngest.createFunction(
   async ({ event, step }) => {
     const { bookingId } = event.data;
 
-    const booking = await Booking
-      .findById(bookingId)
+    const booking = await Booking.findById(bookingId)
       .populate({
         path: "show",
         populate: { path: "movie", model: "Movie" },
       })
       .populate("user");
 
-    if (!booking) return;
-
     await sendEmail({
       to: booking.user.email,
       subject: `Payment Confirmation: "${booking.show.movie.title}" Booked!`,
-      body: `<div style="font-family: Arial, sans-serif; line-height: 1.5;">
-  <h2>Hi ${booking.user.name},</h2>
-  <p>Your booking for <strong style=\"color: #F84565;\">${booking.show.movie.title}</strong> is confirmed.</p>
-  <p>
-    <strong>Date:</strong> ${new Date(booking.show.showDateTime).toLocaleDateString("en-US", { timeZone: "Asia/Kolkata" })}<br>
-    <strong>Time:</strong> ${new Date(booking.show.showDateTime).toLocaleTimeString("en-US", { timeZone: "Asia/Kolkata" })}
-  </p>
-  <p>Enjoy the show!</p>
-  <p>Thanks for booking with us!<br/>— QuickShow Team</p>
-</div>`,
+      body: ` <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+                <h2>Hi ${booking.user.name},</h2>
+                <p>Your booking for <strong style="color: #F84565;">${
+                  booking.show.movie.title
+                }</strong> is confirmed.</p>
+                <p>
+                  <strong>Date:</strong> ${new Date(
+                    booking.show.showDateTime
+                  ).toLocaleDateString("en-US", {
+                    timeZone: "Asia/Kolkata",
+                  })}<br>
+                  <strong>Time:</strong> ${new Date(
+                    booking.show.showDateTime
+                  ).toLocaleTimeString("en-US", {
+                    timeZone: "Asia/Kolkata",
+                  })}
+                </p>
+                <p>Enjoy the show!</p>
+                <p>Thanks for booking with us!<br/>— QuickShow Team</p>
+              </div>`,
     });
   }
 );
@@ -126,37 +132,34 @@ const sendShowtimeReminder = inngest.createFunction(
     const windowStart = new Date(in8Hours.getTime() - 150 * 60 * 1000);
 
     // Prepare reminder tasks
-    const reminderTasks = await step.run(
-      "prepare-reminder-tasks",
-      async () => {
-        const shows = await Show.find({
-          showDateTime: { $gte: windowStart, $lte: in8Hours },
-        }).populate("movie");
+    const reminderTasks = await step.run("prepare-reminder-tasks", async () => {
+      const shows = await Show.find({
+        showDateTime: { $gte: windowStart, $lte: in8Hours },
+      }).populate("movie");
 
-        const tasks = [];
+      const tasks = [];
 
-        for (const show of shows) {
-          if (!show.movie || !show.occupiedSeats) continue;
+      for (const show of shows) {
+        if (!show.movie || !show.occupiedSeats) continue;
 
-          const userIds = [...new Set(Object.values(show.occupiedSeats))];
-          if (userIds.length === 0) continue;
+        const userIds = [...new Set(Object.values(show.occupiedSeats))];
+        if (userIds.length === 0) continue;
 
-          const users = await User.find({ _id: { $in: userIds } }).select(
-            "name email"
-          );
+        const users = await User.find({ _id: { $in: userIds } }).select(
+          "name email"
+        );
 
-          for (const user of users) {
-            tasks.push({
-              userEmail: user.email,
-              userName: user.name,
-              movieTitle: show.movie.title,
-              showTime: show.showDateTime,
-            });
-          }
+        for (const user of users) {
+          tasks.push({
+            userEmail: user.email,
+            userName: user.name,
+            movieTitle: show.movie.title,
+            showTime: show.showDateTime,
+          });
         }
-        return tasks;
       }
-    );
+      return tasks;
+    });
 
     if (reminderTasks.length === 0) {
       return { sent: 0, message: "No reminders to send." };
