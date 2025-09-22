@@ -64,17 +64,21 @@ const MyBookingsSection = () => {
         >
           <div className="flex flex-col md:flex-row">
             <img
-              src={image_base_url + item.show.movie.poster_path}
-              alt=""
+              src={
+                item?.show?.movie?.poster_path
+                  ? image_base_url + item.show.movie.poster_path
+                  : "/favicon.ico"
+              }
+              alt={item?.show?.movie?.title || "Movie"}
               className="md:max-w-45 aspect-video h-auto object-cover object-bottom rounded"
             />
             <div className="flex flex-col p-4">
-              <p className="text-lg font-semibold">{item.show.movie.title}</p>
-              <p className="text-gray-400 text-sm">
-                {isoTimeFormat(item.show.movie.runtime)}
-              </p>
+              <p className="text-lg font-semibold">{item?.show?.movie?.title || "Unknown Movie"}</p>
+              {item?.show?.movie?.runtime ? (
+                <p className="text-gray-400 text-sm">{item.show.movie.runtime} min</p>
+              ) : null}
               <p className="text-gray-400 text-sm mt-auto">
-                {dateFormat(item.show.showDateTime)}
+                {item?.show?.showDateTime ? dateFormat(item.show.showDateTime) : ""}
               </p>
             </div>
           </div>
@@ -85,25 +89,25 @@ const MyBookingsSection = () => {
                 {currency}
                 {item.amount}
               </p>
-              {!item.isPaid && item.paymentLink ? (
+              {!item?.isPaid && item?.paymentLink ? (
                 <Link
                   href={item.paymentLink}
                   className="bg-primary px-4 py-1.5 mb-3 text-sm rounded-full font-medium cursor-pointer"
                 >
                   Pay Now
                 </Link>
-              ) : !item.isPaid ? (
+              ) : !item?.isPaid ? (
                 <span className="text-sm mb-3 text-gray-400">Pending...</span>
               ) : null}
             </div>
             <div className="text-sm">
               <p>
                 <span className="text-gray-400">Total Tickets:</span>{" "}
-                {item.bookedSeats.length}
+                {item?.bookedSeats?.length || 0}
               </p>
               <p>
                 <span className="text-gray-400">Seat Number:</span>{" "}
-                {item.bookedSeats.join(", ")}
+                {item?.bookedSeats?.length ? item.bookedSeats.join(", ") : "-"}
               </p>
             </div>
           </div>
