@@ -1,7 +1,8 @@
 import stripe from 'stripe';
 import Booking from '../models/Booking.js'
+import { inngest } from "../inngest/index.js";
 export const stripeWebhooks = async (request, response)=> {
-    const stripeInstance = new stripe(ProcessingInstruction.env.STRIPE_SECRET_KEY);
+    const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY);
     const sig = request.headers["stripe-signature"];
 
     let event;
@@ -14,6 +15,23 @@ export const stripeWebhooks = async (request, response)=> {
 
     try {
         switch(event.type){
+            case "checkout.session.completed": {
+                const session = event.data.object;
+                const bookingId = session?.metadata?.bookingId;
+                if (bookingId) {
+                    await Booking.findByIdAndUpdate(bookingId, {
+                        isPaid: true,
+                        paymentLink: ""
+                    });
+                    try {
+                        await inngest.send({
+                            name: "app/show.booked",
+                            data: { bookingId }
+                        });
+                    } catch (_) {}
+                }
+                break;
+            }
             case "payment_intent.succeeded": {
                 const paymentIntent = event.data.object;
                 const sessionList = await stripeInstance.checkout.sessions.list({
@@ -29,10 +47,10 @@ export const stripeWebhooks = async (request, response)=> {
                 })
             
 
-                //send confirmation email
+                // send confirmation email event
                 await inngest.send({
-                    name: "app/show.boolean",
-                    data: {bookingId}
+                    name: "app/show.booked",
+                    data: { bookingId }
                 })
 
             break;

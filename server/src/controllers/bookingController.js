@@ -44,7 +44,7 @@ export const createBooking = async (req, res) => {
       return res.json({ success: false, message: "Show not found." });
     }
 
-    const showPrice = Number(showData.showPrice) || 0;
+    const showPrice = Number(showData.showprice) || 0;
     const amount = showPrice * selectedSeats.length;
 
     // Create booking
@@ -78,8 +78,8 @@ export const createBooking = async (req, res) => {
     ];
 
     const session = await stripeInstance.checkout.sessions.create({
-      success_url: `${origin}/loading/my-bookings`,
-      cancel_url: `${origin}/my-bookings`,
+      success_url: `${origin}/loading/mybookings`,
+      cancel_url: `${origin}/mybookings`,
       line_items,
       mode: "payment",
       metadata: { bookingId: booking._id.toString() },
@@ -89,11 +89,22 @@ export const createBooking = async (req, res) => {
     booking.paymentLink = session.url;
     await booking.save();
 
-    // Schedule payment check
-    await inngest.send({
-      name: "app/checkpayment",
-      data: { bookingId: booking._id.toString() },
-    });
+    // Schedule payment check (non-blocking; skip if no Inngest key configured)
+    if (process.env.INNGEST_EVENT_KEY) {
+      try {
+        await inngest.send({
+          name: "app/checkpayment",
+          data: { bookingId: booking._id.toString() },
+        });
+      } catch (inngestError) {
+        console.warn(
+          "Failed to schedule Inngest payment check:",
+          inngestError?.message || inngestError
+        );
+      }
+    } else {
+      console.warn("INNGEST_EVENT_KEY is not set; skipping payment check scheduling.");
+    }
 
     res.json({ success: true, url: session.url });
   } catch (error) {

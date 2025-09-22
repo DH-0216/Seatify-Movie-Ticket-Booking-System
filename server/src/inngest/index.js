@@ -4,8 +4,12 @@ import sendEmail from "../config/nodeMailer.js";
 import Booking from "../models/Booking.js";
 import Show from "../models/Show.js";
 
+
 // Create a client to send and receive events
-export const inngest = new Inngest({ id: "seatify-movie-ticket-booking" });
+export const inngest = new Inngest({
+  id: "seatify-movie-ticket-booking",
+  apiKey: process.env.INNGEST_EVENT_KEY,
+});
 
 // Inngest function to save user data to a database
 const syncUserCreation = inngest.createFunction(
@@ -71,7 +75,7 @@ const releaseSeatsAndDeleteBooking = inngest.createFunction(
         });
         show.markModified("occupiedSeats");
         await show.save();
-        await Booking.findByIdAndDelete(booking._Id);
+        await Booking.findByIdAndDelete(booking._id);
       }
     });
   }
@@ -81,11 +85,11 @@ const releaseSeatsAndDeleteBooking = inngest.createFunction(
 
 const sendBookingConfirmationEmail = inngest.createFunction(
   { id: "send booking-confirmation-email" },
-  { event: "app/show,booked" },
-  async ({ event, step }) => {
+  { event: "app/show.booked" },
+  async ({ event }) => {
     const { bookingId } = event.data;
 
-    const booking = await booking
+    const booking = await Booking
       .findById(bookingId)
       .populate({
         path: "show",
@@ -93,20 +97,17 @@ const sendBookingConfirmationEmail = inngest.createFunction(
       })
       .populate("user");
 
+    if (!booking) return;
+
     await sendEmail({
       to: booking.user.email,
-      subject: 'payment Confirmation:"${booking.show.movie.title}  " Booked!',
+      subject: `Payment Confirmation: "${booking.show.movie.title}" Booked!`,
       body: `<div style="font-family: Arial, sans-serif; line-height: 1.5;">
   <h2>Hi ${booking.user.name},</h2>
-  <p>Your booking for <strong style="color: #F84565;">
-    ${booking.show.movie.title}</strong> is confirmed.</p>
+  <p>Your booking for <strong style=\"color: #F84565;\">${booking.show.movie.title}</strong> is confirmed.</p>
   <p>
-    <strong>Date:</strong> ${new Date(
-      booking.show.showDateTime
-    ).toLocaleDateString("en-US", { timeZone: "Asia/Kolkata" })}<br>
-    <strong>Time:</strong> ${new Date(
-      booking.show.showDateTime
-    ).toLocaleTimeString("en-US", { timeZone: "Asia/Kolkata" })}
+    <strong>Date:</strong> ${new Date(booking.show.showDateTime).toLocaleDateString("en-US", { timeZone: "Asia/Kolkata" })}<br>
+    <strong>Time:</strong> ${new Date(booking.show.showDateTime).toLocaleTimeString("en-US", { timeZone: "Asia/Kolkata" })}
   </p>
   <p>Enjoy the show!</p>
   <p>Thanks for booking with us!<br/>— QuickShow Team</p>
@@ -119,17 +120,17 @@ const sendBookingConfirmationEmail = inngest.createFunction(
 const sendShowtimeReminder = inngest.createFunction(
   { id: "send-showtime-reminder" },
   { cron: "0 */8 * * *" }, // Every 8 hours
-  async () => {
+  async ({ step }) => {
     const now = new Date();
     const in8Hours = new Date(now.getTime() + 8 * 60 * 60 * 1000);
     const windowStart = new Date(in8Hours.getTime() - 150 * 60 * 1000);
 
     // Prepare reminder tasks
-    const reminderTasks = await steps.run(
+    const reminderTasks = await step.run(
       "prepare-reminder-tasks",
       async () => {
         const shows = await Show.find({
-          showTime: { $gte: windowStart, $lte: in8Hours },
+          showDateTime: { $gte: windowStart, $lte: in8Hours },
         }).populate("movie");
 
         const tasks = [];
@@ -149,7 +150,7 @@ const sendShowtimeReminder = inngest.createFunction(
               userEmail: user.email,
               userName: user.name,
               movieTitle: show.movie.title,
-              showTime: show.showTime,
+              showTime: show.showDateTime,
             });
           }
         }
@@ -162,7 +163,7 @@ const sendShowtimeReminder = inngest.createFunction(
     }
 
     // Send reminder emails
-    const results = await steps.run("send-all-reminders", async () => {
+    const results = await step.run("send-all-reminders", async () => {
       return await Promise.allSettled(
         reminderTasks.map((task) =>
           sendEmail({

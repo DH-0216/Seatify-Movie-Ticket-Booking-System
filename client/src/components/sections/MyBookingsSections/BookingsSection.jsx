@@ -24,7 +24,7 @@ const MyBookingsSection = () => {
       });
 
       if (data.success) {
-        setBookings(data.Bookings);
+        setBookings(data.bookings);
       }
     } catch (error) {
       console.log(error);
@@ -36,6 +36,15 @@ const MyBookingsSection = () => {
   useEffect(() => {
     if (user) {
       getMyBookings();
+      // Briefly poll for updates so webhook changes reflect without manual refresh
+      const interval = setInterval(() => {
+        getMyBookings();
+      }, 3000);
+      const stopAfter = setTimeout(() => clearInterval(interval), 20000);
+      return () => {
+        clearInterval(interval);
+        clearTimeout(stopAfter);
+      };
     }
   }, [user]);
 
@@ -76,14 +85,16 @@ const MyBookingsSection = () => {
                 {currency}
                 {item.amount}
               </p>
-              {!item.isPaid && (
+              {!item.isPaid && item.paymentLink ? (
                 <Link
                   href={item.paymentLink}
                   className="bg-primary px-4 py-1.5 mb-3 text-sm rounded-full font-medium cursor-pointer"
                 >
                   Pay Now
                 </Link>
-              )}
+              ) : !item.isPaid ? (
+                <span className="text-sm mb-3 text-gray-400">Pending...</span>
+              ) : null}
             </div>
             <div className="text-sm">
               <p>

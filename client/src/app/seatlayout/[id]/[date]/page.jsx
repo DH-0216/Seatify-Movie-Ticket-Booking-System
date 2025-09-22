@@ -5,7 +5,7 @@ import { assets } from "@/assets/assets";
 import Loading from "@/app/loading";
 import BlurCircle from "@/components/shared/BlurCircle";
 import toast from "react-hot-toast";
-import { ClockIcon, ArrowRightIcon } from "lucide-react";
+import { ClockIcon, ArrowRightIcon, Loader2 } from "lucide-react";
 import isoTimeFormat from "@/lib/isoTimeFormat";
 import { useAppContext } from "@/context/AppContext";
 import Image from "next/image";
@@ -24,6 +24,7 @@ export default function SeatLayoutPage() {
   const [selectedTime, setSelectedTime] = useState(null);
   const [show, setShow] = useState(null);
   const [occupiedSeats, setOccupiedSeats] = useState([]);
+  const [isProceeding, setIsProceeding] = useState(false);
 
   const { axios, getToken, user } = useAppContext();
 
@@ -98,7 +99,7 @@ export default function SeatLayoutPage() {
 
       if (!selectedTime || !selectedSeats.length)
         return toast.error("Please select a time and seats ");
-
+      setIsProceeding(true);
       const { data } = await axios.post(
         "/api/booking/create",
         { showId: selectedTime.showId, selectedSeats },
@@ -112,6 +113,8 @@ export default function SeatLayoutPage() {
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setIsProceeding(false);
     }
   };
 
@@ -176,10 +179,24 @@ export default function SeatLayoutPage() {
 
         <button
           onClick={bookTickets}
-          className="flex items-center gap-1 mt-20 px-10 py-3 text-sm bg-primary hover:bg-primary-dull transition rounded-full font-medium cursor-pointeractive:scale-95"
+          disabled={isProceeding}
+          className={`flex items-center gap-2 mt-20 px-10 py-3 text-sm rounded-full font-medium transition active:scale-95 ${
+            isProceeding
+              ? "bg-primary/70 cursor-not-allowed"
+              : "bg-primary hover:bg-primary-dull cursor-pointer"
+          }`}
         >
-          Proceed to Checkout
-          <ArrowRightIcon strokeWidth={3} className="w-4 h-4" />
+          {isProceeding ? (
+            <>
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Processing...
+            </>
+          ) : (
+            <>
+              Proceed to Checkout
+              <ArrowRightIcon strokeWidth={3} className="w-4 h-4" />
+            </>
+          )}
         </button>
       </div>
     </div>
