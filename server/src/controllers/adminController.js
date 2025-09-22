@@ -45,14 +45,27 @@ export const getAllShows = async (req, res) => {
 // API to get all bookings
 export const getAllBookings = async (req, res) => {
   try {
+    // Fetch bookings without populating the user to preserve the raw user ID
     const bookings = await Booking.find({})
-      .populate("user")
       .populate({
         path: "show",
         populate: { path: "movie" },
       })
-      .sort({ createdAt: -1 });
-    res.json({ success: true, bookings });
+      .sort({ createdAt: -1 })
+      .lean();
+
+    const userIds = [...new Set(bookings.map((b) => b.user).filter(Boolean))];
+    const users = await User.find({ _id: { $in: userIds } })
+      .select("_id name email image")
+      .lean();
+    const userMap = new Map(users.map((u) => [u._id, u]));
+
+    const bookingsWithUsers = bookings.map((b) => ({
+      ...b,
+      user: userMap.get(b.user) || null,
+    }));
+
+    res.json({ success: true, bookings: bookingsWithUsers });
   } catch (error) {
     console.error(error);
     res.json({ success: false, message: error.message });
