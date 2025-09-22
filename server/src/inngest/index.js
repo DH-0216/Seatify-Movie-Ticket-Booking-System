@@ -115,8 +115,8 @@ const sendBookingConfirmationEmail = inngest.createFunction(
                     timeZone: "Asia/Kolkata",
                   })}
                 </p>
-                <p>Enjoy the show!</p>
-                <p>Thanks for booking with us!<br/>— QuickShow Team</p>
+                <p>Enjoy the show! 🍿</p>
+                <p>Thanks for booking with us!<br/>— Seatify Team</p>
               </div>`,
     });
   }
@@ -129,12 +129,12 @@ const sendShowtimeReminder = inngest.createFunction(
   async ({ step }) => {
     const now = new Date();
     const in8Hours = new Date(now.getTime() + 8 * 60 * 60 * 1000);
-    const windowStart = new Date(in8Hours.getTime() - 150 * 60 * 1000);
+    const windowStart = new Date(in8Hours.getTime() - 10 * 60 * 1000);
 
     // Prepare reminder tasks
     const reminderTasks = await step.run("prepare-reminder-tasks", async () => {
       const shows = await Show.find({
-        showDateTime: { $gte: windowStart, $lte: in8Hours },
+        showTime: { $gte: windowStart, $lte: in8Hours },
       }).populate("movie");
 
       const tasks = [];
@@ -154,7 +154,7 @@ const sendShowtimeReminder = inngest.createFunction(
             userEmail: user.email,
             userName: user.name,
             movieTitle: show.movie.title,
-            showTime: show.showDateTime,
+            showTime: show.showTime,
           });
         }
       }
@@ -193,7 +193,7 @@ const sendShowtimeReminder = inngest.createFunction(
                     }
                   )}</strong>
                 </p>
-                <p>Enjoy the show!<br/>QuickShow Team</p>
+                <p>Enjoy the show!<br/>Seatify Team</p>
               </div>
             `,
           })
@@ -207,7 +207,7 @@ const sendShowtimeReminder = inngest.createFunction(
     return {
       sent,
       failed,
-      message: `Sent ${sent} reminders, ${failed} failed.`,
+      message: `Sent ${sent} reminder(s), ${failed} failed.`,
     };
   }
 );
@@ -224,7 +224,7 @@ const sendNewShowNotification = inngest.createFunction(
       const userEmail = user.email;
       const userName = user.name;
 
-      const subject = `New Show Added: ${movieTitle}`;
+      const subject = `🎬 New Show Added: ${movieTitle}`;
       const body = `
         <div style="font-family: Arial, sans-serif; padding: 20px;">
           <h2>Hello ${userName},</h2>
@@ -232,7 +232,7 @@ const sendNewShowNotification = inngest.createFunction(
           <h3 style="color: #F84565">${movieTitle}</h3>
           <p>Visit our website</p>
           <br/>
-          <p>Thanks,<br/>QuickShow Team</p>
+          <p>Thanks,<br/>Seatify Team</p>
         </div>
       `;
 
