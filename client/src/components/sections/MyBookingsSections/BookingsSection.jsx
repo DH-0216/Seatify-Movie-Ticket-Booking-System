@@ -92,7 +92,7 @@ const MyBookingsSection = () => {
               {!item?.isPaid && item?.paymentLink ? (
                 <Link
                   href={item.paymentLink}
-                  className="bg-primary px-4 py-1.5 mb-3 text-sm rounded-full font-medium cursor-pointer"
+                  className="inline-flex items-center justify-center bg-primary text-white px-5 py-2 mb-3 text-sm rounded-full font-medium cursor-pointer shadow-sm hover:bg-primary/90 active:bg-primary/95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 transition-colors whitespace-nowrap w-max min-w-[110px] text-center"
                 >
                   Pay Now
                 </Link>
