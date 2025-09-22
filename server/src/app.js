@@ -19,13 +19,16 @@ app.use(
 );
 
 // CORS configuration
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  process.env.ADMIN_URL,
+  ...(process.env.NODE_ENV !== "production"
+    ? ["http://localhost:3000", "http://localhost:3001"]
+    : []),
+].filter(Boolean);
+
 const corsOptions = {
-  origin: [
-    process.env.CLIENT_URL,
-    process.env.ADMIN_URL,
-    "http://localhost:3000",
-    "http://localhost:3001",
-  ].filter(Boolean),
+  origin: allowedOrigins,
   credentials: true,
   optionsSuccessStatus: 200,
 };
