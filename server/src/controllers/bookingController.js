@@ -47,6 +47,15 @@ export const createBooking = async (req, res) => {
     const showPrice = Number(showData.showprice) || 0;
     const amount = showPrice * selectedSeats.length;
 
+    // Enforce Stripe minimum charge (approx. $0.50 equivalent)
+    const MIN_CHARGE_LKR = Number(process.env.MIN_CHARGE_LKR || 200);
+    if (amount < MIN_CHARGE_LKR) {
+      return res.json({
+        success: false,
+        message: `Total too low. Minimum allowed is LKR ${MIN_CHARGE_LKR}.`,
+      });
+    }
+
     // Create booking
     const booking = await Booking.create({
       user: userId,
@@ -69,9 +78,9 @@ export const createBooking = async (req, res) => {
     const line_items = [
       {
         price_data: {
-          currency: "usd",
+          currency: "lkr", // Use Sri Lankan Rupee (zero-decimal currency in Stripe)
           product_data: { name: showData.movie.title },
-          unit_amount: Math.floor(amount * 100), // convert to cents
+          unit_amount: Math.round(amount * 100), // LKR has 2 decimals; send cents
         },
         quantity: 1,
       },
@@ -103,7 +112,9 @@ export const createBooking = async (req, res) => {
         );
       }
     } else {
-      console.warn("INNGEST_EVENT_KEY is not set; skipping payment check scheduling.");
+      console.warn(
+        "INNGEST_EVENT_KEY is not set; skipping payment check scheduling."
+      );
     }
 
     res.json({ success: true, url: session.url });

@@ -27,6 +27,7 @@ export default function SeatLayoutPage() {
   const [isProceeding, setIsProceeding] = useState(false);
 
   const { axios, getToken, user } = useAppContext();
+  const currency = process.env.NEXT_PUBLIC_CURRENCY || "LKR ";
 
   const getShow = async () => {
     try {
@@ -139,11 +140,10 @@ export default function SeatLayoutPage() {
                 key={item.time}
                 onClick={() => setSelectedTime(item)}
                 className={`flex items-center gap-2 px-6 py-2 w-max rounded-r-md cursor-pointer
-            transition ${
-              selectedTime?.time === item.time
-                ? "bg-primary text-white"
-                : "hover:bg-primary/20"
-            }`}
+            transition ${selectedTime?.time === item.time
+                    ? "bg-primary text-white"
+                    : "hover:bg-primary/20"
+                  }`}
               >
                 <ClockIcon className="w-4 h-4" />
                 <p className="text-sm">{isoTimeFormat(item.time)}</p>
@@ -177,14 +177,23 @@ export default function SeatLayoutPage() {
           </div>
         </div>
 
+        <div className="mt-10 text-base font-semibold">
+          <span>Total: </span>
+          <span>
+            {currency}{" "}
+            {selectedTime && selectedSeats.length
+              ? (selectedTime.showprice || 0) * selectedSeats.length
+              : 0}
+          </span>
+        </div>
+
         <button
           onClick={bookTickets}
           disabled={isProceeding}
-          className={`flex items-center gap-2 mt-20 px-10 py-3 text-sm rounded-full font-medium transition active:scale-95 ${
-            isProceeding
-              ? "bg-primary/70 cursor-not-allowed"
-              : "bg-primary hover:bg-primary-dull cursor-pointer"
-          }`}
+          className={`flex items-center gap-2 mt-20 px-10 py-3 text-sm rounded-full font-medium transition active:scale-95 ${isProceeding
+            ? "bg-primary/70 cursor-not-allowed"
+            : "bg-primary hover:bg-primary-dull cursor-pointer"
+            }`}
         >
           {isProceeding ? (
             <>

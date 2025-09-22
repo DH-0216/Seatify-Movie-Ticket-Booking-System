@@ -179,7 +179,11 @@ export const getShow = async (req, res) => {
     shows.forEach((show) => {
       const date = show.showDateTime.toISOString().split("T")[0];
       if (!dateTime[date]) dateTime[date] = [];
-      dateTime[date].push({ time: show.showDateTime, showId: show._id });
+      dateTime[date].push({
+        time: show.showDateTime,
+        showId: show._id,
+        showprice: show.showprice,
+      });
     });
 
     res.json({
