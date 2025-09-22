@@ -191,8 +191,8 @@ export default function SeatLayoutPage() {
           onClick={bookTickets}
           disabled={isProceeding}
           className={`flex items-center gap-2 mt-20 px-10 py-3 text-sm rounded-full font-medium transition active:scale-95 ${isProceeding
-              ? "bg-primary/70 cursor-not-allowed"
-              : "bg-primary hover:bg-primary-dull cursor-pointer"
+            ? "bg-primary/70 cursor-not-allowed"
+            : "bg-primary hover:bg-primary-dull cursor-pointer"
             }`}
         >
           {isProceeding ? (
