@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const movieSchema = new mongoose.Schema(
   {
-    _id: { type: String, required: true }, // matches your dummy data _id
+    _id: { type: String, required: true }, // TMDb movie ID
     title: { type: String, required: true },
     subtitle: { type: String }, // optional
     overview: { type: String, required: true },
@@ -25,8 +25,9 @@ const movieSchema = new mongoose.Schema(
       },
     ],
     vote_average: { type: Number, required: true },
-    vote_count: { type: Number }, // included in dummy data
+    vote_count: { type: Number },
     runtime: { type: Number },
+    trailerUrl: { type: String, default: null }, // <-- NEW FIELD
   },
   { timestamps: true }
 );

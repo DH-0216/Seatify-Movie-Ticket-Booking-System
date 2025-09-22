@@ -68,9 +68,12 @@ const MoreDetails = () => {
   }, [id]);
 
   useEffect(() => {
-    const foundTrailer = dummyTrailers.find((t) => t._id === id);
-    setTrailer(foundTrailer);
-  }, [id]);
+    if (show?.movie?.trailerUrl) {
+      setTrailer(show.movie.trailerUrl);
+    }
+  }, [show]);
+
+  console.log("trailer url", trailer)
 
   if (!movie) {
     return <Loading />;
@@ -160,7 +163,7 @@ const MoreDetails = () => {
               </button>
               <div className="relative w-full pb-[56.25%] rounded-lg overflow-hidden bg-black">
                 <ReactPlayer
-                  src={trailer?.videoUrl}
+                  src={trailer}
                   controls
                   className="absolute top-0 left-0 rounded-lg"
                   width="100%"

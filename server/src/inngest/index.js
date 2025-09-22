@@ -49,36 +49,33 @@ const syncUserUpdate = inngest.createFunction(
     };
     await User.findByIdAndUpdate(id, userData);
   }
-)
+);
 
 //ingest function to cancel booking and release seats of show after 10 minutes of booking created if payment is not made
 const releaseSeatsAndDeleteBooking = inngest.createFunction(
   { id: "release-seats-delete-booking" },
-  {event: "app/checkpayment"},
-  async ({event, step})=> {
+  { event: "app/checkpayment" },
+  async ({ event, step }) => {
     const timeMinutesLater = new Date(Date.now() + 10 * 60 * 1000);
-    await step.sleepUntil('wait-for-10-minutes', timeMinutesLater);
+    await step.sleepUntil("wait-for-10-minutes", timeMinutesLater);
 
-    await step.run('check-payment-status', async ()=>{
+    await step.run("check-payment-status", async () => {
       const bookingId = event.data.bookingId;
-      const booking = await Booking.findById(bookingId)
+      const booking = await Booking.findById(bookingId);
 
       //if payment is not made, release seats and delete booking
-      if(!booking.isPaid){
+      if (!booking.isPaid) {
         const show = await Show.findById(booking.show);
-        booking.bookedSeats.forEach((seat)=>{
-          delete show.occupiedSeats[seat]
+        booking.bookedSeats.forEach((seat) => {
+          delete show.occupiedSeats[seat];
         });
-        show.markModified('occupiedSeats')
-          await show.save()
-          await Booking.findByIdAndDelete(booking._Id)
-        
+        show.markModified("occupiedSeats");
+        await show.save();
+        await Booking.findByIdAndDelete(booking._Id);
       }
-    })
+    });
   }
-)
-
-
+);
 
 //Inngest Function to send email when user books a show
 
@@ -88,10 +85,13 @@ const sendBookingConfirmationEmail = inngest.createFunction(
   async ({ event, step }) => {
     const { bookingId } = event.data;
 
-    const booking = await booking.findById(bookingId).populate({
-      path: "show",
-      populate: { path: "movie", model: "Movie" }
-    }).populate("user");
+    const booking = await booking
+      .findById(bookingId)
+      .populate({
+        path: "show",
+        populate: { path: "movie", model: "Movie" },
+      })
+      .populate("user");
 
     await sendEmail({
       to: booking.user.email,
@@ -101,19 +101,19 @@ const sendBookingConfirmationEmail = inngest.createFunction(
   <p>Your booking for <strong style="color: #F84565;">
     ${booking.show.movie.title}</strong> is confirmed.</p>
   <p>
-    <strong>Date:</strong> ${new Date(booking.show.showDateTime).toLocaleDateString('en-US', { timeZone: 'Asia/Kolkata' })}<br>
-    <strong>Time:</strong> ${new Date(booking.show.showDateTime).toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata' })}
+    <strong>Date:</strong> ${new Date(
+      booking.show.showDateTime
+    ).toLocaleDateString("en-US", { timeZone: "Asia/Kolkata" })}<br>
+    <strong>Time:</strong> ${new Date(
+      booking.show.showDateTime
+    ).toLocaleTimeString("en-US", { timeZone: "Asia/Kolkata" })}
   </p>
   <p>Enjoy the show!</p>
   <p>Thanks for booking with us!<br/>— QuickShow Team</p>
-</div>`
-    })
-
-
-
+</div>`,
+    });
   }
-
-)
+);
 
 //Inngest Function to send reminders
 const sendShowtimeReminder = inngest.createFunction(
@@ -125,34 +125,37 @@ const sendShowtimeReminder = inngest.createFunction(
     const windowStart = new Date(in8Hours.getTime() - 150 * 60 * 1000);
 
     // Prepare reminder tasks
-    const reminderTasks = await steps.run("prepare-reminder-tasks", async () => {
-      const shows = await Show.find({
-        showTime: { $gte: windowStart, $lte: in8Hours },
-      }).populate("movie");
+    const reminderTasks = await steps.run(
+      "prepare-reminder-tasks",
+      async () => {
+        const shows = await Show.find({
+          showTime: { $gte: windowStart, $lte: in8Hours },
+        }).populate("movie");
 
-      const tasks = [];
+        const tasks = [];
 
-      for (const show of shows) {
-        if (!show.movie || !show.occupiedSeats) continue;
+        for (const show of shows) {
+          if (!show.movie || !show.occupiedSeats) continue;
 
-        const userIds = [...new Set(Object.values(show.occupiedSeats))];
-        if (userIds.length === 0) continue;
+          const userIds = [...new Set(Object.values(show.occupiedSeats))];
+          if (userIds.length === 0) continue;
 
-        const users = await User.find({ _id: { $in: userIds } }).select(
-          "name email"
-        );
+          const users = await User.find({ _id: { $in: userIds } }).select(
+            "name email"
+          );
 
-        for (const user of users) {
-          tasks.push({
-            userEmail: user.email,
-            userName: user.name,
-            movieTitle: show.movie.title,
-            showTime: show.showTime,
-          });
+          for (const user of users) {
+            tasks.push({
+              userEmail: user.email,
+              userName: user.name,
+              movieTitle: show.movie.title,
+              showTime: show.showTime,
+            });
+          }
         }
+        return tasks;
       }
-      return tasks;
-    });
+    );
 
     if (reminderTasks.length === 0) {
       return { sent: 0, message: "No reminders to send." };
@@ -172,13 +175,19 @@ const sendShowtimeReminder = inngest.createFunction(
                 <h3 style="color: #F84565">"${task.movieTitle}"</h3>
                 <p>
                   is scheduled for 
-                  <strong>${new Date(task.showTime).toLocaleDateString("en-US", {
-                    timeZone: "Asia/Kolkata",
-                  })}</strong>
+                  <strong>${new Date(task.showTime).toLocaleDateString(
+                    "en-US",
+                    {
+                      timeZone: "Asia/Kolkata",
+                    }
+                  )}</strong>
                   at 
-                  <strong>${new Date(task.showTime).toLocaleTimeString("en-US", {
-                    timeZone: "Asia/Kolkata",
-                  })}</strong>
+                  <strong>${new Date(task.showTime).toLocaleTimeString(
+                    "en-US",
+                    {
+                      timeZone: "Asia/Kolkata",
+                    }
+                  )}</strong>
                 </p>
                 <p>Enjoy the show!<br/>QuickShow Team</p>
               </div>
@@ -234,16 +243,14 @@ const sendNewShowNotification = inngest.createFunction(
   }
 );
 
-
 // Create an empty array where we'll export future Inngest functions
 
 export const functions = [
-  syncUserCreation, 
-  syncUserDeletion, 
-  syncUserUpdate, 
-  releaseSeatsAndDeleteBooking, 
-  sendBookingConfirmationEmail, 
-  sendShowtimeReminder, 
+  syncUserCreation,
+  syncUserDeletion,
+  syncUserUpdate,
+  releaseSeatsAndDeleteBooking,
+  sendBookingConfirmationEmail,
+  sendShowtimeReminder,
   sendNewShowNotification,
 ];
-
