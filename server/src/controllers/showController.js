@@ -115,7 +115,8 @@ export const addShow = async (req, res) => {
     showsInput.forEach((show) => {
       const showDate = show.date;
       show.time.forEach((time) => {
-        const dateTimeString = `${showDate}T${time}`;
+        // Persist with explicit IST timezone to avoid UTC shifts
+        const dateTimeString = `${showDate}T${time}:00+05:30`;
         showToCreate.push({
           movie: movieId,
           showDateTime: new Date(dateTimeString),
@@ -129,11 +130,20 @@ export const addShow = async (req, res) => {
       await Show.insertMany(showToCreate);
     }
 
-    // Trigger Inngest event
-    await inngest.send({
-      name: "app/show.added",
-      data: { movieTitle: movie.title },
-    });
+    // Trigger Inngest event (optional)
+    try {
+      if (process.env.INNGEST_EVENT_KEY) {
+        await inngest.send({
+          name: "app/show.added",
+          data: { movieTitle: movie.title },
+        });
+      }
+    } catch (e) {
+      console.warn(
+        "Inngest send failed; continuing without event:",
+        e?.message || e
+      );
+    }
 
     res.json({ success: true, message: "Show added successfully." });
   } catch (error) {
@@ -177,7 +187,10 @@ export const getShow = async (req, res) => {
 
     const dateTime = {};
     shows.forEach((show) => {
-      const date = show.showDateTime.toISOString().split("T")[0];
+      // Group by local date in IST to keep admin-selected day intact
+      const date = new Date(show.showDateTime).toLocaleDateString("en-CA", {
+        timeZone: "Asia/Kolkata",
+      });
       if (!dateTime[date]) dateTime[date] = [];
       dateTime[date].push({
         time: show.showDateTime,

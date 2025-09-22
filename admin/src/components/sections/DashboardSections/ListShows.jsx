@@ -13,7 +13,15 @@ const ListShows = () => {
     if (!date) return "Unknown";
     const parsedDate = new Date(date);
     if (isNaN(parsedDate)) return "Invalid date";
-    return format(parsedDate, "dd MMMM yyyy, h:mm a");
+    return parsedDate.toLocaleString("en-US", {
+      timeZone: "Asia/Kolkata",
+      year: "numeric",
+      month: "long",
+      day: "2-digit",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
   };
   const [shows, setshows] = useState([]);
   const [loading, setLoading] = useState(true);
