@@ -2,6 +2,28 @@ import axios from "axios";
 import Movie from "../models/Movie.js";
 import Show from "../models/Show.js";
 
+const allGenres = [
+  { id: 28, name: "Action" },
+  { id: 12, name: "Adventure" },
+  { id: 16, name: "Animation" },
+  { id: 35, name: "Comedy" },
+  { id: 80, name: "Crime" },
+  { id: 99, name: "Documentary" },
+  { id: 18, name: "Drama" },
+  { id: 10751, name: "Family" },
+  { id: 14, name: "Fantasy" },
+  { id: 36, name: "History" },
+  { id: 27, name: "Horror" },
+  { id: 10402, name: "Music" },
+  { id: 9648, name: "Mystery" },
+  { id: 10749, name: "Romance" },
+  { id: 878, name: "Science Fiction" },
+  { id: 10770, name: "TV Movie" },
+  { id: 53, name: "Thriller" },
+  { id: 10752, name: "War" },
+  { id: 37, name: "Western" },
+];
+
 //API to get now playing movies from TMDB API
 export const getNowPlayingMovies = async (req, res) => {
   try {
@@ -14,8 +36,19 @@ export const getNowPlayingMovies = async (req, res) => {
       }
     );
 
-    const movies = data.results;
-    res.json({ success: true, movies: movies });
+    // Map genre_ids to genre names
+    const movies = data.results.map((movie) => {
+      const genres = movie.genre_ids
+        .map((id) => allGenres.find((g) => g.id === id)?.name)
+        .filter(Boolean); // remove undefined if any
+
+      return {
+        ...movie,
+        genres, // add the genre names
+      };
+    });
+
+    res.json({ success: true, movies });
   } catch (error) {
     console.error(error);
     res.json({ success: false, message: error.message });

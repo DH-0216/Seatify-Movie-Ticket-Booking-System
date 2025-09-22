@@ -11,10 +11,26 @@ export const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const [shows, setShows] = useState([]);
+  const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
   const { user } = useUser();
   const { getToken } = useAuth();
 
   const image_base_url = process.env.NEXT_PUBLIC_TMDB_IMAGE_BASE_URL;
+
+  const fetchNowPlayingMovies = async () => {
+    try {
+      const { data } = await axios.get("/api/show/now-playing", {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`,
+        },
+      });
+      if (data.success) {
+        setNowPlayingMovies(data.movies);
+      }
+    } catch (error) {
+      console.log("Error fetching now playing movies:", error);
+    }
+  };
 
   const fetchFavoriteMovies = async () => {
     try {
@@ -50,6 +66,7 @@ export const AppProvider = ({ children }) => {
 
   useEffect(() => {
     if (user) {
+      fetchNowPlayingMovies();
       fetchFavoriteMovies();
     }
   }, [user]);
@@ -62,6 +79,7 @@ export const AppProvider = ({ children }) => {
     favoriteMovies,
     fetchFavoriteMovies,
     image_base_url,
+    nowPlayingMovies,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
