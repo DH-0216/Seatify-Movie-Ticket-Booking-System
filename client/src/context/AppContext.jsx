@@ -19,11 +19,7 @@ export const AppProvider = ({ children }) => {
 
   const fetchNowPlayingMovies = async () => {
     try {
-      const { data } = await axios.get("/api/show/now-playing", {
-        headers: {
-          Authorization: `Bearer ${await getToken()}`,
-        },
-      });
+      const { data } = await axios.get("/api/show/now-playing");
       if (data.success) {
         setNowPlayingMovies(data.movies);
       }
@@ -62,11 +58,11 @@ export const AppProvider = ({ children }) => {
 
   useEffect(() => {
     fetchShows();
+    fetchNowPlayingMovies();
   }, []);
 
   useEffect(() => {
     if (user) {
-      fetchNowPlayingMovies();
       fetchFavoriteMovies();
     }
   }, [user]);
