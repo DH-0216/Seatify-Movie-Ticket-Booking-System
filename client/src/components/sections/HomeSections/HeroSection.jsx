@@ -18,6 +18,8 @@ import {
   buttonVariants,
 } from "@/lib/motion";
 import { format } from "date-fns";
+import { useAppContext } from "@/context/AppContext";
+import Loading from "@/app/loading";
 
 const HeroSection = () => {
   const router = useRouter();
@@ -25,17 +27,23 @@ const HeroSection = () => {
   const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [previewStartIndex, setPreviewStartIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const { nowPlayingMovies, image_base_url } = useAppContext();
 
   const PREVIEWS_PER_VIEW = 5;
-
   // Shuffle and pick 5 movies on mount
+  // Shuffle movies
   useEffect(() => {
-    const shuffled = [...dummyShowsData]
-      .sort(() => Math.random() - 0.5)
-      .slice(0, PREVIEWS_PER_VIEW);
-    setShuffledMovies(shuffled);
-  }, []);
+    if (nowPlayingMovies.length > 0) {
+      const shuffled = [...nowPlayingMovies]
+        .sort(() => Math.random() - 0.5)
+        .slice(0, PREVIEWS_PER_VIEW);
+      setShuffledMovies(shuffled);
+      setLoading(false);
+    }
+  }, [nowPlayingMovies]);
 
+  // Auto-next movie
   useEffect(() => {
     if (shuffledMovies.length === 0) return;
     const interval = setInterval(() => {
@@ -45,6 +53,7 @@ const HeroSection = () => {
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentMovieIndex, shuffledMovies]);
+
 
   useEffect(() => {
     updatePreviewWindow();
@@ -69,6 +78,13 @@ const HeroSection = () => {
       }
     }
   };
+
+  if (loading) {
+    return (
+      <Loading />
+    );
+  }
+   if (shuffledMovies.length === 0) return null;
 
   const handleNextMovie = () => {
     if (isTransitioning || shuffledMovies.length === 0) return;
@@ -118,6 +134,7 @@ const HeroSection = () => {
     previewStartIndex,
     previewStartIndex + PREVIEWS_PER_VIEW
   );
+
   return (
     <div className="relative h-screen overflow-hidden">
       {/* Background image layer with smooth transitions */}
@@ -128,7 +145,7 @@ const HeroSection = () => {
           style={{
             backgroundImage: `url(${
               typeof currentMovie.backdrop_path === "string"
-                ? currentMovie.backdrop_path
+                ? `${image_base_url}${currentMovie.backdrop_path}`
                 : currentMovie.backdrop_path?.src
             })`,
             transformOrigin: "bottom right",
@@ -204,20 +221,22 @@ const HeroSection = () => {
               variants={itemVariants}
             >
               <span>
-                {currentMovie.genres
-                  .slice(0, 3)
-                  .map((genre) => genre.name)
-                  .join(" | ")}{" "}
+                {currentMovie?.genres?.length > 0
+                  ? currentMovie.genres.join(" | ")
+                  : "Unknown"}
               </span>
+
               <div className="flex items-center gap-1">
                 <Calendar1Icon className="w-4 h-4" />{" "}
                 {new Date(currentMovie.release_date).getFullYear()}
               </div>
               <div className="flex items-center gap-1">
                 <ClockIcon className="w-4 h-4" />
-                {`${Math.floor(currentMovie.runtime / 60)}h ${
-                  currentMovie.runtime % 60
-                }m`}
+                {currentMovie?.runtime
+                  ? `${Math.floor(currentMovie.runtime / 60)}h ${
+                      currentMovie.runtime % 60
+                    }m`
+                  : "N/A"}
               </div>
             </motion.div>
 
@@ -274,7 +293,6 @@ const HeroSection = () => {
         transition={{ duration: 0.6, delay: 0.5 }}
       >
         <div className="flex items-center gap-3">
-
           <div className="flex gap-3">
             {visiblePreviews.map((movie, index) => {
               const actualIndex = previewStartIndex + index;
@@ -293,7 +311,7 @@ const HeroSection = () => {
                 >
                   <div className="w-20 h-28 md:w-24 md:h-32 rounded-lg overflow-hidden">
                     <Image
-                      src={movie.poster_path}
+                      src={image_base_url + movie.poster_path}
                       alt={movie.title || "Show Image"}
                       width={80}
                       height={112}
