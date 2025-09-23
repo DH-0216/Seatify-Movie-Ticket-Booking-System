@@ -125,7 +125,7 @@ const NavBar = () => {
               <UserButton.Action
                 label="My Bookings"
                 labelIcon={<TicketPlus width={15} />}
-                onClick={() => router.push("mybookings")}
+                onClick={() => router.push("/mybookings")}
               />
             </UserButton.MenuItems>
           </UserButton>
