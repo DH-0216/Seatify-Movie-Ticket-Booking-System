@@ -36,22 +36,22 @@ const Dashboard = () => {
 
   const dashboardCard = [
     {
-      title: "totalBooking",
+      title: "Total Booking",
       value: dashboardData.totalBookings || 0,
       icon: ChartLineIcon,
     },
     {
-      title: "totalRevenue",
+      title: "Total Revenue",
       value: dashboardData.totalRevenue || 0,
       icon: CircleDollarSignIcon,
     },
     {
-      title: "activeshows",
+      title: "Active Shows",
       value: dashboardData.activeShows.length || 0,
       icon: PlayCircleIcon,
     },
     {
-      title: "totalUser",
+      title: "Total Users",
       value: dashboardData.totalUser || 0,
       icon: UserIcon,
     },
@@ -102,8 +102,9 @@ const Dashboard = () => {
                   <card.icon className="w-6 h-6 text-white" />
                 </div>
                 <p className="text-2xl font-semibold mt-1 text-white">
-                  {card.title === "totalRevenue" ? currency : ""}
+                  {card.title === "Total Revenue" ? currency + " " : ""}
                   {card.value}
+                  {card.title === "Total Revenue" ? ".00" : ""}
                 </p>
               </div>
             </div>
