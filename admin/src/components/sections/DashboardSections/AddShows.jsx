@@ -4,7 +4,7 @@ import Title from "@/components/Shared/Title";
 import React, { useEffect, useState } from "react";
 import Loading from "@/app/loading";
 import Image from "next/image";
-import { CheckIcon, DeleteIcon, StarIcon } from "lucide-react";
+import { CheckIcon, DeleteIcon, StarIcon, Loader2 } from "lucide-react";
 import { Kconverter } from "@/components/Shared/Kconverter";
 import { format } from "date-fns";
 import { useAppContext } from "@/context/AppContext";
@@ -125,7 +125,9 @@ const AddShows = () => {
             <div
               key={movie.id}
               className="relative w-[220px] h-[300px] overflow-hidden rounded-xl shadow-lg cursor-pointer group"
-              onClick={() => setSelectedMovie(selectedMovie === movie.id ? null : movie.id)}
+              onClick={() =>
+                setSelectedMovie(selectedMovie === movie.id ? null : movie.id)
+              }
             >
               <div className="w-full h-full relative">
                 <Image
@@ -137,12 +139,12 @@ const AddShows = () => {
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
 
-
-                <div className="flex flex-col absolute bottom-0 left-0 w-full 
+                <div
+                  className="flex flex-col absolute bottom-0 left-0 w-full 
                 bg-gradient-to-t from-black/80 via-gray-900/70 to-transparent
                 text-sm p-4 opacity-0 group-hover:opacity-100 
-                transition-all duration-300">
-
+                transition-all duration-300"
+                >
                   {/* Title & Release Date */}
                   <div className="flex flex-col gap-1">
                     <p className="font-semibold text-white text-base truncate">
@@ -164,7 +166,6 @@ const AddShows = () => {
                     </p>
                   </div>
                 </div>
-
 
                 {selectedMovie === movie.id && (
                   <div className="absolute top-2 right-2 flex items-center justify-center bg-primary h-6 w-6 rounded">
@@ -243,8 +244,21 @@ const AddShows = () => {
         </div>
       )}
 
-      <button onClick={handleAddShow} disabled={addingShow} className="bg-primary text-white px-8 py-2 mt-6 rounded hover:bg-primary/90 transition-all cursor-pointer">
-        Add Show
+      <button
+        onClick={handleAddShow}
+        disabled={addingShow}
+        className={`bg-primary text-white px-8 py-2 mt-6 rounded transition-all cursor-pointer 
+    flex items-center justify-center gap-2
+    ${addingShow ? "opacity-70 cursor-not-allowed" : "hover:bg-primary/90"}`}
+      >
+        {addingShow ? (
+          <>
+            <Loader2 className="w-5 h-5 animate-spin" />
+            Adding...
+          </>
+        ) : (
+          "Add Show"
+        )}
       </button>
     </>
   ) : (
