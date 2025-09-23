@@ -15,7 +15,23 @@ const NavBar = () => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const {favoriteMovies} = useAppContext()
+  const { favoriteMovies } = useAppContext();
+
+  // Fixed sign-in function with proper redirect URL
+  const handleSignIn = () => {
+    // Get the current domain dynamically
+    const redirectUrl =
+      typeof window !== "undefined"
+        ? window.location.origin
+        : process.env.NEXT_PUBLIC_BASE_URL ||
+          "https://seatify-client.vercel.app/";
+
+    openSignIn({
+      redirectUrl: redirectUrl,
+      afterSignInUrl: redirectUrl,
+      afterSignUpUrl: redirectUrl,
+    });
+  };
 
   return (
     <div className="fixed top-0 left-0 z-50 w-full flex items-center justify-between px-6 md:px-16 lg:px-36 py-5">
@@ -100,13 +116,15 @@ const NavBar = () => {
               setIsOpen(false);
             }}
             className={`relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:transition-all after:duration-300
-             ${pathname === "/favorite"
-                ? "after:w-full text-[var(--color-primary)] after:bg-[var(--color-primary)]"
-                : "after:w-0 hover:after:w-full after:bg-white"
-              }`}
+             ${
+               pathname === "/favorite"
+                 ? "after:w-full text-[var(--color-primary)] after:bg-[var(--color-primary)]"
+                 : "after:w-0 hover:after:w-full after:bg-white"
+             }`}
           >
             Favorites
-          </Link> )}
+          </Link>
+        )}
       </div>
 
       <div className="flex items-center gap-8">
@@ -114,13 +132,13 @@ const NavBar = () => {
 
         {!user ? (
           <button
-            onClick={() => openSignIn()}
+            onClick={handleSignIn} // Use the fixed function here
             className="px-4 py-1 sm:px-7 sm:py-2 bg-primary hover:bg-primary-dull transition rounded-full font-medium cursor-pointer"
           >
             Login
           </button>
         ) : (
-          <UserButton>
+          <UserButton afterSignOutUrl="/">
             <UserButton.MenuItems>
               <UserButton.Action
                 label="My Bookings"
