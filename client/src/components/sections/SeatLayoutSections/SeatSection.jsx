@@ -30,8 +30,10 @@ export default function SeatSection({
       </div>
 
       <button
+        disabled
+        title="Disabled for development purpose (avoid payment)"
         onClick={navigateToBookings}
-        className="flex items-center gap-1 mt-20 px-10 py-3 text-sm bg-primary rounded-full hover:bg-primary-dull font-medium cursor-pointer active:scale-95"
+        className="flex items-center gap-1 mt-20 px-10 py-3 text-sm bg-primary rounded-full font-medium cursor-not-allowed opacity-70"
       >
         Proceed to checkout
         <ArrowRightIcon strokeWidth={3} className="w-4 h-4" />
