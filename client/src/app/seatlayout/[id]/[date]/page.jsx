@@ -188,11 +188,13 @@ export default function SeatLayoutPage() {
         </div>
 
         <button
+          disabled
+          title="Disabled for development purpose (avoid payment)"
           onClick={bookTickets}
-          disabled={isProceeding}
-          className={`flex items-center gap-2 mt-20 px-10 py-3 text-sm rounded-full font-medium transition active:scale-95 ${isProceeding
+          // disabled={isProceeding}
+          className={`flex items-center gap-2 mt-20 px-10 py-3 text-sm rounded-full font-medium transition ${isProceeding
             ? "bg-primary/70 cursor-not-allowed"
-            : "bg-primary hover:bg-primary-dull cursor-pointer"
+            : "bg-primary cursor-not-allowed opacity-70"
             }`}
         >
           {isProceeding ? (
