@@ -12,6 +12,7 @@ export const AppProvider = ({ children }) => {
   const [favoriteMovies, setFavoriteMovies] = useState([]);
   const [shows, setShows] = useState([]);
   const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
+  const [heroMovies, setHeroMovies] = useState([]); // Add this state
   const { user } = useUser();
   const { getToken } = useAuth();
 
@@ -76,6 +77,8 @@ export const AppProvider = ({ children }) => {
     fetchFavoriteMovies,
     image_base_url,
     nowPlayingMovies,
+    heroMovies,
+    setHeroMovies, // Expose setter
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
