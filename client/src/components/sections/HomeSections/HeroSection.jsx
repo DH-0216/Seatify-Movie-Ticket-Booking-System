@@ -9,7 +9,6 @@ import {
 } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { dummyShowsData } from "@/data/index";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   backgroundVariants,
@@ -17,7 +16,6 @@ import {
   itemVariants,
   buttonVariants,
 } from "@/lib/motion";
-import { format } from "date-fns";
 import { useAppContext } from "@/context/AppContext";
 import Loading from "@/app/loading";
 
@@ -28,20 +26,21 @@ const HeroSection = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [previewStartIndex, setPreviewStartIndex] = useState(0);
   const [loading, setLoading] = useState(true);
-  const { nowPlayingMovies, image_base_url } = useAppContext();
+  const { nowPlayingMovies, image_base_url, setHeroMovies } = useAppContext();
 
   const PREVIEWS_PER_VIEW = 5;
-  // Shuffle and pick 5 movies on mount
-  // Shuffle movies
+
+  // Shuffle movies and set them in context
   useEffect(() => {
     if (nowPlayingMovies.length > 0) {
       const shuffled = [...nowPlayingMovies]
         .sort(() => Math.random() - 0.5)
         .slice(0, PREVIEWS_PER_VIEW);
       setShuffledMovies(shuffled);
+      setHeroMovies(shuffled); // Share with context
       setLoading(false);
     }
-  }, [nowPlayingMovies]);
+  }, [nowPlayingMovies, setHeroMovies]);
 
   // Auto-next movie
   useEffect(() => {
@@ -53,7 +52,6 @@ const HeroSection = () => {
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentMovieIndex, shuffledMovies]);
-
 
   useEffect(() => {
     updatePreviewWindow();
@@ -80,11 +78,10 @@ const HeroSection = () => {
   };
 
   if (loading) {
-    return (
-      <Loading />
-    );
+    return <Loading />;
   }
-   if (shuffledMovies.length === 0) return null;
+
+  if (shuffledMovies.length === 0) return null;
 
   const handleNextMovie = () => {
     if (isTransitioning || shuffledMovies.length === 0) return;
@@ -127,8 +124,6 @@ const HeroSection = () => {
     }
   };
 
-  if (shuffledMovies.length === 0) return null;
-
   const currentMovie = shuffledMovies[currentMovieIndex];
   const visiblePreviews = shuffledMovies.slice(
     previewStartIndex,
@@ -167,7 +162,7 @@ const HeroSection = () => {
 
       {/* Main content layer */}
       <div className="relative z-10 flex flex-col items-start justify-center gap-4 px-6 md:px-16 lg:px-36 h-full">
-        {/* Navigation buttons with hover animations */}
+        {/* Navigation buttons */}
         <motion.button
           onClick={handlePrevMovie}
           className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-black bg-opacity-50 rounded-full p-2 transition-all duration-200"
@@ -190,7 +185,7 @@ const HeroSection = () => {
           <ChevronRight className="w-6 h-6 text-white" />
         </motion.button>
 
-        {/* Animated content with stagger effect */}
+        {/* Animated content */}
         <AnimatePresence mode="wait">
           <motion.div
             key={currentMovieIndex}
@@ -262,7 +257,7 @@ const HeroSection = () => {
           <ArrowRight className="w-5 h-5" />
         </motion.button>
 
-        {/* Circle indicators with smooth animations */}
+        {/* Circle indicators */}
         <div className="absolute bottom-[15px] left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
           {shuffledMovies.map((_, index) => (
             <motion.button
@@ -285,7 +280,7 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Previews section with enhanced animations */}
+      {/* Previews section */}
       <motion.div
         className="absolute bottom-0 right-10 p-6 z-20"
         initial={{ opacity: 0, y: 50 }}
